@@ -13,27 +13,27 @@ export const theme = createTheme({
   typography: {
     fontFamily: "sans-serif",
     h1: {
-      fontSize: 96,
-      fontWeight: "lighter",
-    },
-    h2: {
       fontSize: 60,
       fontWeight: "lighter",
     },
-    h3: {
+    h2: {
       fontSize: 48,
-      fontWeight: "normal",
+      fontWeight: "lighter",
     },
-    h4: {
+    h3: {
       fontSize: 34,
       fontWeight: "normal",
     },
-    h5: {
+    h4: {
       fontSize: 24,
       fontWeight: "normal",
     },
-    h6: {
+    h5: {
       fontSize: 20,
+      fontWeight: "normal",
+    },
+    h6: {
+      fontSize: 16,
       fontWeight: "bold",
     },
     subtitle1: {

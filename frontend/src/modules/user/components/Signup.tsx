@@ -2,7 +2,7 @@ import { Box, Button, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 // import axios from "axios";
 
-function SignUp() {
+export const SignUp = () => {
   // const callApi = async () =>
   //   await axios
   //     .get("http://localhost:4000/starton")
@@ -71,6 +71,4 @@ function SignUp() {
       </Box>
     </Box>
   );
-}
-
-export default SignUp;
+};
