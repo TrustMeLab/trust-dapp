@@ -1,10 +1,7 @@
 export interface Person {
   id: number
-  handle: string
+  handle: string // name
   address: string
-  createdAt: number
-  updatedAt: number
-  name: string
 }
 export interface Tenant extends Person {
   hasLease: boolean
@@ -43,7 +40,7 @@ export interface Lease {
   rentPayments: Array<RentPayment>
 }
 
-export interface TrustAPI {
+export interface ITrustAPI {
   getProfile: (address: string) => Promise<Profile>
   getTenantScore: (id: string) => Promise<number>
   getOwnerScore: (id: string) => Promise<number>

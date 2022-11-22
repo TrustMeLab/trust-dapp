@@ -1,7 +1,5 @@
 import React, { FC, Fragment, PropsWithChildren, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Loading } from "../../../commons/components/Loading";
-import { routerPrefix } from "../../../config";
 // import { useCurrentUser } from "./useUser";
 
 export const WithAuthUser = ({ children }: PropsWithChildren<{}>) => {
@@ -11,7 +9,7 @@ export const WithAuthUser = ({ children }: PropsWithChildren<{}>) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!currentUser) navigate(`${routerPrefix}/sign-up`);
+    if (!currentUser) navigate(`/sign-up`);
   });
 
   if (currentUser) return <Fragment>{children}</Fragment>;

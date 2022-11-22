@@ -6,7 +6,7 @@ export const theme = createTheme({
       primary: "#1c1c1c", // Cod Grey
     },
     primary: {
-      main: "#a82168", // Hibiscus
+      main: "#007873", // Hibiscus
       contrastText: "#ffffff", // White
     },
   },

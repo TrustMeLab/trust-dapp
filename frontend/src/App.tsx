@@ -1,23 +1,25 @@
-import { Suspense } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "@mui/material";
+import {createContext, Suspense} from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {CssBaseline, ThemeProvider} from "@mui/material";
 import { theme } from "./theme";
 import { Loading } from "./commons/components/Loading";
 import { SignUp } from "./modules/user/components/Signup";
 import { Dashboard } from "./modules/dashboard/components/Dashboard";
+import GuardedRoute from "./commons/components/GuardedRoute";
+import {useProfile} from "./contexts/ProfileContext";
 
 function App() {
+  const { hasProfile } = useProfile()
+  const routes = createBrowserRouter([
+    { path: '/', element: <p>Hello World!</p> },
+    { path: '/sign-up', element: <SignUp /> },
+    GuardedRoute({ path: '/dashboard', element: <Dashboard/> }, true)
+  ])
+
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-        <Suspense fallback={<Loading />}>
-          <Routes>
-            {/* <Route path="/" element={<HomePage />} /> */}
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Routes>
-        </Suspense>
-      </Router>
+      <CssBaseline />
+      <RouterProvider router={routes} fallbackElement={<Loading/>}/>
     </ThemeProvider>
   );
 }
