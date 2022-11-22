@@ -1,7 +1,7 @@
-import{ Fragment, useEffect, useState, MouseEvent } from "react";
+import { Fragment, useEffect, useState, MouseEvent } from "react";
 import { Box, Toolbar, Container, AppBar, Typography, IconButton, Menu, Button, Tooltip, Avatar, MenuItem } from "@mui/material";
-import {useProfile} from "../../../contexts/ProfileContext";
-import {useNavigate} from "react-router-dom";
+import { useProfile } from "../../../contexts/ProfileContext";
+import { useNavigate } from "react-router-dom";
 
 export const Dashboard = () => {
   const navigate = useNavigate()

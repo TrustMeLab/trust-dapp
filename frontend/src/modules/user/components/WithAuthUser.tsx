@@ -1,4 +1,4 @@
-import React, { FC, Fragment, PropsWithChildren, useEffect } from "react";
+import React, { Fragment, PropsWithChildren, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // import { useCurrentUser } from "./useUser";
 
