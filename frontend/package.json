@@ -15,14 +15,14 @@
     "@mui/icons-material": "^5.10.14",
     "@mui/lab": "^5.0.0-alpha.109",
     "@mui/material": "^5.10.15",
-    "ofetch": "^1.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.3",
     "@web3modal/ethereum": "^2.0.0-beta.2",
     "@web3modal/react": "^2.0.0-beta.2",
     "date-fns": "^2.29.3",
     "ethers": "^5.7.2",
+    "ofetch": "^1.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.3",
     "wagmi": "^0.8.6"
   },
   "devDependencies": {

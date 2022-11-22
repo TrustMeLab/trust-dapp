@@ -5,57 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { Container } from "@mui/system";
 import { SmallCard } from "../../../commons/components/SmallCard";
 import { Layout } from "../../../commons/components/Layout";
+// import { useTrust } from "../../../contexts/TrustContext";
 
 export const Tenant = () => {
-  // const profile = getProfilee //context
-  // const tenantLeases = getTenantLease //context
   const navigate = useNavigate();
-
-  const profile = {
-    tenant: {
-      id: "testId",
-      address: "4x0jfezmf99zpl937",
-      name: "José",
-      leases: [
-        {
-          id: "1",
-          paymentToken: "0x0000000000000000000000000000000000000000",
-          ownerReviewUri: null,
-          rentAmount: "500000",
-          rentPaymentInterval: "0",
-          rentPaymentLimitTime: "0",
-          startDate: "1669113886",
-          status: "ENDED",
-          tenant: {
-            address: "0x53addc3b41c5c761aa86ee21b8d42b7eee98a2b1",
-            handle: "carol",
-            hasLease: false,
-            id: "1",
-          },
-          tenantReviewUri: null,
-          totalNumberOfRents: "12",
-        },
-        {
-          id: "2",
-          paymentToken: "0xf50ead67827fdf4fb8852c0ddfe4f17e88d34594",
-          ownerReviewUri: null,
-          rentAmount: "500000",
-          rentPaymentInterval: "0",
-          rentPaymentLimitTime: "0",
-          startDate: "1669113889",
-          status: "ENDED",
-          tenant: {
-            address: "0x858ee79b08ae13efd752838d25d1155d3ccd1894",
-            handle: "dave",
-            hasLease: false,
-            id: "2",
-          },
-          tenantReviewUri: null,
-          totalNumberOfRents: "12",
-        },
-      ],
-    },
-  };
+  // const $api = useTrust();
+  // const { profile } = useProfile();
 
   const lastLease = profile.tenant.leases[0];
   const returnTitle = (leaseStatus: string) => {
@@ -74,6 +29,7 @@ export const Tenant = () => {
     const rentAmountByInterval = Number(amount) / Number(interval);
     return `${rentAmountByInterval} € / ${interval}j`;
   };
+
   return (
     <Layout>
       <Container
@@ -102,9 +58,7 @@ export const Tenant = () => {
             navigate(`/dashboard/tenant/lease/${lastLease.id}`)
           }
           handleClickButton={(e: React.MouseEvent) => {
-            alert(
-              "click cancel " // api call editLease()
-            );
+            // const result = await $api.requestCancel( lastLease.id); //WIP
             e.stopPropagation();
           }}
         />
@@ -137,4 +91,51 @@ export const Tenant = () => {
       </Container>
     </Layout>
   );
+};
+
+//Mock
+const profile = {
+  tenant: {
+    id: "testId",
+    address: "4x0jfezmf99zpl937",
+    name: "José",
+    leases: [
+      {
+        id: "1",
+        paymentToken: "0x0000000000000000000000000000000000000000",
+        ownerReviewUri: null,
+        rentAmount: "500000",
+        rentPaymentInterval: "0",
+        rentPaymentLimitTime: "0",
+        startDate: "1669113886",
+        status: "ENDED",
+        tenant: {
+          address: "0x53addc3b41c5c761aa86ee21b8d42b7eee98a2b1",
+          handle: "Carol",
+          hasLease: false,
+          id: "1",
+        },
+        tenantReviewUri: null,
+        totalNumberOfRents: "12",
+      },
+      {
+        id: "2",
+        paymentToken: "0xf50ead67827fdf4fb8852c0ddfe4f17e88d34594",
+        ownerReviewUri: null,
+        rentAmount: "500000",
+        rentPaymentInterval: "0",
+        rentPaymentLimitTime: "0",
+        startDate: "1669113889",
+        status: "ENDED",
+        tenant: {
+          address: "0x858ee79b08ae13efd752838d25d1155d3ccd1894",
+          handle: "Dave",
+          hasLease: false,
+          id: "2",
+        },
+        tenantReviewUri: null,
+        totalNumberOfRents: "12",
+      },
+    ],
+  },
 };

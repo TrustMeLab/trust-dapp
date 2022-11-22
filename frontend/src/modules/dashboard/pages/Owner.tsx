@@ -1,6 +1,6 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Layout } from "../../../commons/components/Layout";
 
 export const Owner = () => {
-  return <Box>Owner page</Box>;
+  return <Layout>Owner page</Layout>;
 };
