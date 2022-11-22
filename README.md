@@ -65,9 +65,18 @@ _Explain, step-by-step, how someone can install your project and use it. The jur
 > NodeJS 18+ LTS
 
 ### General Settings
+<<<<<<< HEAD
 
 ---
 
+=======
+#### .env file
+
+You need a ".env" file at the root of the project containing certain environment variables. An example
+file ".env.example" has been provided with usable values for testing in local. Even a wallet seed is provided with testnet Ethers.
+
+----
+>>>>>>> Refactored README.md +
 ### Smart Contracts Settings
 
 #### Open a terminal in the "/_contract URI folder_"
@@ -76,6 +85,7 @@ Execute the following commands:
 
 > cd ./contracts
 >
+<<<<<<< HEAD
 > npm ci
 >
 > npm run start
@@ -84,6 +94,15 @@ Execute the following commands:
 > and execute the following command:
 
 > npm run deploy:localhost
+=======
+> npx hardhat node
+>
+Keep this terminal open and open a new one in the root folder of the project in the same directory
+and execute the following command:
+
+
+> npx hardhat deploy --fiat-rent-payment-eth --fiat-rent-payment-token --normal-rent --normal-token-rent --network localhost
+>>>>>>> Refactored README.md +
 
 The logs will print contract addresses as such:
 
@@ -122,6 +141,7 @@ and execute the following command:
 
 > npm run start
 
+<<<<<<< HEAD
 /!\ **Make sure to keep the "node" & "Docker" terminals open at all time during your use of the Dapp** /!\
 
 ## _You are now all set for runnintg the dapp :)_
@@ -147,3 +167,11 @@ _Specify the name of your team (the same as on the discord/gather), and tell us 
 
 _Specify the name of your team (the same as on the discord/gather), and tell us what you learned during this hackathon!_
 ![Problem slide](https://github.com/TheOutsidersLab/trust-fullstack/blob/master/Slide6.JPG?raw=true)
+=======
+> make regenerate
+
+/!\ **Make sure to keep the "node" & "Docker" terminals open at all time during your use of the Dapp** /!\
+## _You are now all set for runnintg the dapp :)_
+
+
+>>>>>>> Refactored README.md +
