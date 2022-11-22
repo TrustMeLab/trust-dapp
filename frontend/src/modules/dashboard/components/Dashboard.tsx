@@ -8,10 +8,7 @@ export const Dashboard = () => {
   const { profile, hasProfile, fetchProfile, loading } = useProfile()
 
   useEffect(() => {
-    if (!hasProfile) {
-      /* fetchProfile('0')
-        .catch(() => navigate('/sign-up')) */
-    }
+    !hasProfile && fetchProfile('0').catch(() => navigate('/sign-up'))
   })
 
   const pages = ['Espace Locataire', 'Espace Propriéraire'];
@@ -155,7 +152,9 @@ export const Dashboard = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      <p>Dashboard</p>
+      <Container maxWidth="xl">
+        <p>Dashboard</p>
+      </Container>
     </Fragment>
   )
 };
