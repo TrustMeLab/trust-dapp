@@ -11,6 +11,7 @@ import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 
 import { theme } from "./theme";
 import { Loading } from "./commons/components/Loading";
+import { Login } from "./modules/user/components/Login";
 import { SignUp } from "./modules/user/components/Signup";
 import { Dashboard } from "./modules/dashboard/components/Dashboard";
 import { TrustUserProvider } from "./context/user";
@@ -21,7 +22,6 @@ const chains = [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum];
 
 const PROJECT_ID = process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID as string;
 
-console.log(PROJECT_ID);
 const { provider } = configureChains(chains, [
   walletConnectProvider({ projectId: PROJECT_ID }),
 ]);
@@ -38,6 +38,7 @@ function App() {
   const { hasProfile } = useProfile()
   const routes = createBrowserRouter([
     { path: '/', element: <p>Hello World!</p> },
+    { path: '/login', element: <Login /> },
     { path: '/sign-up', element: <SignUp /> },
     GuardedRoute({ path: '/dashboard', element: <Dashboard/> }, true)
   ])

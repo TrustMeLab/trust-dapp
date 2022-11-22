@@ -1,16 +1,19 @@
 import React from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { ProfileFormValues } from "../../../../repositories/types";
 
 interface FinalBlockProps {
   handleSubmit: () => void;
   values: any;
   setValues: (values: ProfileFormValues) => void;
+  loading: boolean;
 }
 export const FinalBlock = ({
   handleSubmit,
   values,
   setValues,
+  loading,
 }: FinalBlockProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
@@ -34,12 +37,18 @@ export const FinalBlock = ({
         name="name"
         label="Name"
         type="text"
+        sx={{ width: 400 }}
         value={values.name}
         onChange={handleInputChange}
       />
-      <Button variant="contained" onClick={handleSubmit} sx={{ marginTop: 12 }}>
-        Envoyer
-      </Button>
+      <LoadingButton
+        variant="contained"
+        onClick={handleSubmit}
+        sx={{ marginTop: 12 }}
+        loading={loading}
+      >
+        Créer son profil
+      </LoadingButton>
     </Box>
   );
 };

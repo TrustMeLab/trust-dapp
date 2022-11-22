@@ -7,6 +7,7 @@ interface FormBlockProps {
   handleTenant: () => void;
   handleOwner: () => void;
 }
+
 export const FormBlock = ({ handleTenant, handleOwner }: FormBlockProps) => {
   return (
     <Box
@@ -19,16 +20,26 @@ export const FormBlock = ({ handleTenant, handleOwner }: FormBlockProps) => {
     >
       <Button
         variant="outlined"
-        startIcon={<SupervisorAccountIcon />}
         onClick={handleTenant}
+        sx={{
+          height: "60px",
+          padding: 6,
+          fontSize: "24px",
+        }}
       >
+        <SupervisorAccountIcon sx={{ marginRight: 3, fontSize: "28px" }} />
         Locataire
       </Button>
       <Button
         variant="outlined"
-        startIcon={<HouseIcon />}
         onClick={handleOwner}
+        sx={{
+          height: "60px",
+          padding: 6,
+          fontSize: "24px",
+        }}
       >
+        <HouseIcon sx={{ marginRight: 3, fontSize: "28px" }} />
         Propriétaire
       </Button>
     </Box>

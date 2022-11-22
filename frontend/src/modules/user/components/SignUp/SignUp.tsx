@@ -1,42 +1,50 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Alert, Box, Button, Typography } from "@mui/material";
-import { Web3Button } from "@web3modal/react";
 import { Container } from "@mui/system";
-import { FormBlock } from "./FormBlock";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import { Repository } from "../../../../repositories";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Web3Button } from "@web3modal/react";
+import { FormBlock } from "./FormBlock";
 import { FinalBlock } from "./FinalBlock";
+import TrustUserContext from "../../../../context/user";
 
-interface SignUpProps {
-  address: string;
-}
-export const SignupForm = ({ address }: SignUpProps) => {
+export const SignUp = () => {
+  const { address } = useContext(TrustUserContext);
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     title: "",
     name: "",
   });
-
   const handleSubmit = async () => {
     const helper = Repository();
+    setLoading(true);
     try {
-      const result = await helper.createProfile({ ...values, address });
-      if (result) navigate("/dashboard");
+      if (!address) navigate("/login");
+      else {
+        const result = await helper.createProfile({ ...values, address });
+        if (result) navigate("/dashboard");
+      }
     } catch (error) {
       setError("Une erreur est survenue");
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!address) navigate("/login");
+  }, [address]);
 
   return (
     <Container>
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-end",
+          alignItems: "center",
+          justifyContent: "flex-end",
           marginBottom: "16px",
         }}
       >
@@ -44,8 +52,8 @@ export const SignupForm = ({ address }: SignUpProps) => {
           sx={{
             border: 1,
             borderRadius: "10px",
-            padding: "10px",
-            margin: "10px 0px",
+            padding: "10px 16px",
+            margin: "10px ",
           }}
         >
           {address}
@@ -53,7 +61,11 @@ export const SignupForm = ({ address }: SignUpProps) => {
         <Web3Button />
       </Box>
       {step === 0 ? (
-        <>
+        <Box
+          sx={{
+            padding: "80px 0px",
+          }}
+        >
           <Typography variant="h2" sx={{ textAlign: "center" }}>
             Qui êtes-vous?
           </Typography>
@@ -67,21 +79,24 @@ export const SignupForm = ({ address }: SignUpProps) => {
               setStep(1);
             }}
           />
-        </>
+        </Box>
       ) : (
         step === 1 && (
           <>
             <Button
               variant="outlined"
               startIcon={<ArrowBackIcon />}
-              onClick={() => setStep(0)}
-              sx={{
-                margin: "10px 0px",
+              onClick={() => {
+                setStep(0);
+                setError("");
               }}
             >
               Back
             </Button>
-            <Typography variant="h2" sx={{ textAlign: "center" }}>
+            <Typography
+              variant="h2"
+              sx={{ textAlign: "center", margin: "42px 0px" }}
+            >
               Merci! Afin de créer votre compte, veuillez entrer les
               informations suivantes:
             </Typography>
@@ -89,6 +104,7 @@ export const SignupForm = ({ address }: SignUpProps) => {
               handleSubmit={handleSubmit}
               values={values}
               setValues={setValues}
+              loading={loading}
             />
           </>
         )
