@@ -1,74 +1,30 @@
-import { Box, Button, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-// import axios from "axios";
+import React, { useContext } from "react";
+import { Box, Typography } from "@mui/material";
+import { Web3Button } from "@web3modal/react";
+import { SignupForm } from "./SignupForm/SignupForm";
+import TrustUserContext from "../../../context/user";
 
 export const SignUp = () => {
-  // const callApi = async () =>
-  //   await axios
-  //     .get("http://localhost:4000/starton")
-  //     .then((data: any) => console.log("DATA  FROM APi>>", data))
-  //     .catch((err) => console.log(err));
-
-  const [currentAccount, setCurrentAccount] = useState(null);
-
-  const checkWalletIsConnected = async () => {
-    const { ethereum }: any = window;
-    //Check if metamask installed
-    if (!ethereum) {
-      console.log("Make sure Metamask installed");
-    } else console.log("Wallet exist!s");
-
-    //check accounts in my wallets
-    const accounts = await ethereum.request({ method: "eth_accounts" });
-
-    if (accounts.length !== 0) {
-      const account = accounts[0];
-      console.log("Found an authorized account: ", account);
-      setCurrentAccount(account);
-    } else {
-      console.log("No authorized account found");
-    }
-  };
-
-  // METAMASK
-  const connectMetamaskHandler = async () => {
-    const { ethereum }: any = window;
-    if (!ethereum) {
-      alert("Please install Metamask!");
-    }
-    try {
-      const accounts = await ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      console.log("Found an account! Address: ", accounts[0]);
-      setCurrentAccount(accounts[0]);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const connectWalletHandler = async () => {
-    try {
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    checkWalletIsConnected();
-  }, []);
-
-  return (
-    <Box>
-      <Typography variant="h1">
+  const { user, address } = useContext(TrustUserContext);
+  return !address ? (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 28
+      }}
+    >
+      <Typography variant="h2">
         Veuillez connecter votre portefeuille crypto
       </Typography>
-      <Box>
-        <Button onClick={connectMetamaskHandler}>Metamask</Button>
-      </Box>
-      <Box>
-        <Button onClick={connectWalletHandler}>WalletConnect</Button>
+
+      <Box sx={{ margin: 12 }}>
+        <Web3Button />
       </Box>
     </Box>
+  ) : (
+    <SignupForm address={address} />
   );
 };
