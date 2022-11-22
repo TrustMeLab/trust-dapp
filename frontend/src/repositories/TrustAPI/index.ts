@@ -1,6 +1,5 @@
-import { Owner, Tenant, ITrustAPI } from "./types";
+import { Owner, Tenant, ITrustAPI, ProfileFormValues } from "./types";
 import { ofetch } from "ofetch";
-
 export * from './types'
 
 export default function TrustAPI (): ITrustAPI {
@@ -40,6 +39,23 @@ export default function TrustAPI (): ITrustAPI {
         tenant: tenants[0],
         owner: owners[0]
       }
+    },
+    createProfile: async (values: ProfileFormValues) => {
+      const profile = await backendInstance("/profile/create", {
+        method: "POST",
+      }); //toBeChecked
+      if (profile.status === "rejected") {
+        throw new Error("profile.not-created");
+      }
+      const [id, address, createdAt, updatedAt, name, handle] = profile.value;
+      return {
+        id,
+        address,
+        createdAt,
+        updatedAt,
+        name,
+        handle,
+      };
     }
   }
 }

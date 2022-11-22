@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Alert, Box, Button, Typography } from "@mui/material";
-import { Container } from "@mui/system";
+import { Alert, Box, Button, Typography, Container } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
-import { Repository } from "../../../../repositories";
 import { Web3Button } from "@web3modal/react";
 import { FormBlock } from "./FormBlock";
 import { FinalBlock } from "./FinalBlock";
 import TrustUserContext from "../../../../context/user";
+import { useTrust } from "../../../../contexts/TrustContext";
 
 export const SignUp = () => {
   const { address } = useContext(TrustUserContext);
@@ -20,12 +19,12 @@ export const SignUp = () => {
     name: "",
   });
   const handleSubmit = async () => {
-    const helper = Repository();
+    const $api = useTrust();
     setLoading(true);
     try {
       if (!address) navigate("/login");
       else {
-        const result = await helper.createProfile({ ...values, address });
+        const result = await $api.createProfile({ ...values, address });
         if (result) navigate("/dashboard");
       }
     } catch (error) {
@@ -39,7 +38,7 @@ export const SignUp = () => {
   }, [address]);
 
   return (
-    <Container>
+    <Container maxWidth="xl">
       <Box
         sx={{
           display: "flex",

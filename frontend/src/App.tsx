@@ -12,7 +12,7 @@ import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { theme } from "./theme";
 import { Loading } from "./commons/components/Loading";
 import { Login } from "./modules/user/components/Login";
-import { SignUp } from "./modules/user/components/Signup";
+import { SignUp } from "./modules/user/components/SignUp/SignUp";
 import { Dashboard } from "./modules/dashboard/components/Dashboard";
 import { TrustUserProvider } from "./context/user";
 import GuardedRoute from "./commons/components/GuardedRoute";
@@ -20,7 +20,7 @@ import { useProfile } from "./contexts/ProfileContext";
 
 const chains = [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum];
 
-const PROJECT_ID = process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID as string;
+const PROJECT_ID = 'c141c9b6af4c51a104d40b6417ce36e2';
 
 const { provider } = configureChains(chains, [
   walletConnectProvider({ projectId: PROJECT_ID }),

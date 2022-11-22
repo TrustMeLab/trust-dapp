@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { ProfileFormValues } from "../../../../repositories/types";
+import { ProfileFormValues } from "../../../../repositories/TrustAPI";
 
 interface FinalBlockProps {
   handleSubmit: () => void;

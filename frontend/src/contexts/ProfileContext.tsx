@@ -27,18 +27,14 @@ export default function ProfileContextProvider ({ children }: PropsWithChildren)
 
   const fetchProfile = async function (address: string) {
     setLoading(true)
-    try {
-      const [profile] = await Promise.all([
-        $api.getProfile(address),
-        sleep(800)
-      ])
-      setProfile(profile)
-      return profile
-    } catch (e) {
-      throw e
-    } finally {
-      setLoading(true)
-    }
+    const [profile] = await Promise.allSettled([
+      $api.getProfile(address),
+      sleep(1400)
+    ])
+    setLoading(false)
+    if (profile.status === "rejected") { throw profile.reason }
+    setProfile(profile.value)
+    return profile.value
   }
 
   return (

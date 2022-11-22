@@ -4,21 +4,25 @@ import { useNavigate } from "react-router-dom";
 import { Alert, Box, Typography } from "@mui/material";
 import { Web3Button } from "@web3modal/react";
 import TrustUserContext from "../../../context/user";
-import { Repository } from "../../../repositories";
+import { useTrust } from "../../../contexts/TrustContext";
 
 export const Login = () => {
   const [error, setError] = useState("");
 
   const { address } = useContext(TrustUserContext);
 
-  const helper = Repository();
+  const $api = useTrust();
   const navigate = useNavigate();
 
   const handleProfile = async (addressAccount: string) => {
-    const profile = await helper.getProfile(addressAccount);
-    if (!profile.tenant && !profile.owner) {
+    try {
+      const profile = await $api.getProfile(addressAccount);
+      if (!profile.tenant && !profile.owner) {
+        navigate("/sign-up");
+      } else navigate("/dashboard");
+    } catch (_) {
       navigate("/sign-up");
-    } else navigate("/dashboard");
+    }
   };
   useEffect(() => {
     if (!address) return;
