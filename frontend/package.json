@@ -21,6 +21,7 @@
     "react-router-dom": "^6.4.3",
     "@web3modal/ethereum": "^2.0.0-beta.2",
     "@web3modal/react": "^2.0.0-beta.2",
+    "date-fns": "^2.29.3",
     "ethers": "^5.7.2",
     "wagmi": "^0.8.6"
   },

@@ -3,11 +3,14 @@ import { createTheme } from "@mui/material/styles";
 export const theme = createTheme({
   palette: {
     text: {
-      primary: "#1c1c1c", // Cod Grey
+      primary: "#1c1c1c", //  Dark Grey
+      secondary: "#7d7878", // Light Grey
     },
     primary: {
-      main: "#007873",
-      contrastText: "#ffffff", // White
+      main: "#007873", //Green
+    },
+    common: {
+      white: "#ffffff",
     },
   },
   typography: {
@@ -34,7 +37,7 @@ export const theme = createTheme({
     },
     h6: {
       fontSize: 16,
-      fontWeight: "bold",
+      fontWeight: "normal",
     },
     subtitle1: {
       fontSize: 16,

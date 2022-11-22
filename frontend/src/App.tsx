@@ -8,6 +8,7 @@ import {
 } from "@web3modal/ethereum";
 import { Web3Modal } from "@web3modal/react";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
+import { Tenant } from "./modules/dashboard/pages/Tenant";
 
 import { theme } from "./theme";
 import { Loading } from "./commons/components/Loading";
@@ -19,7 +20,7 @@ import { useUser } from "./contexts/UserContext";
 
 const chains = [chain.goerli];
 
-const PROJECT_ID = 'c141c9b6af4c51a104d40b6417ce36e2';
+const PROJECT_ID = "c141c9b6af4c51a104d40b6417ce36e2";
 
 const { provider } = configureChains(chains, [
   walletConnectProvider({ projectId: PROJECT_ID }),
@@ -33,20 +34,24 @@ const wagmiClient = createClient({
 const ethereumClient = new EthereumClient(wagmiClient, chains);
 
 function App() {
-  const { address } = useUser()
+  const { address } = useUser();
 
   const routes = createBrowserRouter([
-    { path: '/', element: <p>Hello World!</p> },
-    { path: '/login', element: <Login /> },
-    GuardedRoute({ path: '/sign-up', element: <SignUp /> }, address != null),
-    GuardedRoute({ path: '/dashboard', element: <Dashboard/> }, address != null)
-  ])
+    { path: "/", element: <p>Hello World!</p> },
+    { path: "/login", element: <Login /> },
+    { path: "/sign-up", element: <SignUp /> },
+    GuardedRoute({ path: "/dashboard", element: <Dashboard /> }, true),
+    GuardedRoute(
+      { path: "/dashboard/tenant/leases", element: <Tenant /> },
+      true
+    ),
+  ]);
 
   return (
     <ThemeProvider theme={theme}>
       <WagmiConfig client={wagmiClient}>
         <CssBaseline />
-        <RouterProvider router={routes} fallbackElement={<Loading/>}/>
+        <RouterProvider router={routes} fallbackElement={<Loading />} />
       </WagmiConfig>
       <Web3Modal
         projectId={PROJECT_ID}
