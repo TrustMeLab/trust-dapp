@@ -16,18 +16,16 @@ import { useNavigate } from "react-router-dom";
 import { useDisconnect } from "wagmi";
 
 import TrustUserContext from "../../context/user";
+import { useProfile } from "../../contexts/ProfileContext";
 
 interface Props {
   children: ReactNode;
-  walletAddress?: string;
-  hasProfile?: boolean;
 }
-export const Layout = ({ children, walletAddress, hasProfile }: Props) => {
+export const Layout = ({ children }: Props) => {
   const navigate = useNavigate();
   const { disconnect } = useDisconnect();
   const { address } = useContext(TrustUserContext);
-
-  // const { profile, hasProfile, fetchProfile, loading } = useProfile();
+  const { hasProfile } = useProfile();
 
   const pages = ["Espace Locataire", "Espace Propriétaire"];
   const settings = ["Profile", "Logout"];

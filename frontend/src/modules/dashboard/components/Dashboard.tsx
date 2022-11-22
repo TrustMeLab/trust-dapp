@@ -14,7 +14,7 @@ export const Dashboard = () => {
 
   return (
     <Fragment>
-      <Layout hasProfile>
+      <Layout>
         <Container maxWidth="xl">
           <p>Dashboard</p>
         </Container>
