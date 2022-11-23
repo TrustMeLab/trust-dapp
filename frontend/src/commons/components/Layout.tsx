@@ -194,6 +194,7 @@ export const Layout = ({ children, activeTab }: Props) => {
                         key={setting}
                         onClick={() => {
                           if (setting === "Logout") disconnect();
+                          navigate("/login");
                         }}
                       >
                         <Typography textAlign="center">{setting}</Typography>
