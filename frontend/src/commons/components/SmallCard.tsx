@@ -20,8 +20,8 @@ export const SmallCard = ({
         borderRadius: "10px",
         padding: "8px",
         cursor: "pointer",
-        width: "200px",
-        height: "120px",
+        width: "240px",
+        height: "160px",
         justifyContent: "space-around",
         alignItems: "center",
         "&:hover": {
@@ -30,10 +30,10 @@ export const SmallCard = ({
       }}
       onClick={handleClick}
     >
-      <Typography variant="h5">{rentInfos}</Typography>
       <Typography variant="h6" sx={{ fontWeight: "light" }}>
         {period}
       </Typography>
+      <Typography variant="h5">{rentInfos}</Typography>
     </Card>
   );
 };

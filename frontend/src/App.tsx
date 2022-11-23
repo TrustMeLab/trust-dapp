@@ -17,6 +17,7 @@ import { SignUp } from "./modules/user/components/SignUp/SignUp";
 import { Dashboard } from "./modules/dashboard/components/Dashboard";
 import GuardedRoute from "./commons/components/GuardedRoute";
 import { useUser } from "./contexts/UserContext";
+import { Owner } from "./modules/dashboard/pages/Owner";
 
 const chains = [chain.goerli];
 
@@ -46,6 +47,10 @@ function App() {
     ),
     GuardedRoute(
       { path: "/dashboard/tenant/leases", element: <Tenant /> },
+      address != null
+    ),
+    GuardedRoute(
+      { path: "/dashboard/owner/leases", element: <Owner /> },
       address != null
     ),
   ]);

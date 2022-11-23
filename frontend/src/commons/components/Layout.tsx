@@ -15,6 +15,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useDisconnect } from "wagmi";
 import { useUser } from "../../contexts/UserContext";
+import { theme } from "../../theme";
+import Logo from "../../assets/logo_trust.png";
 
 interface Props {
   children: ReactNode;
@@ -57,23 +59,16 @@ export const Layout = ({ children, activeTab }: Props) => {
             disableGutters
             sx={{ display: "flex", justifyContent: "space-between" }}
           >
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
+            <Box
+              component="img"
               sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
+                height: 64,
+                margin: "12px",
               }}
-            >
-              LOGO
-            </Typography>
+              alt="Your logo."
+              src={Logo}
+            />
+
             {hasProfile && (
               <>
                 <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -207,7 +202,7 @@ export const Layout = ({ children, activeTab }: Props) => {
           </Toolbar>
         </Container>
       </AppBar>
-      {children}
+      <Box marginTop="42px">{children}</Box>
     </Fragment>
   );
 };

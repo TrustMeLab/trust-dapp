@@ -17,7 +17,18 @@ export const theme = createTheme({
     common: {
       white: "#ffffff",
     },
+    success: {
+      main: "#11C6A9", // custom button color (seafoam green)
+      contrastText: "#ffffff", // custom button text (white)
+    },
+    error: {
+      main: "#C6112E", // custom button color (red)
+    },
+    info: {
+      main: "#1c1c1c",
+    },
   },
+
   typography: {
     fontFamily: "sans-serif",
     h1: {
