@@ -171,7 +171,7 @@ _Specify the name of your team (the same as on the discord/gather), and tell us 
 > make regenerate
 
 /!\ **Make sure to keep the "node" & "Docker" terminals open at all time during your use of the Dapp** /!\
-## _You are now all set for runnintg the dapp :)_
+## _You are now all set for running the dapp :)_
 
 
 >>>>>>> Refactored README.md +
