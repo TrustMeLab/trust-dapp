@@ -63,3 +63,8 @@ export interface ITrustAPI {
   getOwnerScore: (id: string) => Promise<number>;
   getTenantLeases: (id: string) => Promise<Lease[]>;
 }
+
+export type OracleData = {
+  rate: string;
+  date: string;
+}
