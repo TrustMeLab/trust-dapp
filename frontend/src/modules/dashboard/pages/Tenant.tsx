@@ -86,6 +86,7 @@ export const Tenant = () => {
             lastLease.rentPaymentInterval,
             lastLease.totalNumberOfRents
           )}
+          lease={lastLease}
           generalInfo={`Owner : ${lastLease.tenant.handle}`}
           remarks={
             lastLease.status === "CANCELLED"

@@ -71,6 +71,10 @@ export interface Lease {
   owner: Owner;
   paymentToken: number;
   currencyPair: string;
+  tenantReviewUri: string;
+  ownerReviewUri: string;
+  cancelledByOwner: boolean;
+  cancelledByTenant: boolean;
 }
 
 export interface ITrustAPI {
@@ -87,4 +91,4 @@ export interface ITrustAPI {
 export type OracleData = {
   rate: string;
   date: string;
-}
+};
