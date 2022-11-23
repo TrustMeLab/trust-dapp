@@ -9,6 +9,7 @@ import { Layout } from "../../../../commons/components/Layout";
 import { useUser } from "../../../../contexts/UserContext";
 import { UserType } from "../../../../../../shared/types/UserAPI";
 import { Owner, Tenant } from "../../../../repositories/TrustAPI";
+import {mintOwnerId, mintTenantId} from "../../../../contracts/utils";
 
 export interface UserForm {
   type: UserType
@@ -16,7 +17,7 @@ export interface UserForm {
 }
 
 export const SignUp = () => {
-  const { address, hasProfile, setProfile } = useUser();
+  const { address, hasProfile, setProfile, signer } = useUser();
   const $api = useTrust();
 
   const navigate = useNavigate();
@@ -24,28 +25,29 @@ export const SignUp = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<Partial<UserForm>>({});
+
   const handleSubmit = async () => {
     const { type, name } = values
     if (type === undefined || !address || !name) { return }
     setLoading(true);
     try {
-      const user = await $api.createProfile({
-        type,
-        name,
-        address
-      });
-      if (user) {
-        switch (type) {
-          case UserType.Owner:
-            setProfile({ owner: user as Owner })
-            break;
-          case UserType.Tenant:
-            setProfile({ tenant: user as Tenant })
-            break;
-
-        }
-        navigate("/dashboard")
+      if (type === UserType.Tenant) {
+        await mintTenantId(signer,name);
+      } else if (type === UserType.Owner) {
+        await mintOwnerId(signer,name);
       }
+      // if (user) {
+      //   switch (type) {
+      //     case UserType.Owner:
+      //       setProfile({ owner: user as Owner })
+      //       break;
+      //     case UserType.Tenant:
+      //       setProfile({ tenant: user as Tenant })
+      //       break;
+      //
+      //   }
+        navigate("/dashboard")
+      // }
     } catch (error) {
       setError("Une erreur est survenue");
     } finally {

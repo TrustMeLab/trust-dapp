@@ -1,10 +1,10 @@
-import { Owner, Tenant, ITrustAPI, ProfileFormValues } from "./types";
+import { Owner, Tenant, ITrustAPI } from "./types";
 import { ofetch } from "ofetch";
 export * from './types'
 
 export default function TrustAPI (): ITrustAPI {
   const theGraphInstance = ofetch.create({
-    baseURL: 'https://api.thegraph.com/subgraphs/name/quent043/trustgoerli'
+    baseURL: process.env.REACT_APP_SUBGRAPH_URL
   })
   const backendInstance = ofetch.create({
     baseURL: 'http://localhost:3000'
