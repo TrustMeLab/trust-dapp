@@ -1,7 +1,7 @@
 export enum ConfigAddresses {
-  oracleAddress = "0xe08DB391F6dDB0b413d6916297F1414cefc530e9",
-  ownerIdAddress = "0x8907dc80cB9Af66B85b444C972C0d88ab10Ba4f0",
-  tenantIdAddress = "0x7c35C17EAa355Fe6d41e269AAb1D4DFd538c87E2",
-  leaseAddress = "0x08ab7F8AABF162b6c9c0F6Bb1690F57F1b5E5DFd",
-  croesusToken = "0xF498D124EDddB93ca5A48057c067CC78b9903AE9",
+  oracleAddress = "0x243C3FEF3271F72884BF93eFf9af5b8D8A739815",
+  ownerIdAddress = "0x01dbf024D566a5006a6eAFFaF7b286AF73dC6409",
+  tenantIdAddress = "0xE18a3Ed893361cAA3a207306197Ceebd47C6BcA5",
+  leaseAddress = "0xE7304dF39c9f861D0fe210f441Ded3f8Dd057440",
+  croesusToken = "0x2E2CfeA8A06c29a25B502F8D69498FbfbDE94F6c",
 }

@@ -30,4 +30,20 @@ export const getTenantById = (id: string): Promise<any> => {
   return processRequest(query);
 };
 
+export const getLeases = (): Promise<any> => {
+  const query = `
+   leases {
+    id
+    paymentToken
+    ownerReviewUri
+    rentAmount
+    rentPaymentInterval
+    rentPaymentLimitTime
+    startDate
+    status
+    }
+  `;
+  return processRequest(query);
+};
+
 
