@@ -60,4 +60,13 @@ and execute the following command:
 /!\ **Make sure to keep the "node" & "Docker" terminals open at all time during your use of the Dapp** /!\
 ## _You are now all set for running the dapp :)_
 
+Yannou =D : Mon environnement pourris
+alors make file marche pas lol donc on fait les commande suivante une a une : 
 
+-npm run codegen
+changer dans le .json du subgraph ->   "build": "graph build --network localhost" et lancer "npm run build"
+-npm run remove-local
+-npm run create-local
+-npm run deploy-local
+
+et voila u_u
