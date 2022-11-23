@@ -1,4 +1,5 @@
 import { AppBar, Container, Toolbar, Typography } from "@mui/material";
+import Image from 'mui-image';
 
 export default function HomepageHeader () {
   return (
@@ -18,7 +19,10 @@ export default function HomepageHeader () {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            <Image src="../public/logo.png" 
+            height="5%"
+            width="5%"
+            fit="fill"/>
           </Typography>
         </Toolbar>
       </Container>
