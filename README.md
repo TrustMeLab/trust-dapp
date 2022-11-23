@@ -58,6 +58,6 @@ and execute the following command:
 > make regenerate
 
 /!\ **Make sure to keep the "node" & "Docker" terminals open at all time during your use of the Dapp** /!\
-## _You are now all set for runnintg the dapp :)_
+## _You are now all set for running the dapp :)_
 
 
