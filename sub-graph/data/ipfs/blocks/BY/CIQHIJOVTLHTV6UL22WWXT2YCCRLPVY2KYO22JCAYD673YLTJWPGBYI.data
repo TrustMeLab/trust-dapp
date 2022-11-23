@@ -1,0 +1,100 @@
+
+åÝdataSources:
+  - kind: ethereum/contract
+    mapping:
+      abis:
+        - file:
+            /: /ipfs/QmUoyGyQvnD59zVzQ1eWGfUubpM2M5tFTqN6np9SsfvZdb
+          name: OwnerId
+      apiVersion: 0.0.6
+      entities:
+        - Owner
+      eventHandlers:
+        - event: 'Mint(indexed address,uint256,string)'
+          handler: handleMint
+        - event: 'CidUpdated(indexed uint256,string)'
+          handler: handleCidUpdated
+      file:
+        /: /ipfs/QmdwPPRPf1KvprvcPFZZXK8rvvJd368uEnHBFdYj8uSTYZ
+      kind: ethereum/events
+      language: wasm/assemblyscript
+    name: OwnerId
+    network: localhost
+    source:
+      abi: OwnerId
+      address: '0xfB0F734d29DC1504e132A8BcEBba2afDB1a723C4'
+      startBlock: 0
+  - kind: ethereum/contract
+    mapping:
+      abis:
+        - file:
+            /: /ipfs/QmPpX6ESpX69Vb4PJzTQKdLtHD5xiN42zt1MiF8ZsmGpMD
+          name: TenantId
+      apiVersion: 0.0.6
+      entities:
+        - Tenant
+      eventHandlers:
+        - event: 'Mint(indexed address,uint256,string)'
+          handler: handleMint
+        - event: 'CidUpdated(indexed uint256,string)'
+          handler: handleCidUpdated
+        - event: 'TenantHasLeaseUpdated(uint256,bool)'
+          handler: handleTenantHasLeaseUpdated
+      file:
+        /: /ipfs/Qmatsn8ULHGa2uV78QSfvxkvmTEP3u3zfSBR3ZStGkYqLG
+      kind: ethereum/events
+      language: wasm/assemblyscript
+    name: TenantId
+    network: localhost
+    source:
+      abi: TenantId
+      address: '0x52836723c1dC3d98A03284a12418071D4b37400d'
+      startBlock: 0
+  - kind: ethereum/contract
+    mapping:
+      abis:
+        - file:
+            /: /ipfs/QmWJGqhiFydoDs8QELTiLG4AdrYjDicA2mDsXUgJkf1Ykz
+          name: Lease
+      apiVersion: 0.0.6
+      entities:
+        - Owner
+      eventHandlers:
+        - event: 'CancellationRequested(uint256,bool,bool)'
+          handler: handleCancellationRequested
+        - event: >-
+            LeaseCreated(uint256,uint256,uint256,uint256,uint8,address,uint256,uint256,uint256)
+          handler: handleLeaseCreated
+        - event: 'LeaseReviewedByTenant(uint256,string)'
+          handler: handleLeaseReviewedByTenant
+        - event: 'LeaseReviewedByOwner(uint256,string)'
+          handler: handleLeaseReviewedByOwner
+        - event: LeaseValidated(uint256)
+          handler: handleLeaseValidated
+        - event: 'RentNotPaid(uint256,uint256)'
+          handler: handleRentNotPaid
+        - event: 'RentPaid(uint256,uint256,bool,uint256)'
+          handler: handleRentPaid
+        - event: 'UpdateLeaseStatus(uint256,uint8)'
+          handler: handleUpdateLeaseStatus
+        - event: 'RentPaymentIssueStatusUpdated(uint256,uint256,bool)'
+          handler: handleRentPaymentIssueStatusUpdated
+        - event: 'SetRentToPending(uint256,uint256)'
+          handler: handleSetRentToPending
+        - event: 'LeaseMetaDataUpdated(uint256,string)'
+          handler: handleLeaseMetaDataUpdated
+      file:
+        /: /ipfs/QmUuXUoLbXJrgpcNjjwSQL42MAvyAHv2g4V9mvkCpYGmNG
+      kind: ethereum/events
+      language: wasm/assemblyscript
+    name: Lease
+    network: localhost
+    source:
+      abi: Lease
+      address: '0xBC957180100456Fb58D7A5d0c6BDdE8a3F6a7561'
+      startBlock: 0
+schema:
+  file:
+    /: /ipfs/QmX7rfn3tPqum7a44kVAQ1zvX5aJNA9F1jMXRmLjnc5fHs
+specVersion: 0.0.4
+Ý
