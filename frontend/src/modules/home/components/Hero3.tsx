@@ -1,12 +1,12 @@
 import { Box, Button } from "@mui/material";
 import Image from 'mui-image';
 
-export default function Hero1 () {
+export default function Hero3 () {
   return (
     <Box sx={{
+			mt: '3em', // a voir selon préférences
 			height: '28em',
-			bgcolor: '#bcd5ce',
-			boxShadow: 3,
+			bgcolor: '#e7ca36',
 			display: 'flex',
 			justifyContent: 'center'
 		}}>
