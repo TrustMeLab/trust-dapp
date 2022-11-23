@@ -39,11 +39,14 @@ function App() {
   const routes = createBrowserRouter([
     { path: "/", element: <p>Hello World!</p> },
     { path: "/login", element: <Login /> },
-    { path: "/sign-up", element: <SignUp /> },
-    GuardedRoute({ path: "/dashboard", element: <Dashboard /> }, true),
+    GuardedRoute({ path: "/sign-up", element: <SignUp /> }, address != null),
+    GuardedRoute(
+      { path: "/dashboard", element: <Dashboard /> },
+      address != null
+    ),
     GuardedRoute(
       { path: "/dashboard/tenant/leases", element: <Tenant /> },
-      true
+      address != null
     ),
   ]);
 

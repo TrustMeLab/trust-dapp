@@ -18,13 +18,13 @@ import { useUser } from "../../contexts/UserContext";
 
 interface Props {
   children: ReactNode;
+  activeTab?: string;
 }
-export const Layout = ({ children }: Props) => {
+export const Layout = ({ children, activeTab }: Props) => {
   const navigate = useNavigate();
   const { disconnect } = useDisconnect();
   const { hasProfile, address } = useUser();
-
-  const pages = ["Espace Locataire", "Espace Propriétaire"];
+  const pages = ["tenant", "owner"];
   const settings = ["Profile", "Logout"];
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -43,6 +43,11 @@ export const Layout = ({ children }: Props) => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+  const handleClickTab = (page: string) => {
+    if (page === "tenant") {
+      navigate("/dashboard/tenant/leases");
+    } else if (page === "owner") navigate("/dashboard/owner/leases");
   };
   return (
     <Fragment>
@@ -99,22 +104,51 @@ export const Layout = ({ children }: Props) => {
                     }}
                   >
                     {pages.map((page) => (
-                      <MenuItem key={page} onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">{page}</Typography>
+                      <MenuItem key={page}>
+                        <Button
+                          variant={activeTab === page ? "outlined" : "text"}
+                          onClick={() => handleClickTab(page)}
+                        >
+                          <Typography textAlign="center">
+                            {page === "tenant"
+                              ? "Espace Locataire"
+                              : "Espace Propriétaire"}
+                          </Typography>
+                        </Button>
                       </MenuItem>
                     ))}
                   </Menu>
                 </Box>
-                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                  {pages.map((page) => (
-                    <Button
-                      key={page}
-                      onClick={handleCloseNavMenu}
-                      sx={{ my: 2, color: "white", display: "block" }}
-                    >
-                      {page}
-                    </Button>
-                  ))}
+                <Box sx={{ display: "flex", gap: "24px", flexGrow: 1 }}>
+                  {pages.map((page, index) => {
+                    return (
+                      <Button
+                        key={index}
+                        variant={activeTab === page ? "contained" : "text"}
+                        color={activeTab === page ? "secondary" : "primary"}
+                        onClick={() => handleClickTab(page)}
+                        sx={{
+                          my: 2,
+                          transition: "0.3s",
+                          color:
+                            activeTab === page
+                              ? theme.palette.primary.main
+                              : theme.palette.secondary.main,
+                          display: "block",
+                          "&:hover": {
+                            backgroundColor: "#F6F5F5",
+                            color: theme.palette.primary.main,
+                          },
+                        }}
+                      >
+                        <Typography textAlign="center">
+                          {page === "tenant"
+                            ? "Espace Locataire"
+                            : "Espace Propriétaire"}
+                        </Typography>
+                      </Button>
+                    );
+                  })}
                 </Box>{" "}
               </>
             )}

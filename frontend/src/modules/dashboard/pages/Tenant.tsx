@@ -31,7 +31,7 @@ export const Tenant = () => {
   };
 
   return (
-    <Layout>
+    <Layout activeTab="tenant">
       <Container
         sx={{
           margin: "32px",

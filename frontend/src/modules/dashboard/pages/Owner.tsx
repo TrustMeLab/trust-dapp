@@ -2,5 +2,5 @@ import React from "react";
 import { Layout } from "../../../commons/components/Layout";
 
 export const Owner = () => {
-  return <Layout>Owner page</Layout>;
+  return <Layout activeTab="owner">Owner page</Layout>;
 };
