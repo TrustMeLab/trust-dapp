@@ -1,19 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {NavLink, useNavigate} from "react-router-dom";
 
 import { Alert, Box, Typography } from "@mui/material";
 import { Web3Button } from "@web3modal/react";
-import TrustUserContext from "../../../context/user";
 import { useTrust } from "../../../contexts/TrustContext";
 import { Layout } from "../../../commons/components/Layout";
+import { useUser } from "../../../contexts/UserContext";
 
 export const Login = () => {
-  const [error, setError] = useState("");
-
-  const { address } = useContext(TrustUserContext);
-
-  const $api = useTrust();
   const navigate = useNavigate();
+  const { address } = useUser();
+  const $api = useTrust();
+  const [error, setError] = useState("");
 
   const handleProfile = async (addressAccount: string) => {
     try {

@@ -7,7 +7,7 @@ export default function TrustAPI (): ITrustAPI {
     baseURL: 'https://api.thegraph.com/subgraphs/name/quent043/trustgoerli'
   })
   const backendInstance = ofetch.create({
-    baseURL: ''
+    baseURL: 'http://localhost:3000'
   })
 
 
@@ -40,22 +40,8 @@ export default function TrustAPI (): ITrustAPI {
         owner: owners[0]
       }
     },
-    createProfile: async (values: ProfileFormValues) => {
-      const profile = await backendInstance("/profile/create", {
-        method: "POST",
-      }); //toBeChecked
-      if (profile.status === "rejected") {
-        throw new Error("profile.not-created");
-      }
-      const [id, address, createdAt, updatedAt, name, handle] = profile.value;
-      return {
-        id,
-        address,
-        createdAt,
-        updatedAt,
-        name,
-        handle,
-      };
+    createProfile: async (body) => {
+      return backendInstance("/users", { method: "POST", body })
     }
   }
 }

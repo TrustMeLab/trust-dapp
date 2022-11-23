@@ -1,12 +1,12 @@
 import React from "react";
 import { Box, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { ProfileFormValues } from "../../../../repositories/TrustAPI";
+import { UserForm } from "./SignUp";
 
 interface FinalBlockProps {
   handleSubmit: () => void;
   values: any;
-  setValues: (values: ProfileFormValues) => void;
+  setValues: (values: UserForm) => void;
   loading: boolean;
 }
 export const FinalBlock = ({

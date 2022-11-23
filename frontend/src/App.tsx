@@ -14,11 +14,10 @@ import { Loading } from "./commons/components/Loading";
 import { Login } from "./modules/user/components/Login";
 import { SignUp } from "./modules/user/components/SignUp/SignUp";
 import { Dashboard } from "./modules/dashboard/components/Dashboard";
-import { TrustUserProvider } from "./context/user";
 import GuardedRoute from "./commons/components/GuardedRoute";
-import { useProfile } from "./contexts/ProfileContext";
+import { useUser } from "./contexts/UserContext";
 
-const chains = [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum];
+const chains = [chain.goerli];
 
 const PROJECT_ID = 'c141c9b6af4c51a104d40b6417ce36e2';
 
@@ -34,29 +33,27 @@ const wagmiClient = createClient({
 const ethereumClient = new EthereumClient(wagmiClient, chains);
 
 function App() {
+  const { address } = useUser()
 
-  const { hasProfile } = useProfile()
   const routes = createBrowserRouter([
     { path: '/', element: <p>Hello World!</p> },
     { path: '/login', element: <Login /> },
-    { path: '/sign-up', element: <SignUp /> },
-    GuardedRoute({ path: '/dashboard', element: <Dashboard/> }, true)
+    GuardedRoute({ path: '/sign-up', element: <SignUp /> }, address != null),
+    GuardedRoute({ path: '/dashboard', element: <Dashboard/> }, address != null)
   ])
 
   return (
     <ThemeProvider theme={theme}>
-      <TrustUserProvider>
-        <WagmiConfig client={wagmiClient}>
-          <CssBaseline />
-          <RouterProvider router={routes} fallbackElement={<Loading/>}/>
-        </WagmiConfig>
-        <Web3Modal
-          projectId={PROJECT_ID}
-          theme="dark"
-          accentColor="default"
-          ethereumClient={ethereumClient}
-        />
-      </TrustUserProvider>
+      <WagmiConfig client={wagmiClient}>
+        <CssBaseline />
+        <RouterProvider router={routes} fallbackElement={<Loading/>}/>
+      </WagmiConfig>
+      <Web3Modal
+        projectId={PROJECT_ID}
+        theme="dark"
+        accentColor="default"
+        ethereumClient={ethereumClient}
+      />
     </ThemeProvider>
   );
 }

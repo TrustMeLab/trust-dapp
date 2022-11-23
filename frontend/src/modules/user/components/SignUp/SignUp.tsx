@@ -1,37 +1,54 @@
-import { useContext, useEffect, useState } from "react";
-import { Alert, Box, Button, Typography, Container } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Alert, Box, Button, Container, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import { FormBlock } from "./FormBlock";
 import { FinalBlock } from "./FinalBlock";
-import TrustUserContext from "../../../../context/user";
 import { useTrust } from "../../../../contexts/TrustContext";
 import { Layout } from "../../../../commons/components/Layout";
-import { useProfile } from "../../../../contexts/ProfileContext";
+import { useUser } from "../../../../contexts/UserContext";
+import { UserType } from "../../../../../../shared/types/UserAPI";
+import { Owner, Tenant } from "../../../../repositories/TrustAPI";
+
+export interface UserForm {
+  type: UserType
+  name: string
+}
 
 export const SignUp = () => {
-  const { address } = useContext(TrustUserContext);
-  const { hasProfile } = useProfile();
+  const { address, hasProfile, setProfile } = useUser();
   const $api = useTrust();
 
   const navigate = useNavigate();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState({
-    title: "",
-    name: "",
-  });
+  const [values, setValues] = useState<Partial<UserForm>>({});
   const handleSubmit = async () => {
+    const { type, name } = values
+    if (type === undefined || !address || !name) { return }
     setLoading(true);
     try {
-      if (!address) navigate("/login");
-      else {
-        const result = await $api.createProfile({ ...values, address });
-        if (result) navigate("/dashboard");
+      const user = await $api.createProfile({
+        type,
+        name,
+        address
+      });
+      if (user) {
+        switch (type) {
+          case UserType.Owner:
+            setProfile({ owner: user as Owner })
+            break;
+          case UserType.Tenant:
+            setProfile({ tenant: user as Tenant })
+            break;
+
+        }
+        navigate("/dashboard")
       }
     } catch (error) {
       setError("Une erreur est survenue");
+    } finally {
       setLoading(false);
     }
   };
@@ -55,11 +72,11 @@ export const SignUp = () => {
             </Typography>
             <FormBlock
               handleTenant={() => {
-                setValues((prev) => ({ ...prev, title: "tenant" }));
+                setValues((prev) => ({ ...prev, type: UserType.Tenant }));
                 setStep(1);
               }}
               handleOwner={() => {
-                setValues((prev) => ({ ...prev, title: "owner" }));
+                setValues((prev) => ({ ...prev, type: UserType.Owner }));
                 setStep(1);
               }}
             />

@@ -1,3 +1,5 @@
+import { CreateUserBody } from "../../../../../shared/types/UserAPI";
+
 export interface Person {
   id: number
   handle: string // name
@@ -54,15 +56,9 @@ export interface Lease {
   rentPayments: Array<RentPayment>
 }
 
-export interface ProfileFormValues {
-  title: string
-  name: string
-  address: string
-}
-
 export interface ITrustAPI {
   getProfile: (address: string) => Promise<Profile>;
-  createProfile: (values: ProfileFormValues) => Promise<Person>;
+  createProfile: (body: CreateUserBody) => Promise<Person>;
   getTenantScore: (id: string) => Promise<number>;
   getOwnerScore: (id: string) => Promise<number>;
   getTenantLeases: (id: string) => Promise<Lease[]>;

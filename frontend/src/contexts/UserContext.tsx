@@ -1,29 +1,35 @@
-import {createContext, useContext, useState, PropsWithChildren} from "react";
+import {createContext, useContext, useState, Dispatch, SetStateAction, PropsWithChildren} from "react";
 import {useNavigate} from "react-router-dom";
 import {useTrust} from "./TrustContext";
 import { Profile } from "../repositories/TrustAPI";
 import sleep from "../tools/sleep";
+import {useAccount} from "wagmi";
 
-interface IProfileContext {
+interface IUserContext {
   profile: Profile
   hasProfile: boolean
   fetchProfile: (address: string) => Promise<Profile | undefined>
+  setProfile: Dispatch<Profile>
   loading: boolean
+  address?: string
+  isConnected: boolean,
 }
-const ProfileContext = createContext<IProfileContext>(undefined as any)
+const UserContext = createContext<IUserContext>(undefined as any)
 const DEFAULT_PROFILE = (): Profile => ({ tenant: undefined, owner: undefined })
 
-export function useProfile () {
-  const profile = useContext(ProfileContext)
-  if (!profile) { throw new Error('Context must be used within a Provider') }
-  return profile
+export function useUser () {
+  const user = useContext(UserContext)
+  if (!user) { throw new Error('Context must be used within a Provider') }
+  return user
 }
 
-export default function ProfileContextProvider ({ children }: PropsWithChildren) {
+export default function UserContextProvider ({ children }: PropsWithChildren) {
   const $api = useTrust()
+  const { address, isConnected: walletConnected } = useAccount()
   const [profile, setProfile] = useState<Profile>(DEFAULT_PROFILE())
   const [loading, setLoading] = useState(false)
   const hasProfile = profile.owner != null && profile.tenant != null
+  const isConnected = walletConnected && hasProfile
 
   const fetchProfile = async function (address: string) {
     setLoading(true)
@@ -38,8 +44,16 @@ export default function ProfileContextProvider ({ children }: PropsWithChildren)
   }
 
   return (
-    <ProfileContext.Provider value={{ profile, hasProfile, fetchProfile, loading }}>
+    <UserContext.Provider value={{
+      profile,
+      hasProfile,
+      setProfile,
+      fetchProfile,
+      loading,
+      address,
+      isConnected
+    }}>
       {children}
-    </ProfileContext.Provider>
+    </UserContext.Provider>
   )
 }

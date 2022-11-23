@@ -1,16 +1,20 @@
-import { Fragment, useEffect, useState, MouseEvent } from "react";
+import { Fragment, useEffect } from "react";
 import { Container } from "@mui/material";
-import { useProfile } from "../../../contexts/ProfileContext";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "../../../commons/components/Layout";
+import { useUser } from "../../../contexts/UserContext";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
-  const { hasProfile, fetchProfile } = useProfile();
+  const { hasProfile, fetchProfile, address, loading } = useUser();
 
   useEffect(() => {
-    !hasProfile && fetchProfile("0").catch(() => navigate("/sign-up"));
-  });
+    if (!address) {
+      navigate('/login')
+      return
+    }
+    !hasProfile && fetchProfile(address).catch(() => navigate("/sign-up"));
+  }, [address]);
 
   return (
     <Fragment>

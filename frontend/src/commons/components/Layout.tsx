@@ -1,4 +1,4 @@
-import { useState, MouseEvent, ReactNode, useContext } from "react";
+import { useState, MouseEvent, ReactNode, Fragment } from "react";
 import {
   Box,
   Toolbar,
@@ -14,9 +14,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDisconnect } from "wagmi";
-
-import TrustUserContext from "../../context/user";
-import { useProfile } from "../../contexts/ProfileContext";
+import { useUser } from "../../contexts/UserContext";
 
 interface Props {
   children: ReactNode;
@@ -24,8 +22,7 @@ interface Props {
 export const Layout = ({ children }: Props) => {
   const navigate = useNavigate();
   const { disconnect } = useDisconnect();
-  const { address } = useContext(TrustUserContext);
-  const { hasProfile } = useProfile();
+  const { hasProfile, address } = useUser();
 
   const pages = ["Espace Locataire", "Espace Propriétaire"];
   const settings = ["Profile", "Logout"];
@@ -48,8 +45,8 @@ export const Layout = ({ children }: Props) => {
     setAnchorElUser(null);
   };
   return (
-    <>
-      <AppBar position="static" sx={{ marginBottom: 8 }}>
+    <Fragment>
+      <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar
             disableGutters
@@ -176,6 +173,6 @@ export const Layout = ({ children }: Props) => {
         </Container>
       </AppBar>
       {children}
-    </>
+    </Fragment>
   );
 };
