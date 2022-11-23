@@ -63,12 +63,9 @@ console.debug('config', config);
 
 const SUBGRAPH_URL =
   process.env.REACT_APP_SUBGRAPH_URL ||
-  'https://api.thegraph.com/subgraphs/name/talentlayer/talent-layer-protocol';
+  'https://api.thegraph.com/subgraphs/name/quent043/trustgoerli/graphql';
 
 const projectId = process.env.REACT_APP_INFURA_ID || '';
 const projectSecret = process.env.REACT_APP_INFURA_SECRET || '';
 
 export { config, projectId, projectSecret, SUBGRAPH_URL };
-
-
-
