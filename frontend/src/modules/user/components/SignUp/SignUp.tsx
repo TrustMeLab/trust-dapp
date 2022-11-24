@@ -9,6 +9,9 @@ import { Layout } from "../../../../commons/components/Layout";
 import { useUser } from "../../../../contexts/UserContext";
 import { UserType } from "../../../../../../shared/types/UserAPI";
 import { Owner, Tenant } from "../../../../repositories/TrustAPI";
+import {mintTenantId} from "../../../../contracts/utils";
+import { useWeb3React } from '@web3-react/core';
+import {Web3Provider} from "@ethersproject/providers";
 
 export interface UserForm {
   type: UserType;
@@ -16,7 +19,9 @@ export interface UserForm {
 }
 
 export const SignUp = () => {
-  const { address, hasProfile, setProfile } = useUser();
+  const { address, hasProfile, setProfile, signer } = useUser();
+  const { account, library } = useWeb3React<Web3Provider>();
+
   const $api = useTrust();
 
   const navigate = useNavigate();
@@ -31,22 +36,18 @@ export const SignUp = () => {
     }
     setLoading(true);
     try {
-      const user = await $api.createProfile({
-        type,
-        name,
-        address,
-      });
-      if (user) {
-        switch (type) {
-          case UserType.Owner:
-            setProfile({ owner: user as Owner });
-            break;
-          case UserType.Tenant:
-            setProfile({ tenant: user as Tenant });
-            break;
-        }
+      await mintTenantId(signer,name);
+      // if (user) {
+      //   switch (type) {
+      //     case UserType.Owner:
+      //       setProfile({ owner: user as Owner });
+      //       break;
+      //     case UserType.Tenant:
+      //       setProfile({ tenant: user as Tenant });
+      //       break;
+      //   }
         navigate("/dashboard");
-      }
+      // }
     } catch (error) {
       setError("Une erreur est survenue");
     } finally {
