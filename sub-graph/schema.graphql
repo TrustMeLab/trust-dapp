@@ -39,8 +39,8 @@ type Owner @entity {
 
 type Lease @entity {
     id: ID! # Token index
-    tenant: Tenant! # Tenant id
-    owner: Owner! # Owner id
+    tenant: Tenant # Tenant id
+    owner: Owner # Owner id
     rentAmount: BigInt! # Rent amount
     totalNumberOfRents: BigInt! # Total number of rents
     paymentToken: Bytes! # Payment token
@@ -69,8 +69,8 @@ type RentPayment @entity {
     exchangeRate: BigInt! # Exchange rate of the transaction (0 if rent in crypto or if not paid or cancelled)
     exchangeRateTimestamp: BigInt! # Timestamp when exchange rate was fetched (0 if rent in crypto or if not paid or cancelled)
     withoutIssues: Boolean! #
-    tenant: Tenant! # Tenant
-    owner: Owner! # Owner
-    lease: Lease! # Associated lease
+    tenant: Tenant # Tenant
+    owner: Owner # Owner
+    lease: Lease # Associated lease
     status: PaymentStatus! # Payment status
 }

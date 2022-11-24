@@ -16,10 +16,10 @@ import {
 import {generateIdFromTwoFields} from "../utils";
 import {BigInt} from "@graphprotocol/graph-ts/index";
 import {Lease, Owner, Tenant} from "../../generated/schema";
+import {log} from "@graphprotocol/graph-ts";
 
 export function handleCancellationRequested(event: CancellationRequested): void {
-  //TODO sale, à refactor
-  const lease = getOrCreateLease(event.params.leaseId.toString(), '0', '0');
+  const lease = getOrCreateLease(event.params.leaseId.toString());
   lease.cancelledByOwner = event.params.cancelledByOwner;
   lease.cancelledByTenant = event.params.cancelledByTenant;
 
@@ -27,28 +27,34 @@ export function handleCancellationRequested(event: CancellationRequested): void 
   lease.save();
 }
 
+// TODO: Things done to remove later:
+// - Removed " bangs!" from all tenant & owner entities
+// - Moved the 'leaase.save()" function to after the for loop in the handleLeaseCreated handler
 export function handleLeaseCreated(event: LeaseCreated): void {
   //Create the lease
-  const lease = getOrCreateLease(event.params.leaseId.toString(), event.params.ownerId.toString(), event.params.tenantId.toString());
+  const lease = getOrCreateLease(event.params.leaseId.toString());
+  log.warning('Lease - handleLeaseCreated - LeaseId from entity just created: {}', [lease.id])
+  lease.owner = Owner.load(event.params.ownerId.toString())!.id;
+  lease.tenant = Tenant.load(event.params.tenantId.toString())!.id;
+  log.warning('Lease - handleLeaseCreated - TenantId from entity linked to Lease: {}', [lease.tenant])
+  log.warning('Lease - handleLeaseCreated - OwnerId from entity linked to Lease: {}', [lease.owner])
   lease.rentAmount = event.params.rentAmount;
   lease.totalNumberOfRents = BigInt.fromI32(event.params.totalNumberOfRents);
   lease.paymentToken = event.params.paymentToken;
+  lease.currencyPair = event.params.currencyPair;
   lease.rentPaymentInterval = event.params.rentPaymentInterval;
   lease.rentPaymentLimitTime = event.params.rentPaymentLimitTime;
   lease.startDate = event.params.startDate;
-  lease.currencyPair = event.params.currencyPair;
-  // lease.owner = Owner.load(event.params.ownerId.toString())!.id;
-  // lease.tenant = Tenant.load(event.params.tenantId.toString())!.id;
   // lease.uri = event.params.uri;
 
   lease.createdAt = event.block.timestamp;
-  lease.save();
+  // lease.save();
 
   //Create all payments linked to the lease
   for(let i = 0; i < event.params.totalNumberOfRents; i++) {
     const rentPaymentId = generateIdFromTwoFields(event.params.leaseId.toString(), i.toString());
     const rentPayment = getOrCreateRentPayment(rentPaymentId);
-    // rentPayment.amount = event.params.rentAmount;
+    // amount field not populated here, stays equal to 0 - only when paid
     rentPayment.paymentToken = event.params.paymentToken;
     rentPayment.tenant = Tenant.load(event.params.tenantId.toString())!.id;
     rentPayment.owner = Owner.load(event.params.ownerId.toString())!.id;
@@ -58,10 +64,13 @@ export function handleLeaseCreated(event: LeaseCreated): void {
 
     rentPayment.save();
   }
+
+  lease.save();
+  log.warning('Lease - handleLeaseCreated - LeaseId after save() function: {}', [lease.id])
 }
 
 export function handleLeaseReviewedByTenant(event: LeaseReviewedByTenant): void {
-  const lease = getOrCreateLease(event.params.leaseId.toString(), '0', '0');
+  const lease = getOrCreateLease(event.params.leaseId.toString());
 
   lease.tenantReviewUri = event.params.reviewUri;
 
@@ -70,7 +79,7 @@ export function handleLeaseReviewedByTenant(event: LeaseReviewedByTenant): void 
 }
 
 export function handleLeaseReviewedByOwner(event: LeaseReviewedByOwner): void {
-  const lease = getOrCreateLease(event.params.leaseId.toString(), '0', '0');
+  const lease = getOrCreateLease(event.params.leaseId.toString());
 
   lease.ownerReviewUri = event.params.reviewUri;
 
@@ -79,7 +88,7 @@ export function handleLeaseReviewedByOwner(event: LeaseReviewedByOwner): void {
 }
 
 export function handleLeaseValidated(event: LeaseValidated): void {
-  const lease = getOrCreateLease(event.params.leaseId.toString(), '0', '0');
+  const lease = getOrCreateLease(event.params.leaseId.toString());
   lease.status = 'ACTIVE';
 
   lease.updatedAt = event.block.timestamp;
@@ -123,17 +132,17 @@ export function handleCryptoRentPaid(event: CryptoRentPaid): void {
 }
 
 export function handleUpdateLeaseStatus(event: UpdateLeaseStatus): void {
-  const lease = getOrCreateLease(event.params.leaseId.toString(), '0', '0');
+  const lease = getOrCreateLease(event.params.leaseId.toString());
   let status: string;
   switch (event.params.status) {
     case 0: lease.status = 'ACTIVE';
-    break;
+      break;
     case 1: lease.status = 'PENDING';
-    break;
+      break;
     case 2: lease.status = 'ENDED';
-    break;
+      break;
     case 3: lease.status = 'CANCELLED';
-    break;
+      break;
   }
 
   lease.updatedAt = event.block.timestamp;
@@ -159,7 +168,7 @@ export function handleSetRentToPending(event: SetRentToPending): void {
 }
 
 export function handleLeaseMetaDataUpdated(event: LeaseMetaDataUpdated): void {
-  const lease = getOrCreateLease(event.params.leaseId.toString(), '0', '0');
+  const lease = getOrCreateLease(event.params.leaseId.toString());
   lease.uri = event.params.metaData;
 
   lease.save();

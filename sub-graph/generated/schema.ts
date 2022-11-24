@@ -303,8 +303,6 @@ export class Lease extends Entity {
     super();
     this.set("id", Value.fromString(id));
 
-    this.set("tenant", Value.fromString(""));
-    this.set("owner", Value.fromString(""));
     this.set("rentAmount", Value.fromBigInt(BigInt.zero()));
     this.set("totalNumberOfRents", Value.fromBigInt(BigInt.zero()));
     this.set("paymentToken", Value.fromBytes(Bytes.empty()));
@@ -343,22 +341,38 @@ export class Lease extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get tenant(): string {
+  get tenant(): string | null {
     let value = this.get("tenant");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set tenant(value: string) {
-    this.set("tenant", Value.fromString(value));
+  set tenant(value: string | null) {
+    if (!value) {
+      this.unset("tenant");
+    } else {
+      this.set("tenant", Value.fromString(<string>value));
+    }
   }
 
-  get owner(): string {
+  get owner(): string | null {
     let value = this.get("owner");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set owner(value: string) {
-    this.set("owner", Value.fromString(value));
+  set owner(value: string | null) {
+    if (!value) {
+      this.unset("owner");
+    } else {
+      this.set("owner", Value.fromString(<string>value));
+    }
   }
 
   get rentAmount(): BigInt {
@@ -567,9 +581,6 @@ export class RentPayment extends Entity {
     this.set("exchangeRate", Value.fromBigInt(BigInt.zero()));
     this.set("exchangeRateTimestamp", Value.fromBigInt(BigInt.zero()));
     this.set("withoutIssues", Value.fromBoolean(false));
-    this.set("tenant", Value.fromString(""));
-    this.set("owner", Value.fromString(""));
-    this.set("lease", Value.fromString(""));
     this.set("status", Value.fromString(""));
   }
 
@@ -671,31 +682,55 @@ export class RentPayment extends Entity {
     this.set("withoutIssues", Value.fromBoolean(value));
   }
 
-  get tenant(): string {
+  get tenant(): string | null {
     let value = this.get("tenant");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set tenant(value: string) {
-    this.set("tenant", Value.fromString(value));
+  set tenant(value: string | null) {
+    if (!value) {
+      this.unset("tenant");
+    } else {
+      this.set("tenant", Value.fromString(<string>value));
+    }
   }
 
-  get owner(): string {
+  get owner(): string | null {
     let value = this.get("owner");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set owner(value: string) {
-    this.set("owner", Value.fromString(value));
+  set owner(value: string | null) {
+    if (!value) {
+      this.unset("owner");
+    } else {
+      this.set("owner", Value.fromString(<string>value));
+    }
   }
 
-  get lease(): string {
+  get lease(): string | null {
     let value = this.get("lease");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set lease(value: string) {
-    this.set("lease", Value.fromString(value));
+  set lease(value: string | null) {
+    if (!value) {
+      this.unset("lease");
+    } else {
+      this.set("lease", Value.fromString(<string>value));
+    }
   }
 
   get status(): string {
