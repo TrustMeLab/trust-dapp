@@ -6,8 +6,6 @@ import { Profile } from "../repositories/TrustAPI";
 import sleep from "../tools/sleep";
 import { useAccount, useSigner } from "wagmi";
 import { Signer } from "ethers";
-import { useWeb3React } from '@web3-react/core';
-import {Web3Provider} from "@ethersproject/providers";
 
 interface IUserContext {
   profile: Profile;
@@ -17,7 +15,7 @@ interface IUserContext {
   loading: boolean;
   address?: string;
   isConnected: boolean;
-  signer: any;
+  signer: Signer | null | undefined;
 }
 const UserContext = createContext<IUserContext>(undefined as any);
 const DEFAULT_PROFILE = (): Profile => ({
@@ -36,13 +34,8 @@ export function useUser() {
 export default function UserContextProvider({ children }: PropsWithChildren) {
   const $api = useTrust();
   const { address, isConnected: walletConnected } = useAccount();
-  const { account, library } = useWeb3React<Web3Provider>();
-
-  // if (!library || !account) {
-  //   return;
-  // }
-
-  const signer = library?.getSigner(address);
+  const { data } = useSigner()
+  const signer: Signer | null | undefined = data
 
   const [profile, setProfile] = useState<Profile>(DEFAULT_PROFILE());
   const [loading, setLoading] = useState(false);
