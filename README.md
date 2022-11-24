@@ -18,9 +18,13 @@ Our Smart contract addresses:
 _Goerli:_
 
 IexecRateOracle 0x243C3FEF3271F72884BF93eFf9af5b8D8A739815
+
 ownerIdContract 0x2E2CfeA8A06c29a25B502F8D69498FbfbDE94F6c
+
 tenantIdContract 0xE18a3Ed893361cAA3a207306197Ceebd47C6BcA5
+
 ownerIdContract 0x01dbf024D566a5006a6eAFFaF7b286AF73dC6409
+
 leaseContract 0xE7304dF39c9f861D0fe210f441Ded3f8Dd057440
 
 Addresses on Goerli Scan:
@@ -54,7 +58,7 @@ and execute the following command:
 
 The logs will print contract addresses as such:
 
-![img.png](img.png)
+![img.png](Users/quent/Documents/Developpement Web/Web3/TrustHackathon/trust-fullstack/img.pnguent/Documents/Developpement Web/Web3/TrustHackathon/trust-fullstack/img.png)
 
 Keep these at hand as you will need them in the next step.
 
@@ -65,11 +69,11 @@ Copy / Paste each contract address from the previous section to the following fi
 - networks.json: Replace the corresponding addresses in the "localhost" section:
 
 
-![img_1.png](img_1.png)
+![img_1.png](Users/quent/Documents/Developpement Web/Web3/TrustHackathon/trust-fullstack/img_1.pngnt/Documents/Developpement Web/Web3/TrustHackathon/trust-fullstack/img_1.png)
 
 - subgraph.yaml: Replace the corresponding addresses in the "address" section:
 
-![img_2.png](img_2.png)
+![img_2.png](Users/quent/Documents/Developpement Web/Web3/TrustHackathon/trust-fullstack/img_2.pngnt/Documents/Developpement Web/Web3/TrustHackathon/trust-fullstack/img_2.png)
 
 
 #### Open a Docker container (Docker Desktop or terminal) and execute the following commands in the "/_sub-graph URI folder_":
