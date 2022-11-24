@@ -55,17 +55,17 @@ const chains: { [networkId in Network]: Config } = {
   [Network.BNB]: { ...bnb, ...configBnb } as Config,
 };
 
-const config: Config = process.env.REACT_APP_NETWORK_ID
-  ? chains[+process.env.REACT_APP_NETWORK_ID as Network]
+const config: Config = import.meta.env.VITE_NETWORK_ID
+  ? chains[+import.meta.env.VITE_NETWORK_ID as Network]
   : chains[Network.LOCAL];
 
 console.debug('config', config);
 
 const SUBGRAPH_URL =
-  process.env.REACT_APP_SUBGRAPH_URL ||
+  import.meta.env.VITE_SUBGRAPH_URL ||
   'https://api.thegraph.com/subgraphs/name/quent043/trustgoerli/graphql';
 
-const projectId = process.env.REACT_APP_INFURA_ID || '';
-const projectSecret = process.env.REACT_APP_INFURA_SECRET || '';
+const projectId = import.meta.env.VITE_INFURA_ID || '';
+const projectSecret = import.meta.env.VITE_INFURA_SECRET || '';
 
 export { config, projectId, projectSecret, SUBGRAPH_URL };
