@@ -1,49 +1,72 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTrust } from "../../../../contexts/TrustContext";
-import { Box, Button, useTheme } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { LeaseStatus } from "../../../../repositories/TrustAPI/types";
+import {
+  declineLease,
+  validateLease,
+  cancelLease,
+} from "../../../../contracts/utils";
+import { useUser } from "../../../../contexts/UserContext";
+import { LeaseReviewPopover } from "./LeaseReviewPopover";
 
 interface ButtonsProps {
   leaseId: string;
   leaseStatus: LeaseStatus;
 }
 export const ButtonsLatestLeases = ({ leaseId, leaseStatus }: ButtonsProps) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
   const navigate = useNavigate();
-  const $api = useTrust();
+  const { signer } = useUser();
 
-  const handleClickCancel = async (e: React.MouseEvent) => {
+  const handleCancel = async (e: React.MouseEvent) => {
     e.stopPropagation();
-
-    await $api.cancelLease(leaseId);
+    if (signer) await cancelLease(signer, leaseId);
     navigate(0);
   };
 
-  const handleClickConfirm = async (e: React.MouseEvent) => {
+  const handleConfirm = async (e: React.MouseEvent) => {
     e.stopPropagation();
-
-    await $api.validateLease(leaseId);
+    if (signer) await validateLease(signer, leaseId);
     navigate(0);
   };
 
-  const handleClickDecline = async (e: React.MouseEvent) => {
+  const handleDecline = async (e: React.MouseEvent) => {
     e.stopPropagation();
 
-    await $api.declineLease(leaseId);
+    if (signer) await declineLease(signer, leaseId);
     navigate(0);
+  };
+
+  const handleClickReview = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setAnchorEl(e.currentTarget);
   };
 
   switch (leaseStatus) {
     case "PENDING":
       return (
-        <Box sx={{ display: "flex", gap: "12px" }}>
-          <Button variant="outlined" color="error" onClick={handleClickDecline}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: "12px",
+            width: "100%",
+          }}
+        >
+          <Button
+            fullWidth
+            variant="outlined"
+            color="error"
+            onClick={handleDecline}
+          >
             Reject
           </Button>
           <Button
+            fullWidth
             variant="outlined"
             color="success"
-            onClick={handleClickConfirm}
+            onClick={handleConfirm}
           >
             Confirm
           </Button>
@@ -51,24 +74,45 @@ export const ButtonsLatestLeases = ({ leaseId, leaseStatus }: ButtonsProps) => {
       );
     case "ACTIVE":
       return (
-        <Box sx={{ display: "flex", gap: "12px" }}>
-          <Button color="success" sx={{ cursor: "auto" }}>
+        <Box sx={{ display: "flex", gap: "12px", width: "100%" }}>
+          <Button fullWidth color="success" sx={{ cursor: "auto" }}>
             ACTIVE
           </Button>
-          <Button variant="outlined" color="info" onClick={handleClickCancel}>
+          <Button
+            fullWidth
+            variant="outlined"
+            color="info"
+            onClick={handleCancel}
+          >
             Request Cancellation
           </Button>
         </Box>
       );
     case "ENDED":
       return (
-        <Button variant="outlined" disabled color="info">
-          ENDED
-        </Button>
+        <Box sx={{ display: "flex", gap: "12px", width: "100%" }}>
+          <Button fullWidth variant="outlined" disabled color="info">
+            ENDED
+          </Button>
+          <Button
+            fullWidth
+            variant="outlined"
+            color="info"
+            onClick={handleClickReview}
+          >
+            Review
+          </Button>
+
+          <LeaseReviewPopover
+            leaseId={leaseId}
+            anchorEl={anchorEl}
+            setAnchorEl={setAnchorEl}
+          />
+        </Box>
       );
     case "CANCELLED":
       return (
-        <Button variant="outlined" disabled color="primary">
+        <Button variant="outlined" disabled fullWidth color="primary">
           CANCELLED
         </Button>
       );

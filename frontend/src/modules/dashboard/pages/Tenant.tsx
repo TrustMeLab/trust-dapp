@@ -55,7 +55,6 @@ export const Tenant = () => {
     const convertInterval = formatDuration(
       intervalToDuration({ start: 0, end: rentPaymentInterval * 1000 })
     ); // 30days
-    console.log("convertinterval>>>>", convertInterval);
     return `${rentAmount} ${currencyPair}/ ${convertInterval}`;
   };
 
@@ -99,7 +98,7 @@ export const Tenant = () => {
           buttons={
             <ButtonsLatestLeases
               leaseId={lastLease.id}
-              leaseStatus={"PENDING" as any}
+              leaseStatus={lastLease.status}
             />
           }
         />

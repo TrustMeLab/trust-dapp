@@ -19,21 +19,6 @@ import GuardedRoute from "./commons/components/GuardedRoute";
 import { useUser } from "./contexts/UserContext";
 import { Owner } from "./modules/dashboard/pages/Owner";
 
-const chains = [chain.goerli];
-
-const PROJECT_ID = "c141c9b6af4c51a104d40b6417ce36e2";
-
-const { provider } = configureChains(chains, [
-  walletConnectProvider({ projectId: PROJECT_ID }),
-]);
-
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors: modalConnectors({ appName: "web3Modal", chains }),
-  provider,
-});
-const ethereumClient = new EthereumClient(wagmiClient, chains);
-
 function App() {
   const { address } = useUser();
 
@@ -57,16 +42,8 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <WagmiConfig client={wagmiClient}>
-        <CssBaseline />
-        <RouterProvider router={routes} fallbackElement={<Loading />} />
-      </WagmiConfig>
-      <Web3Modal
-        projectId={PROJECT_ID}
-        theme="dark"
-        accentColor="default"
-        ethereumClient={ethereumClient}
-      />
+      <CssBaseline />
+      <RouterProvider router={routes} fallbackElement={<Loading />} />
     </ThemeProvider>
   );
 }

@@ -37,14 +37,12 @@ export const LargeCard = ({
           display: "flex",
           borderRadius: "10px",
           padding: "32px",
-          cursor: "pointer",
           boxShadow:
             "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
           "&:hover": {
             boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px;",
           },
         }}
-        onClick={handleClick}
       >
         <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
           <Box
@@ -71,10 +69,21 @@ export const LargeCard = ({
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-end",
+            justifyContent: "center",
+            gap: "8px",
           }}
         >
           <Typography variant="h5">{generalInfo}</Typography>
-          <Box sx={{ display: "flex", marginTop: "8px" }}>
+        </Box>
+        <Box
+          marginLeft={6}
+          sx={{ display: "flex", flexDirection: "column", gap: "8px" }}
+        >
+          <LeasePopoverDetails period={period} lease={lease} />
+          <Button variant="outlined" onClick={handleClick}>
+            Go to Lease Payments
+          </Button>
+          <Box sx={{ display: "flex" }}>
             {remarks && (
               <Typography
                 variant="h6"
@@ -91,9 +100,6 @@ export const LargeCard = ({
                   </Button>
                 )}
           </Box>
-        </Box>
-        <Box marginLeft={6}>
-          <LeasePopoverDetails period={period} lease={lease} />
         </Box>
       </Card>
     </>
