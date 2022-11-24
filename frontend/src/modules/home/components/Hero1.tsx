@@ -4,8 +4,9 @@ import Image from 'mui-image';
 export default function Hero1 () {
   return (
     <Box sx={{
+			color: '#ffffff',
 			height: '42em',
-			bgcolor: '#bcd5ce',
+			bgcolor: '#5C48D3',
 			boxShadow: 3,
 			display: 'flex',
 			justifyContent: 'center'
@@ -15,14 +16,13 @@ export default function Hero1 () {
 				flexDirection: 'column',
 				justifyContent: 'center',
 				alignItems: 'center',
-				width: '50%'
+				width: '40%'
 			}}>
-			<Box sx={{mb: '1em', fontSize: '3em'}}>Trust.Me</Box>
+			<Box sx={{mt: '-1em', mb: '-1em', fontSize: '3em'}}><h2>Trust.Me</h2></Box>
 			<Image src="/tenant_owner.png" 
-            height="40%"
-            width="40%"
+            height="30%"
             fit="contain"/>
-			<Box sx={{mb: '0.4em', fontSize: '1.5em'}}>Rental management tool</Box>
+			<Box sx={{fontSize: '1.5em'}}><h3>Rental management tool</h3></Box>
 			<Box sx={{
 					mb: '1em',
 					fontSize: '1.2em',

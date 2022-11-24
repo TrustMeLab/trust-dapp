@@ -4,10 +4,8 @@ import Image from 'mui-image';
 export default function Hero2 () {
   return (
     <Box sx={{
-			mt: '3em', // a
-			boxShadow: 3,
 			height: '50em',
-			bgcolor: '#ef8251',
+			bgcolor: '#FAFAFC',
 			display: 'flex',
 			justifyContent: 'center'
 		}}>

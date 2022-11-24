@@ -6,7 +6,7 @@ export default function Hero3 () {
     <Box sx={{
 			mt: '3em', // a voir selon préférences
 			height: '28em',
-			bgcolor: '#e7ca36',
+			bgcolor: '#FFFFFF',
 			display: 'flex',
 			justifyContent: 'center'
 		}}>

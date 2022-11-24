@@ -19,16 +19,22 @@ export default function HomepageHeader() {
             letterSpacing: ".4rem",
           }}
         >
-          <Box
-            component="img"
-            sx={{
-              padding: "10px",
-              height: "100%",
-            }}
-            alt="Your logo."
-            src={"../public/logo_white.png"}
-          />
-
+			<Box sx={{
+            display: "flex",
+			alignItems: 'center',
+            height: "100px"
+          }}>
+				<Box
+					component="img"
+					sx={{
+					padding: "10px",
+					height: "100%",
+					}}
+					alt="Your logo."
+					src={"../public/logo_white.png"}
+				/>
+				<Box sx={{ml: '1em'}}>Trust.Me</Box>
+			</Box>
           {isConnected ? (
             <Link to="/dashboard" style={{ textDecoration: "none" }}>
               <Button
