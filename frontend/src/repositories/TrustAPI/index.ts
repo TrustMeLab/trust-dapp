@@ -1,8 +1,8 @@
-import { Owner, Tenant, ITrustAPI, Lease } from "./types";
+import { Owner, Tenant, Profile, Lease } from "./types";
 import { ofetch } from "ofetch";
 export * from "./types";
 
-export default function TrustAPI(): ITrustAPI {
+export default function TrustAPI() {
   const theGraphInstance = ofetch.create({
     baseURL: "https://api.thegraph.com/subgraphs/name/quent043/trustgoerli",
   });
@@ -11,9 +11,6 @@ export default function TrustAPI(): ITrustAPI {
   });
 
   return {
-    getOwnerScore(id: string): Promise<number> {
-      return Promise.resolve(0);
-    },
     getTenantLeases: async (address: string): Promise<Lease[]> => {
       const body = {
         query: `{
@@ -46,7 +43,7 @@ export default function TrustAPI(): ITrustAPI {
     getTenantScore(id: string): Promise<number> {
       return Promise.resolve(0);
     },
-    getProfile: async (address) => {
+    getProfile: async (address: string): Promise<Profile> => {
       const body = {
         query: `{
           owners(where: {address: "${address}"}) {
@@ -66,24 +63,8 @@ export default function TrustAPI(): ITrustAPI {
       }
       return {
         tenant: tenants[0],
-        owner: owners[0],
-      };
-    },
-    createProfile: async (body) => {
-      return backendInstance("/users", { method: "POST", body });
-    },
-
-    cancelLease: async (id: string) => {
-      return Promise.resolve(console.log("cancelling lease"));
-      //
-    },
-    validateLease: async (id: string) => {
-      return Promise.resolve(console.log("validated lease"));
-      //
-    },
-    declineLease: async (id: string) => {
-      return Promise.resolve(console.log("declined lease"));
-      //
-    },
-  };
+        owner: owners[0]
+      }
+    }
+  }
 }

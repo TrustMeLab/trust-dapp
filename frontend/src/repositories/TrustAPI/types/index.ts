@@ -1,9 +1,7 @@
-import { CreateUserBody } from "../../../../../shared/types/UserAPI";
-
 export interface Person {
-  id: number;
-  handle: string; // name
-  address: string;
+  id: number
+  handle: string // name
+  address: string
 }
 
 export type Account = {
@@ -21,13 +19,13 @@ export type Account = {
 };
 
 export interface Tenant extends Person {
-  hasLease: boolean;
+  hasLease: boolean
 }
 export interface Owner extends Person {}
 
 export interface Profile {
-  tenant?: Tenant;
-  owner?: Owner;
+  tenant?: Tenant
+  owner?: Owner
 }
 
 export enum LeaseStatus {
@@ -38,11 +36,11 @@ export enum LeaseStatus {
 }
 
 enum PaymentStatus {
-  PENDING,
-  PAID,
-  NOT_PAID,
-  CANCELLED,
-  CONFLICT,
+  PENDING = "PENDING",
+  PAID = "PAID",
+  NOT_PAID = "NOT_PAID",
+  CANCELLED = "CANCELLED",
+  CONFLICT = "CONFLICT",
 }
 
 export interface RentPayment {
@@ -75,17 +73,6 @@ export interface Lease {
   ownerReviewUri: string;
   cancelledByOwner: boolean;
   cancelledByTenant: boolean;
-}
-
-export interface ITrustAPI {
-  getProfile: (address: string) => Promise<Profile>;
-  createProfile: (body: CreateUserBody) => Promise<Person>;
-  cancelLease: (id: string) => Promise<void>;
-  validateLease: (id: string) => Promise<void>;
-  declineLease: (id: string) => Promise<void>;
-  getTenantScore: (id: string) => Promise<number>;
-  getOwnerScore: (id: string) => Promise<number>;
-  getTenantLeases: (id: string) => Promise<Lease[]>;
 }
 
 export type OracleData = {

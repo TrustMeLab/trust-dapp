@@ -7,8 +7,12 @@ import { FinalBlock } from "./FinalBlock";
 import { useTrust } from "../../../../contexts/TrustContext";
 import { Layout } from "../../../../commons/components/Layout";
 import { useUser } from "../../../../contexts/UserContext";
-import { UserType } from "../../../../../../shared/types/UserAPI";
 import { Owner, Tenant } from "../../../../repositories/TrustAPI";
+
+export enum UserType {
+  Owner,
+  Tenant
+}
 
 export interface UserForm {
   type: UserType;
@@ -31,22 +35,8 @@ export const SignUp = () => {
     }
     setLoading(true);
     try {
-      const user = await $api.createProfile({
-        type,
-        name,
-        address,
-      });
-      if (user) {
-        switch (type) {
-          case UserType.Owner:
-            setProfile({ owner: user as Owner });
-            break;
-          case UserType.Tenant:
-            setProfile({ tenant: user as Tenant });
-            break;
-        }
-        navigate("/dashboard");
-      }
+      // TODO, call mint smart contract
+        navigate("/dashboard")
     } catch (error) {
       setError("Une erreur est survenue");
     } finally {

@@ -1,8 +1,8 @@
 import {createContext, PropsWithChildren, useContext} from "react";
-import TrustAPI, { ITrustAPI } from "../repositories/TrustAPI";
+import TrustAPI from "../repositories/TrustAPI";
 
 // export default createContext<TrustAPI>(Repository())
-const TrustContext = createContext<ITrustAPI>(undefined as any)
+const TrustContext = createContext<ReturnType<typeof TrustAPI>>(undefined as any)
 
 export function useTrust () {
   const $api = useContext(TrustContext)
