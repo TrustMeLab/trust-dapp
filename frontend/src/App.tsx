@@ -12,30 +12,44 @@ import GuardedRoute from "./commons/components/GuardedRoute";
 import { useUser } from "./contexts/UserContext";
 import { Owner } from "./modules/dashboard/pages/Owner";
 import { LeaseDetail } from "./modules/dashboard/pages/LeaseDetail";
+import Homepage from "./modules/home/components/Homepage";
 
 function App() {
   const { address } = useUser();
 
-  function WrapperRoute ({ children }: PropsWithChildren) {
-    return (<Outlet/>)
+  function WrapperRoute({ children }: PropsWithChildren) {
+    return <Outlet />;
   }
 
   const routes = createBrowserRouter([
-    { index: true, element: <p>Hello World!</p> },
+    { index: true, element: <Homepage /> },
     { path: "login", element: <Login /> },
     GuardedRoute({ path: "sign-up", element: <SignUp /> }, address != null),
-    GuardedRoute({ path: "dashboard", element: <Dashboard />, children: [
-      { path: 'tenant', element: <WrapperRoute />, children: [
-        { path: 'leases', element: <Tenant /> },
-        { path: 'leases/:id', element: <LeaseDetail /> },
-      ]},
-      { path: 'owner', element: <WrapperRoute />, children: [
-        { path: 'leases', element: <Owner /> },
-        { path: 'leases/:id', element: <WrapperRoute /> },
-      ]},
-    ]},
-    address != null
-    )
+    GuardedRoute(
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+        children: [
+          {
+            path: "tenant",
+            element: <WrapperRoute />,
+            children: [
+              { path: "leases", element: <Tenant /> },
+              { path: "leases/:id", element: <LeaseDetail /> },
+            ],
+          },
+          {
+            path: "owner",
+            element: <WrapperRoute />,
+            children: [
+              { path: "leases", element: <Owner /> },
+              { path: "leases/:id", element: <WrapperRoute /> },
+            ],
+          },
+        ],
+      },
+      address != null
+    ),
   ]);
 
   return (
