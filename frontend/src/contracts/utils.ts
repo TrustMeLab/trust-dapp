@@ -18,6 +18,14 @@ export const mintTenantId = async (
   await tenantIdContract.mint(handle);
 };
 
+export const getUserId = async (
+  signer: Signer,
+  address: string,
+): Promise<string> => {
+  const tenantIdContract = new Contract(config.tenantIdAddress, TenantIdABI.abi, signer);
+  return await tenantIdContract.getUserId(address);
+};
+
 export const updateTenantProfileData = async (
   signer: Signer,
   tokenId: string,
