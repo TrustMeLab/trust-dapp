@@ -1,4 +1,10 @@
-import {useState, MouseEvent, ReactNode, Fragment, PropsWithChildren} from "react";
+import {
+  useState,
+  MouseEvent,
+  ReactNode,
+  Fragment,
+  PropsWithChildren,
+} from "react";
 import {
   Box,
   Toolbar,
@@ -12,7 +18,7 @@ import {
   Avatar,
   MenuItem,
 } from "@mui/material";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDisconnect } from "wagmi";
 import {DEFAULT_PROFILE, useUser} from "../../contexts/UserContext";
 import { theme } from "../../theme";
@@ -26,12 +32,12 @@ export const Layout = ({ children }: PropsWithChildren) => {
   const { disconnect } = useDisconnect();
   const { hasProfile, address, profile, setProfile } = useUser();
 
-  const location = useLocation()
-  const isActiveTab = (path: string) => location.pathname.includes(path)
+  const location = useLocation();
+  const isActiveTab = (path: string) => location.pathname.includes(path);
 
   const pages = [
     ...(profile && profile.tenant ? ["tenant"] : []),
-    ...(profile && profile.owner ? ["owner"] : [])
+    ...(profile && profile.owner ? ["owner"] : []),
   ];
   const settings = ["Profile", "Logout"];
 
@@ -60,12 +66,19 @@ export const Layout = ({ children }: PropsWithChildren) => {
     const total = isOwner ? profile.owner?.nbPayment || 0 : profile.tenant?.nbPayment || 0
 
     return (
-      <Box sx={{ border: 1, borderRadius: "10px", padding: "10px", margin: "10px" }}>
+      <Box
+        sx={{
+          border: 1,
+          borderRadius: "10px",
+          padding: "10px",
+          margin: "10px",
+        }}
+      >
         <Typography>
           {Math.round(score * 5 * 10) / 10}/5 - {total} records
         </Typography>
       </Box>
-    )
+    );
   }
 
   return (
@@ -84,11 +97,18 @@ export const Layout = ({ children }: PropsWithChildren) => {
             <Box
               component="img"
               sx={{
-                padding: "10px",
-                height: "100%",
+                height: 64,
+                margin: "12px",
+                cursor: "pointer",
               }}
+<<<<<<< HEAD
               alt="Your logo."
               src={'/logo_white.png'}
+=======
+              alt="trust_logo"
+              src={Logo}
+              onClick={() => navigate("/dashboard/tenant/leases")}
+>>>>>>> add dashboard profile page
             />
 
             {hasProfile && (
@@ -117,9 +137,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
                           onClick={() => handleClickTab(page)}
                         >
                           <Typography textAlign="center">
-                            {page === "tenant"
-                              ? "Tenant"
-                              : "Owner"}
+                            {page === "tenant" ? "Tenant" : "Owner"}
                           </Typography>
                         </Button>
                       </MenuItem>
@@ -137,10 +155,9 @@ export const Layout = ({ children }: PropsWithChildren) => {
                         sx={{
                           my: 2,
                           transition: "0.3s",
-                          color:
-                            isActiveTab(page)
-                              ? theme.palette.primary.main
-                              : theme.palette.secondary.main,
+                          color: isActiveTab(page)
+                            ? theme.palette.primary.main
+                            : theme.palette.secondary.main,
                           display: "block",
                           "&:hover": {
                             backgroundColor: "#F6F5F5",
@@ -149,9 +166,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
                         }}
                       >
                         <Typography textAlign="center">
-                          {page === "tenant"
-                            ? "Tenant"
-                            : "Owner"}
+                          {page === "tenant" ? "Tenant" : "Owner"}
                         </Typography>
                       </Button>
                     );
@@ -175,7 +190,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
                   >
                     {address}
                   </Box>
-                  { hasProfile && <ShowScore /> }
+                  {hasProfile && <ShowScore />}
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar alt="Remy Sharp" src="" />
@@ -197,11 +212,23 @@ export const Layout = ({ children }: PropsWithChildren) => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    <Typography sx={{ m: 2 }}>{profile.tenant?.handle || profile.owner?.handle}</Typography>
+                    <Typography sx={{ m: 2 }}>
+                      {profile.tenant?.handle || profile.owner?.handle}
+                    </Typography>
                     {settings.map((setting) => (
                       <MenuItem
                         key={setting}
+<<<<<<< HEAD
                         onClick={logout}
+=======
+                        onClick={() => {
+                          if (setting === "Logout") {
+                            disconnect();
+                            navigate("/login");
+                          } else if (setting === "Profile")
+                            navigate("/dashboard/profile");
+                        }}
+>>>>>>> add dashboard profile page
                       >
                         <Typography textAlign="center">{setting}</Typography>
                       </MenuItem>

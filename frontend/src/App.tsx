@@ -15,6 +15,7 @@ import { LeaseDetail } from "./modules/dashboard/pages/LeaseDetail";
 import Homepage from "./modules/home/components/Homepage";
 import { NotFound } from "./modules/dashboard/pages/NotFound";
 import { OwnerCreateLease } from "./modules/dashboard/pages/OwnerCreateLease";
+import { Profile } from "./modules/dashboard/pages/Profile";
 
 function App() {
   const { address } = useUser();
