@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {Owner} from "../repositories/TrustAPI";
-import {getOwnerById} from "../repositories/services/querries";
+import {getOwnerById} from "../repositories/services/queries";
 
 const useOwnerById = (userId: string): Owner | null => {
   const [user, setUser] = useState<Owner | null>(null);

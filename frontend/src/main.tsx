@@ -12,6 +12,8 @@ import {
 } from "@web3modal/ethereum";
 
 const chains = [chain.localhost];
+// const chains = [chain.goerli];
+
 
 const PROJECT_ID = "c141c9b6af4c51a104d40b6417ce36e2";
 

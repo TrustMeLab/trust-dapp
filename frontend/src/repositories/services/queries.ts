@@ -30,6 +30,24 @@ export const getTenantById = (id: string): Promise<any> => {
   return processRequest(query);
 };
 
+export const getFullTrustProfile = (address: string): Promise<any> => {
+  const query = `{
+      owners(where: {address: "${address}"}) {
+        id
+        handle
+        address
+        uri
+      }
+      tenants(where: {address: "${address}"}) {
+        id
+        handle
+        address
+        uri
+        hasLease
+      }}`;
+  return processRequest(query);
+};
+
 export const getLeases = (): Promise<any> => {
   const query = `
    leases {

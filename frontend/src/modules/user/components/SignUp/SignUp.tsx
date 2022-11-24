@@ -9,7 +9,7 @@ import { Layout } from "../../../../commons/components/Layout";
 import { useUser } from "../../../../contexts/UserContext";
 import { UserType } from "../../../../../../shared/types/UserAPI";
 import { Owner, Tenant } from "../../../../repositories/TrustAPI";
-import {mintTenantId} from "../../../../contracts/utils";
+import {mintOwnerId, mintTenantId} from "../../../../contracts/utils";
 import { useWeb3React } from '@web3-react/core';
 import {Web3Provider} from "@ethersproject/providers";
 
@@ -36,7 +36,10 @@ export const SignUp = () => {
     }
     setLoading(true);
     try {
-      await mintTenantId(signer,name);
+      if(signer && name){
+        await mintOwnerId(signer,name);
+        // await mintTenantId(signer,name);
+      }
       // if (user) {
       //   switch (type) {
       //     case UserType.Owner:
@@ -49,6 +52,7 @@ export const SignUp = () => {
         navigate("/dashboard");
       // }
     } catch (error) {
+      console.log("error ", error);
       setError("Une erreur est survenue");
     } finally {
       setLoading(false);

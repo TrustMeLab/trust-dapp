@@ -6,6 +6,7 @@ import { Profile } from "../repositories/TrustAPI";
 import sleep from "../tools/sleep";
 import { useAccount, useSigner } from "wagmi";
 import { Signer } from "ethers";
+import {getFullTrustProfile} from "../repositories/services/queries";
 
 interface IUserContext {
   profile: Profile;
@@ -45,7 +46,7 @@ export default function UserContextProvider({ children }: PropsWithChildren) {
   const fetchProfile = async function (address: string) {
     setLoading(true);
     const [profile] = await Promise.allSettled([
-      $api.getProfile(address),
+      getFullTrustProfile(address),
       sleep(1400),
     ]);
     setLoading(false);

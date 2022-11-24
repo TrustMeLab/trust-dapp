@@ -18,7 +18,7 @@ export const mintTenantId = async (
   await tenantIdContract.mint(handle);
 };
 
-export const getUserId = async (
+export const getTenantId = async (
   signer: Signer,
   address: string,
 ): Promise<string> => {
