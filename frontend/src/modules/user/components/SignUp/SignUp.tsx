@@ -8,6 +8,7 @@ import { useTrust } from "../../../../contexts/TrustContext";
 import { Layout } from "../../../../commons/components/Layout";
 import { useUser } from "../../../../contexts/UserContext";
 import { Owner, Tenant } from "../../../../repositories/TrustAPI";
+import {mintOwnerId, mintTenantId} from "../../../../contracts/utils";
 
 export enum UserType {
   Owner,
@@ -20,7 +21,7 @@ export interface UserForm {
 }
 
 export const SignUp = () => {
-  const { address, hasProfile, setProfile } = useUser();
+  const { address, hasProfile, setProfile, signer } = useUser();
   const $api = useTrust();
 
   const navigate = useNavigate();
@@ -28,16 +29,23 @@ export const SignUp = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<Partial<UserForm>>({});
+
   const handleSubmit = async () => {
     const { type, name } = values;
-    if (type === undefined || !address || !name) {
+    if (type === undefined || !address || !name || !signer) {
       return;
     }
     setLoading(true);
     try {
-      // TODO, call mint smart contract
-        navigate("/dashboard")
+      switch (type) {
+        case UserType.Tenant:
+          await mintTenantId(signer, name);
+        case UserType.Owner:
+          await mintOwnerId(signer, name);
+      }
+      navigate("/dashboard");
     } catch (error) {
+      console.log("Error Minting Id", error);
       setError("Une erreur est survenue");
     } finally {
       setLoading(false);

@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import {Owner} from "../repositories/TrustAPI";
-import {getLeases, getOwnerById} from "../repositories/services/querries";
+import {Lease} from "../repositories/TrustAPI";
+import {getLeaseDetailsById} from "../repositories/services/queries";
 
-const useOwnerById = (): Owner | null => {
-  const [leases, setLeases] = useState<Owner | null>(null);
+const useLeseDetails = (id: string): Lease | null => {
+  const [leases, setLeases] = useState<Lease | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getLeases();
+        const response = await getLeaseDetailsById(id);
         if (response?.data?.data?.leases) {
           setLeases(response.data.data.leases);
         }
@@ -23,4 +23,4 @@ const useOwnerById = (): Owner | null => {
   return leases;
 };
 
-export default useOwnerById;
+export default useLeseDetails;

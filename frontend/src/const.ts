@@ -1,0 +1,23 @@
+export const CONST = {
+  DAI_ADDRESS: '0x73967c6a0904aa032c103b4104747e88c566b1a2',
+  USDC_ADDRESS: '0x07865c6e87b9f70255377e024ace6630c1eaa37f',
+  ETH_ADDRESS: '0x0000000000000000000000000000000000000000',
+  DAI_SYMBOL: 'DAI',
+  USDC_SYMBOL: 'USDC',
+  ETH_SYMBOL: 'ETH',
+};
+
+export const tokens = [
+  {
+    name: CONST.DAI_SYMBOL,
+    address: CONST.DAI_ADDRESS,
+  },
+  {
+    name: CONST.USDC_SYMBOL,
+    address: CONST.USDC_ADDRESS,
+  },
+  {
+    name: CONST.ETH_SYMBOL,
+    address: CONST.ETH_ADDRESS,
+  },
+];

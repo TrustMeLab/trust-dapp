@@ -61,7 +61,7 @@ export const updateOwnerProfileData = async (
 
 export const createLease = async (
   signer: Signer,
-  leaseId: string,
+  tenantId: string,
   rentAmount: string,
   totalNumberOfRents: string,
   paymentToken: string,
@@ -71,7 +71,7 @@ export const createLease = async (
   startDate: string
 ): Promise<void> => {
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
-  await leaseContract.createLease(leaseId, rentAmount, totalNumberOfRents, paymentToken, rentPaymentInterval, rentPaymentLimitTime, currencyPair, startDate);
+  await leaseContract.createLease(tenantId, rentAmount, totalNumberOfRents, paymentToken, rentPaymentInterval, rentPaymentLimitTime, currencyPair, startDate);
 };
 
 export const updateLeaseMetaData = async (
@@ -113,6 +113,7 @@ export const payCryptoRentInETH = async (
   await leaseContract.payCryptoRentInETH(leaseId, rentId, withoutIssues, {value : amountInWei});
 };
 
+//TODO Authorize token transfer for token amount
 export const payCryptoRentInToken = async (
   signer: Signer,
   leaseId: string,
@@ -143,6 +144,7 @@ export const payFiatRentInEth = async (
 };
 
 //TODO call oracle to determine token value to send
+//TODO Authorize token transfer for token amount
 export const payFiatRentInToken = async (
   signer: Signer,
   leaseId: string,
