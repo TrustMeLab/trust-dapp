@@ -1,9 +1,9 @@
 export interface Person {
-  id: number
-  handle: string // name
-  address: string
-  score: number
-  nbPayment: number
+  id: number;
+  handle: string; // name
+  address: string;
+  score: number;
+  nbPayment: number;
 }
 
 export type Account = {
@@ -22,8 +22,11 @@ export type Account = {
 
 export interface Tenant extends Person {
   hasLease: boolean;
+  leases: Lease[];
 }
-export interface Owner extends Person {}
+export interface Owner extends Person {
+  leases: Lease[];
+}
 
 export interface Profile {
   tenant?: Tenant;

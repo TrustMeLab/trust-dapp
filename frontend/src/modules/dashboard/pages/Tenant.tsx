@@ -7,14 +7,13 @@ import { SmallCard } from "../../../commons/components/SmallCard";
 import { Layout } from "../../../commons/components/Layout";
 import { Lease, LeaseStatus } from "../../../repositories/TrustAPI/types";
 import { useTrust } from "../../../contexts/TrustContext";
-import fns from "date-fns";
 import { useUser } from "../../../contexts/UserContext";
 import { formatDuration, intervalToDuration, format } from "date-fns";
 import { ButtonsLatestLeases } from "../components/Tenant/ButtonsLatestLeases";
-import {CONST, tokens} from "../../../const";
-import {ethers, FixedNumber} from "ethers";
+import { CONST, tokens } from "../../../const";
+import { ethers, FixedNumber } from "ethers";
 
-export const  Tenant = () => {
+export const Tenant = () => {
   const navigate = useNavigate();
   const $api = useTrust();
   const { profile } = useUser();
@@ -41,14 +40,15 @@ export const  Tenant = () => {
   ) => {
     const debutDate = format(new Date(Number(startDate)), "dd/MM/yyyy");
     const endDate = format(
-      new Date(Number(startDate) + Number(rentPaymentInterval) * Number(totalNumberOfRents)),
+      new Date(
+        Number(startDate) +
+          Number(rentPaymentInterval) * Number(totalNumberOfRents)
+      ),
       "dd/MM/yyyy"
     );
 
     return `${debutDate} - ${endDate}`;
   };
-
-
 
   const returnRentInfos = (
     rentAmount: string,
@@ -58,13 +58,15 @@ export const  Tenant = () => {
     paymentToken: string
   ) => {
     let displayCurrency = "";
-    if(currencyPair === "CRYPTO") {
+    if (currencyPair === "CRYPTO") {
       const token = tokens.find((token) => token.address === paymentToken);
       displayCurrency = token?.name || "";
     } else {
-      displayCurrency = currencyPair.substring(0, currencyPair.indexOf('-'));
+      displayCurrency = currencyPair.substring(0, currencyPair.indexOf("-"));
       // displayCurrency = FixedNumber.from(currencyPair.substring(0, currencyPair.indexOf('-'))).round.(2).toString()
-      const paymentCurrency = tokens.find((token) => token.address === paymentToken);
+      const paymentCurrency = tokens.find(
+        (token) => token.address === paymentToken
+      );
     }
     const parsedRentAmount = ethers.utils.formatUnits(rentAmount, 18);
     const convertInterval = formatDuration(
@@ -79,71 +81,67 @@ export const  Tenant = () => {
 
   return (
     <Fragment>
-        <LargeCard
-          title={returnTitle(lastLease.status)}
-          period={returnPeriod(
-            lastLease.startDate,
-            lastLease.rentPaymentInterval,
-            lastLease.totalNumberOfRents
-          )}
-          rentInfos={returnRentInfos(
-            lastLease.rentAmount,
-            lastLease.currencyPair,
-            lastLease.rentPaymentInterval,
-            lastLease.totalNumberOfRents,
-            lastLease.paymentToken,
-          )}
-          lease={lastLease}
-          generalInfo={`Owner : ${lastLease.tenant.handle}`}
-          remarks={
-            lastLease.status === "CANCELLED"
-              ? `Cnacellation requested`
-              : undefined
-          }
-          handleClick={() =>
-            navigate(`/dashboard/tenant/leases/${lastLease.id}`)
-          }
-          buttons={
-            <ButtonsLatestLeases
-              leaseId={lastLease.id}
-              leaseStatus={lastLease.status}
-              reviewUri={lastLease.reviewUri}
-            />
-          }
-        />
+      <LargeCard
+        title={returnTitle(lastLease.status)}
+        period={returnPeriod(
+          lastLease.startDate,
+          lastLease.rentPaymentInterval,
+          lastLease.totalNumberOfRents
+        )}
+        rentInfos={returnRentInfos(
+          lastLease.rentAmount,
+          lastLease.currencyPair,
+          lastLease.rentPaymentInterval,
+          lastLease.totalNumberOfRents,
+          lastLease.paymentToken
+        )}
+        lease={lastLease}
+        generalInfo={`Owner : ${lastLease.tenant.handle}`}
+        remarks={
+          lastLease.status === "CANCELLED"
+            ? `Cnacellation requested`
+            : undefined
+        }
+        handleClick={() => navigate(`/dashboard/tenant/leases/${lastLease.id}`)}
+        buttons={
+          <ButtonsLatestLeases
+            leaseId={lastLease.id}
+            leaseStatus={lastLease.status}
+            reviewUri={lastLease.reviewUri}
+          />
+        }
+      />
 
-        <Typography variant="h4" marginTop={4} marginBottom={4}>
-          Historique
-        </Typography>
+      <Typography variant="h4" marginTop={4} marginBottom={4}>
+        Historique
+      </Typography>
 
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            gap: "16px",
-          }}
-        >
-          {tenantLeases.map((lease: Lease) => (
-            <SmallCard
-              rentInfos={returnRentInfos(
-                lease.rentAmount,
-                lease.currencyPair,
-                lease.rentPaymentInterval,
-                lease.totalNumberOfRents,
-                lease.paymentToken
-              )}
-              period={returnPeriod(
-                lease.startDate,
-                lease.rentPaymentInterval,
-                lease.totalNumberOfRents
-              )}
-              handleClick={() =>
-                navigate(`/dashboard/tenant/leases/${lease.id}`)
-              }
-            />
-          ))}
-        </Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "16px",
+        }}
+      >
+        {tenantLeases.map((lease: Lease) => (
+          <SmallCard
+            rentInfos={returnRentInfos(
+              lease.rentAmount,
+              lease.currencyPair,
+              lease.rentPaymentInterval,
+              lease.totalNumberOfRents,
+              lease.paymentToken
+            )}
+            period={returnPeriod(
+              lease.startDate,
+              lease.rentPaymentInterval,
+              lease.totalNumberOfRents
+            )}
+            handleClick={() => navigate(`/dashboard/tenant/leases/${lease.id}`)}
+          />
+        ))}
+      </Box>
     </Fragment>
   );
 };

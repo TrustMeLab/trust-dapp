@@ -13,6 +13,7 @@ import { useUser } from "./contexts/UserContext";
 import { Owner } from "./modules/dashboard/pages/Owner";
 import { LeaseDetail } from "./modules/dashboard/pages/LeaseDetail";
 import Homepage from "./modules/home/components/Homepage";
+import { Profile } from "./modules/dashboard/pages/Profile";
 
 function App() {
   const { address } = useUser();
