@@ -13,11 +13,9 @@ export const Dashboard = () => {
       navigate('/login')
       return
     }
-    if (!hasProfile) {
-      fetchProfile(address).catch(() => navigate("/sign-up"));
-    } else {
-      navigate(profile.tenant ? '/dashboard/tenant/leases' : '/dashboard/owner/leases')
-    }
+    fetchProfile(address)
+      .then(() => navigate(profile.tenant ? '/dashboard/tenant/leases' : '/dashboard/owner/leases'))
+      .catch(() => navigate("/sign-up"));
   }, [address]);
 
   function LoadingRender () {

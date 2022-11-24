@@ -7,8 +7,7 @@ import { FinalBlock } from "./FinalBlock";
 import { useTrust } from "../../../../contexts/TrustContext";
 import { Layout } from "../../../../commons/components/Layout";
 import { useUser } from "../../../../contexts/UserContext";
-import { Owner, Tenant } from "../../../../repositories/TrustAPI";
-import {mintOwnerId, mintTenantId} from "../../../../contracts/utils";
+import { mintOwnerId, mintTenantId } from "../../../../contracts/utils";
 
 export enum UserType {
   Owner,
@@ -25,7 +24,7 @@ export const SignUp = () => {
   const $api = useTrust();
 
   const navigate = useNavigate();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<Partial<UserForm>>({});
@@ -40,8 +39,10 @@ export const SignUp = () => {
       switch (type) {
         case UserType.Tenant:
           await mintTenantId(signer, name);
+          break;
         case UserType.Owner:
           await mintOwnerId(signer, name);
+          break;
       }
       navigate("/dashboard");
     } catch (error) {

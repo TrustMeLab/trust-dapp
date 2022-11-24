@@ -96,8 +96,6 @@ export const Tenant = () => {
         Historique
       </Typography>
 
-      <p>{address}</p>
-
       <Box
         sx={{
           display: "flex",

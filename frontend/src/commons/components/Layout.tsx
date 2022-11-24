@@ -1,4 +1,4 @@
-import { useState, MouseEvent, ReactNode, Fragment } from "react";
+import {useState, MouseEvent, ReactNode, Fragment, PropsWithChildren} from "react";
 import {
   Box,
   Toolbar,
@@ -12,7 +12,7 @@ import {
   Avatar,
   MenuItem,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import { useDisconnect } from "wagmi";
 import { useUser } from "../../contexts/UserContext";
 import { theme } from "../../theme";
@@ -22,30 +22,29 @@ interface Props {
   children: ReactNode;
   activeTab?: string;
 }
-export const Layout = ({ children, activeTab }: Props) => {
+export const Layout = ({ children }: PropsWithChildren) => {
   const navigate = useNavigate();
   const { disconnect } = useDisconnect();
-  const { hasProfile, address } = useUser();
-  const pages = ["tenant", "owner"];
+  const { hasProfile, address, profile } = useUser();
+
+  const location = useLocation()
+  const isActiveTab = (path: string) => location.pathname.includes(path)
+
+  const pages = [
+    ...(profile && profile.tenant ? ["tenant"] : []),
+    ...(profile && profile.owner ? ["owner"] : [])
+  ];
   const settings = ["Profile", "Logout"];
 
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
-  const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+
   const handleClickTab = (page: string) => {
     if (page === "tenant") {
       navigate("/dashboard/tenant/leases");
@@ -72,17 +71,8 @@ export const Layout = ({ children, activeTab }: Props) => {
             {hasProfile && (
               <>
                 <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-                  <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleOpenNavMenu}
-                    color="inherit"
-                  ></IconButton>
                   <Menu
                     id="menu-appbar"
-                    anchorEl={anchorElNav}
                     anchorOrigin={{
                       vertical: "bottom",
                       horizontal: "left",
@@ -92,8 +82,7 @@ export const Layout = ({ children, activeTab }: Props) => {
                       vertical: "top",
                       horizontal: "left",
                     }}
-                    open={Boolean(anchorElNav)}
-                    onClose={handleCloseNavMenu}
+                    open={false}
                     sx={{
                       display: { xs: "block", md: "none" },
                     }}
@@ -101,13 +90,13 @@ export const Layout = ({ children, activeTab }: Props) => {
                     {pages.map((page) => (
                       <MenuItem key={page}>
                         <Button
-                          variant={activeTab === page ? "outlined" : "text"}
+                          variant={isActiveTab(page) ? "outlined" : "text"}
                           onClick={() => handleClickTab(page)}
                         >
                           <Typography textAlign="center">
                             {page === "tenant"
-                              ? "Espace Locataire"
-                              : "Espace Propriétaire"}
+                              ? "Tenant"
+                              : "Owner"}
                           </Typography>
                         </Button>
                       </MenuItem>
@@ -119,14 +108,14 @@ export const Layout = ({ children, activeTab }: Props) => {
                     return (
                       <Button
                         key={index}
-                        variant={activeTab === page ? "contained" : "text"}
-                        color={activeTab === page ? "secondary" : "primary"}
+                        variant={isActiveTab(page) ? "contained" : "text"}
+                        color={isActiveTab(page) ? "secondary" : "primary"}
                         onClick={() => handleClickTab(page)}
                         sx={{
                           my: 2,
                           transition: "0.3s",
                           color:
-                            activeTab === page
+                            isActiveTab(page)
                               ? theme.palette.primary.main
                               : theme.palette.secondary.main,
                           display: "block",
@@ -138,8 +127,8 @@ export const Layout = ({ children, activeTab }: Props) => {
                       >
                         <Typography textAlign="center">
                           {page === "tenant"
-                            ? "Espace Locataire"
-                            : "Espace Propriétaire"}
+                            ? "Tenant"
+                            : "Owner"}
                         </Typography>
                       </Button>
                     );
@@ -163,6 +152,16 @@ export const Layout = ({ children, activeTab }: Props) => {
                   >
                     {address}
                   </Box>
+                  { hasProfile && <Box
+                    sx={{
+                      border: 1,
+                      borderRadius: "10px",
+                      padding: "10px",
+                      margin: "10px"
+                    }}
+                  >
+                    {profile.tenant?.handle || profile.owner?.handle}
+                  </Box> }
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar alt="Remy Sharp" src="" />
