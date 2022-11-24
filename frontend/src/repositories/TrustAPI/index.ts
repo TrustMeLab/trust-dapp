@@ -1,4 +1,4 @@
-import { Owner, Tenant, ITrustAPI, ProfileFormValues } from "./types";
+import { Owner, Tenant, ITrustAPI } from "./types";
 import { ofetch } from "ofetch";
 export * from './types'
 
