@@ -4,7 +4,7 @@ import Image from 'mui-image';
 export default function Hero1 () {
   return (
     <Box sx={{
-			height: '28em',
+			height: '42em',
 			bgcolor: '#bcd5ce',
 			boxShadow: 3,
 			display: 'flex',
@@ -18,8 +18,11 @@ export default function Hero1 () {
 				width: '50%'
 			}}>
 			<Box sx={{mb: '1em', fontSize: '3em'}}>Trust.Me</Box>
-            <Box sx={{mb: '0.4em'}}>L O G O</Box>
-			<Box sx={{mb: '0.4em', fontSize: '1.5em'}}>Outil de gestion de location</Box>
+			<Image src="/tenant_owner.png" 
+            height="40%"
+            width="40%"
+            fit="contain"/>
+			<Box sx={{mb: '0.4em', fontSize: '1.5em'}}>Rental management tool</Box>
 			<Box sx={{
 					mb: '1em',
 					fontSize: '1.2em',
@@ -28,8 +31,8 @@ export default function Hero1 () {
 			<Box sx={{
 				display: 'flex'
 			}}>
-				<Box sx={{mr: '6em'}}><Button variant="outlined" size="large">Tenant</Button></Box>
-				<Box><Button variant="outlined" size="large">Owner</Button></Box>
+				<Box sx={{mr: '6em'}}><Button variant="outlined" size="large">Owner</Button></Box>
+				<Box><Button variant="outlined" size="large">Tenant</Button></Box>
 			</Box>
 		</Box>
 	</Box>
