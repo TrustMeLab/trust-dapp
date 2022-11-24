@@ -1,13 +1,6 @@
-import { Suspense } from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { PropsWithChildren, Fragment } from "react";
+import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import {
-  EthereumClient,
-  modalConnectors,
-  walletConnectProvider,
-} from "@web3modal/ethereum";
-import { Web3Modal } from "@web3modal/react";
-import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { Tenant } from "./modules/dashboard/pages/Tenant";
 
 import { theme } from "./theme";
@@ -22,22 +15,26 @@ import { Owner } from "./modules/dashboard/pages/Owner";
 function App() {
   const { address } = useUser();
 
+  function WrapperRoute ({ children }: PropsWithChildren) {
+    return (<Outlet/>)
+  }
+
   const routes = createBrowserRouter([
-    { path: "/", element: <p>Hello World!</p> },
-    { path: "/login", element: <Login /> },
-    GuardedRoute({ path: "/sign-up", element: <SignUp /> }, address != null),
-    GuardedRoute(
-      { path: "/dashboard", element: <Dashboard /> },
-      address != null
-    ),
-    GuardedRoute(
-      { path: "/dashboard/tenant/leases", element: <Tenant /> },
-      address != null
-    ),
-    GuardedRoute(
-      { path: "/dashboard/owner/leases", element: <Owner /> },
-      address != null
-    ),
+    { index: true, element: <p>Hello World!</p> },
+    { path: "login", element: <Login /> },
+    GuardedRoute({ path: "sign-up", element: <SignUp /> }, address != null),
+    GuardedRoute({ path: "dashboard", element: <Dashboard />, children: [
+      { path: 'tenant', element: <WrapperRoute />, children: [
+        { path: 'leases', element: <Tenant /> },
+        { path: 'leases/:id', element: <WrapperRoute /> },
+      ]},
+      { path: 'owner', element: <WrapperRoute />, children: [
+        { path: 'leases', element: <Owner /> },
+        { path: 'leases/:id', element: <WrapperRoute /> },
+      ]},
+    ]},
+    address != null
+    )
   ]);
 
   return (

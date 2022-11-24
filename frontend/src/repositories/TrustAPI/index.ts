@@ -1,13 +1,11 @@
 import { Owner, Tenant, Profile, Lease } from "./types";
 import { ofetch } from "ofetch";
+import { SUBGRAPH_URL } from "../../config/config";
 export * from "./types";
 
 export default function TrustAPI() {
   const theGraphInstance = ofetch.create({
-    baseURL: "https://api.thegraph.com/subgraphs/name/quent043/trustgoerli",
-  });
-  const backendInstance = ofetch.create({
-    baseURL: "http://localhost:3000",
+    baseURL: SUBGRAPH_URL
   });
 
   return {

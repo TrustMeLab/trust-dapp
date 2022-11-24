@@ -8,8 +8,9 @@ import {
 import { useTrust } from "./TrustContext";
 import { Profile } from "../repositories/TrustAPI";
 import sleep from "../tools/sleep";
-import { useAccount, useSigner } from "wagmi";
+import {useAccount, useContract, useSigner} from "wagmi";
 import { Signer } from "ethers";
+import {UserType} from "../modules/user/components/SignUp/SignUp";
 
 interface IUserContext {
   profile: Profile;
@@ -58,6 +59,10 @@ export default function UserContextProvider({ children }: PropsWithChildren) {
     setProfile(profile.value);
     return profile.value;
   };
+
+  const createUser = async function (type: UserType, name: string) {
+    if (!signer) { return }
+  }
 
   return (
     <UserContext.Provider

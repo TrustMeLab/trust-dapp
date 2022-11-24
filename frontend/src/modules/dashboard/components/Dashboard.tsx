@@ -1,26 +1,44 @@
-import { Fragment, useEffect } from "react";
-import { Container } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import {Fragment, PropsWithChildren, useEffect} from "react";
+import { Container, Skeleton } from "@mui/material";
+import { useNavigate, Outlet } from "react-router-dom";
 import { Layout } from "../../../commons/components/Layout";
 import { useUser } from "../../../contexts/UserContext";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
-  const { hasProfile, fetchProfile, address, loading } = useUser();
+  const { hasProfile, fetchProfile, address, loading, profile } = useUser();
 
   useEffect(() => {
     if (!address) {
       navigate('/login')
       return
     }
-    !hasProfile && fetchProfile(address).catch(() => navigate("/sign-up"));
+    if (!hasProfile) {
+      fetchProfile(address).catch(() => navigate("/sign-up"));
+    } else {
+      navigate(profile.tenant ? '/dashboard/tenant/leases' : '/dashboard/owner/leases')
+    }
   }, [address]);
+
+  function LoadingRender () {
+    return (
+      <div>
+        <Skeleton variant="rectangular" height={200} width="100%" sx={{ mb: 6 }}/>
+        <div style={{ display: "flex" }}>
+          <Skeleton variant="rectangular" height={180} width={180} sx={{ mr: 5 }}/>
+          <Skeleton variant="rectangular" height={180} width={180} sx={{ mr: 5 }}/>
+          <Skeleton variant="rectangular" height={180} width={180} sx={{ mr: 5 }}/>
+          <Skeleton variant="rectangular" height={180} width={180} sx={{ mr: 5 }}/>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <Fragment>
       <Layout>
         <Container maxWidth="xl">
-          <p>Dashboard</p>
+          {loading || !hasProfile ? <LoadingRender/> : <Outlet/>}
         </Container>
       </Layout>
     </Fragment>

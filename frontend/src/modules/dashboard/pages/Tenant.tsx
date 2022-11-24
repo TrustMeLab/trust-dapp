@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { LargeCard } from "../../../commons/components/LargeCard";
 import { useNavigate } from "react-router-dom";
-import { Container } from "@mui/system";
 import { SmallCard } from "../../../commons/components/SmallCard";
-import { Layout } from "../../../commons/components/Layout";
-import { Lease, LeaseStatus } from "../../../repositories/TrustAPI/types";
+import { Lease, LeaseStatus } from "../../../repositories/TrustAPI";
 import { useTrust } from "../../../contexts/TrustContext";
-import fns from "date-fns";
 import { useUser } from "../../../contexts/UserContext";
 import { formatDuration, intervalToDuration, format } from "date-fns";
 import { ButtonsLatestLeases } from "../components/Tenant/ButtonsLatestLeases";
@@ -15,7 +12,7 @@ import { ButtonsLatestLeases } from "../components/Tenant/ButtonsLatestLeases";
 export const Tenant = () => {
   const navigate = useNavigate();
   const $api = useTrust();
-  const { profile } = useUser();
+  const { profile, address } = useUser();
   // const [tenantLeases ,setTenantLeases] = useState<Lease[]>([]);
 
   // const getAllLeasesFromTenant = async () => {
@@ -63,79 +60,72 @@ export const Tenant = () => {
   }, []);
 
   return (
-    <Layout activeTab="tenant">
-      <Container
+    <Fragment>
+      <LargeCard
+        title={returnTitle(lastLease.status)}
+        period={returnPeriod(
+          lastLease.startDate,
+          lastLease.rentPaymentInterval,
+          lastLease.totalNumberOfRents
+        )}
+        rentInfos={returnRentInfos(
+          lastLease.rentAmount,
+          lastLease.currencyPair,
+          lastLease.rentPaymentInterval,
+          lastLease.totalNumberOfRents
+        )}
+        lease={lastLease}
+        generalInfo={`Owner : ${lastLease.tenant.handle}`}
+        remarks={
+          lastLease.status === "CANCELLED"
+            ? `Cnacellation requested`
+            : undefined
+        }
+        handleClick={() =>
+          navigate(`/dashboard/tenant/lease/${lastLease.id}`)
+        }
+        buttons={
+          <ButtonsLatestLeases
+            leaseId={lastLease.id}
+            leaseStatus={lastLease.status}
+          />
+        }
+      />
+
+      <Typography variant="h4" marginTop={4} marginBottom={4}>
+        Historique
+      </Typography>
+
+      <p>{address}</p>
+
+      <Box
         sx={{
-          margin: "32px",
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "16px",
         }}
       >
-        <LargeCard
-          title={returnTitle(lastLease.status)}
-          period={returnPeriod(
-            lastLease.startDate,
-            lastLease.rentPaymentInterval,
-            lastLease.totalNumberOfRents
-          )}
-          rentInfos={returnRentInfos(
-            lastLease.rentAmount,
-            lastLease.currencyPair,
-            lastLease.rentPaymentInterval,
-            lastLease.totalNumberOfRents
-          )}
-          lease={lastLease}
-          generalInfo={`Owner : ${lastLease.tenant.handle}`}
-          remarks={
-            lastLease.status === "CANCELLED"
-              ? `Cnacellation requested`
-              : undefined
-          }
-          handleClick={() =>
-            navigate(`/dashboard/tenant/lease/${lastLease.id}`)
-          }
-          buttons={
-            <ButtonsLatestLeases
-              leaseId={lastLease.id}
-              leaseStatus={lastLease.status}
-            />
-          }
-        />
-
-        <Typography variant="h4" marginTop={4} marginBottom={4}>
-          Historique
-        </Typography>
-
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            gap: "16px",
-          }}
-        >
-          {tenantLeases.map((lease: Lease) => (
-            <SmallCard
-              rentInfos={returnRentInfos(
-                lease.rentAmount,
-                lease.currencyPair,
-                lease.rentPaymentInterval,
-                lease.totalNumberOfRents
-              )}
-              period={returnPeriod(
-                lease.startDate,
-                lease.rentPaymentInterval,
-                lease.totalNumberOfRents
-              )}
-              handleClick={() =>
-                navigate(`/dashboard/tenant/lease/${lease.id}`)
-              }
-            />
-          ))}
-        </Box>
-      </Container>
-    </Layout>
+        {tenantLeases.map((lease: Lease) => (
+          <SmallCard
+            rentInfos={returnRentInfos(
+              lease.rentAmount,
+              lease.currencyPair,
+              lease.rentPaymentInterval,
+              lease.totalNumberOfRents
+            )}
+            period={returnPeriod(
+              lease.startDate,
+              lease.rentPaymentInterval,
+              lease.totalNumberOfRents
+            )}
+            handleClick={() =>
+              navigate(`/dashboard/tenant/lease/${lease.id}`)
+            }
+          />
+        ))}
+      </Box>
+    </Fragment>
   );
 };
 
