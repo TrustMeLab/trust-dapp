@@ -1,9 +1,9 @@
 import { CreateUserBody } from "../../../../../shared/types/UserAPI";
 
 export interface Person {
-  id: number
-  handle: string // name
-  address: string
+  id: number;
+  handle: string; // name
+  address: string;
 }
 
 export type Account = {
@@ -21,20 +21,20 @@ export type Account = {
 };
 
 export interface Tenant extends Person {
-  hasLease: boolean
+  hasLease: boolean;
 }
 export interface Owner extends Person {}
 
 export interface Profile {
-  tenant?: Tenant
-  owner?: Owner
+  tenant?: Tenant;
+  owner?: Owner;
 }
 
-enum LeaseStatus {
-  ACTIVE,
-  PENDING,
-  ENDED,
-  CANCELLED,
+export enum LeaseStatus {
+  ACTIVE = "ACTIVE",
+  PENDING = "PENDING",
+  ENDED = "ENDED",
+  CANCELLED = "CANCELLED",
 }
 
 enum PaymentStatus {
@@ -42,23 +42,47 @@ enum PaymentStatus {
   PAID,
   NOT_PAID,
   CANCELLED,
-  CONFLICT
+  CONFLICT,
 }
 
-export interface RentPayment {}
+export interface RentPayment {
+  id: string;
+  amount: number;
+  paymentToken: number;
+  paymentDate: number;
+  withoutIssues: boolean;
+  tenant: Tenant;
+  owner: Owner;
+  lease: Lease;
+}
 
 export interface Lease {
-  id: string // 1-0
-  startDate: string // ms since unix new Date()
-  status: LeaseStatus
-  updatedAt: string
-  createdAt: string
-  rentPayments: Array<RentPayment>
+  id: string; // 1-0
+  startDate: string; // ms since unix new Date()
+  status: LeaseStatus;
+  updatedAt: string;
+  createdAt: string;
+  rentAmount: number; // rent per period
+  totalNumberOfRents: number;
+  rentPaymentInterval: number;
+  uri: string;
+  rentPayments: Array<RentPayment>;
+  tenant: Tenant;
+  owner: Owner;
+  paymentToken: number;
+  currencyPair: string;
+  tenantReviewUri: string;
+  ownerReviewUri: string;
+  cancelledByOwner: boolean;
+  cancelledByTenant: boolean;
 }
 
 export interface ITrustAPI {
   getProfile: (address: string) => Promise<Profile>;
   createProfile: (body: CreateUserBody) => Promise<Person>;
+  cancelLease: (id: string) => Promise<void>;
+  validateLease: (id: string) => Promise<void>;
+  declineLease: (id: string) => Promise<void>;
   getTenantScore: (id: string) => Promise<number>;
   getOwnerScore: (id: string) => Promise<number>;
   getTenantLeases: (id: string) => Promise<Lease[]>;
@@ -67,4 +91,4 @@ export interface ITrustAPI {
 export type OracleData = {
   rate: string;
   date: string;
-}
+};

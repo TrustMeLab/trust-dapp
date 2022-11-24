@@ -28,7 +28,7 @@ export const FormBlock = ({ handleTenant, handleOwner }: FormBlockProps) => {
         }}
       >
         <SupervisorAccountIcon sx={{ marginRight: 3, fontSize: "28px" }} />
-        Locataire
+        Tenant
       </Button>
       <Button
         variant="outlined"
@@ -40,7 +40,7 @@ export const FormBlock = ({ handleTenant, handleOwner }: FormBlockProps) => {
         }}
       >
         <HouseIcon sx={{ marginRight: 3, fontSize: "28px" }} />
-        Propriétaire
+        Owner
       </Button>
     </Box>
   );

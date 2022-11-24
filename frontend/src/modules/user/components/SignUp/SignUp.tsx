@@ -11,8 +11,8 @@ import { UserType } from "../../../../../../shared/types/UserAPI";
 import { Owner, Tenant } from "../../../../repositories/TrustAPI";
 
 export interface UserForm {
-  type: UserType
-  name: string
+  type: UserType;
+  name: string;
 }
 
 export const SignUp = () => {
@@ -25,26 +25,27 @@ export const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<Partial<UserForm>>({});
   const handleSubmit = async () => {
-    const { type, name } = values
-    if (type === undefined || !address || !name) { return }
+    const { type, name } = values;
+    if (type === undefined || !address || !name) {
+      return;
+    }
     setLoading(true);
     try {
       const user = await $api.createProfile({
         type,
         name,
-        address
+        address,
       });
       if (user) {
         switch (type) {
           case UserType.Owner:
-            setProfile({ owner: user as Owner })
+            setProfile({ owner: user as Owner });
             break;
           case UserType.Tenant:
-            setProfile({ tenant: user as Tenant })
+            setProfile({ tenant: user as Tenant });
             break;
-
         }
-        navigate("/dashboard")
+        navigate("/dashboard");
       }
     } catch (error) {
       setError("Une erreur est survenue");
@@ -68,7 +69,7 @@ export const SignUp = () => {
             }}
           >
             <Typography variant="h2" sx={{ textAlign: "center" }}>
-              Qui êtes-vous?
+              Who are you?
             </Typography>
             <FormBlock
               handleTenant={() => {
@@ -98,8 +99,7 @@ export const SignUp = () => {
                 variant="h2"
                 sx={{ textAlign: "center", margin: "42px 0px" }}
               >
-                Merci! Afin de créer votre compte, veuillez entrer les
-                informations suivantes:
+                Thank you! To create your account, please enter your name :
               </Typography>
               <FinalBlock
                 handleSubmit={handleSubmit}
