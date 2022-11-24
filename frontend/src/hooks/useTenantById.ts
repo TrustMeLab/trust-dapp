@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {Tenant} from "../repositories/TrustAPI";
-import {getTenantById} from "../repositories/services/querries";
+import {getTenantById} from "../repositories/services/queries";
 
 const useTenantById = (userId: string): Tenant | null => {
   const [user, setUser] = useState<Tenant | null>(null);

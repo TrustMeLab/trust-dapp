@@ -2,6 +2,8 @@ export interface Person {
   id: number
   handle: string // name
   address: string
+  score: number
+  nbPayment: number
 }
 
 export type Account = {

@@ -43,13 +43,26 @@ export const Layout = ({ children }: PropsWithChildren) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-
   const handleClickTab = (page: string) => {
     if (page === "tenant") {
       navigate("/dashboard/tenant/leases");
     } else if (page === "owner") navigate("/dashboard/owner/leases");
   };
+
+  function ShowScore () {
+    const isOwner = isActiveTab('owner')
+    const score = isOwner ? profile.owner?.score || 1 : profile.tenant?.score || 1
+    const total = isOwner ? profile.owner?.nbPayment || 0 : profile.tenant?.nbPayment || 0
+
+    return (
+      <Box sx={{ border: 1, borderRadius: "10px", padding: "10px", margin: "10px" }}>
+        <Typography>
+          {Math.round(score * 5 * 10) / 10}/5 - {total} records
+        </Typography>
+      </Box>
+    )
+  }
+
   return (
     <Fragment>
       <AppBar position="static">
@@ -152,16 +165,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
                   >
                     {address}
                   </Box>
-                  { hasProfile && <Box
-                    sx={{
-                      border: 1,
-                      borderRadius: "10px",
-                      padding: "10px",
-                      margin: "10px"
-                    }}
-                  >
-                    {profile.tenant?.handle || profile.owner?.handle}
-                  </Box> }
+                  { hasProfile && <ShowScore /> }
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar alt="Remy Sharp" src="" />
@@ -183,6 +187,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
+                    <Typography sx={{ m: 2 }}>{profile.tenant?.handle || profile.owner?.handle}</Typography>
                     {settings.map((setting) => (
                       <MenuItem
                         key={setting}

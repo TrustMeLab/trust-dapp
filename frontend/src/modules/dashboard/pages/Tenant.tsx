@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import { Box, Typography } from "@mui/material";
 import { LargeCard } from "../../../commons/components/LargeCard";
 import { useNavigate } from "react-router-dom";
@@ -13,14 +13,7 @@ export const Tenant = () => {
   const navigate = useNavigate();
   const $api = useTrust();
   const { profile, address } = useUser();
-  // const [tenantLeases ,setTenantLeases] = useState<Lease[]>([]);
 
-  // const getAllLeasesFromTenant = async () => {
-  //   if (profile.tenant) {
-  //     const result = await $api.getTenantLeases(profile?.tenant?.address);
-  //     setTenantLeases(result);
-  //   }
-  // };
 
   const lastLease = tenantLeases[0];
   const returnTitle = (leaseStatus: LeaseStatus) => {
