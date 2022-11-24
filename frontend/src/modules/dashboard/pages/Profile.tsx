@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Avatar,
   Box,
@@ -33,8 +33,6 @@ export const Profile = () => {
   const { profile, hasProfile } = useUser();
   const navigate = useNavigate();
 
-  if (!hasProfile) navigate("/login");
-
   let tenantInfos: Array<ProfileInfos> | [] = [];
   let ownerInfos: Array<ProfileInfos> | [] = [];
 
@@ -67,6 +65,9 @@ export const Profile = () => {
     ownerInfos = profile.owner && generateInfos(restOwner, leasesOwner);
   }
 
+  useEffect(() => {
+    if (!hasProfile) navigate("/sign-up");
+  });
   const generateIcon = (info: string) => {
     switch (info) {
       case "name":
