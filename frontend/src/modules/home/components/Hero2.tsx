@@ -6,7 +6,7 @@ export default function Hero2 () {
     <Box sx={{
 			mt: '3em', // a
 			boxShadow: 3,
-			height: '28em',
+			height: '50em',
 			bgcolor: '#ef8251',
 			display: 'flex',
 			justifyContent: 'center'
@@ -18,8 +18,12 @@ export default function Hero2 () {
 				alignItems: 'center',
 				width: '50%'
 			}}>
-			<Box sx={{mb: '1em', fontSize: '3em'}}>Trust.Me</Box>
-            <Box sx={{mb: '0.4em'}}>L O G O</Box>
+			<Box sx={{ textAlign: 'center', fontSize: '3em'}}>Certify your reputation through blockchain</Box>
+			<Image src="/blockchain_user.png" 
+            height="40%"
+            width="40%"
+            fit="contain"/>
+            {/* <Box sx={{mb: '0.4em'}}>L O G O</Box> */}
 			<Box sx={{mb: '0.4em', fontSize: '1.5em'}}>Outil de gestion de location</Box>
 			<Box sx={{
 					mb: '1em',
