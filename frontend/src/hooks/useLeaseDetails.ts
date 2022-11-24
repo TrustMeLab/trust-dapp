@@ -10,7 +10,7 @@ const useLeseDetails = (id: string): Lease | null => {
       try {
         const response = await getLeaseDetailsById(id);
         if (response?.data?.data?.leases) {
-          setLeases(response.data.data.leases);
+          setLeases(response.data.data.leases[0]);
         }
       } catch (err: any) {
         // eslint-disable-next-line no-console

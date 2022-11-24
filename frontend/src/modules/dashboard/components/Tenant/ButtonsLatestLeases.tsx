@@ -13,8 +13,9 @@ import { LeaseReviewPopover } from "./LeaseReviewPopover";
 interface ButtonsProps {
   leaseId: string;
   leaseStatus: LeaseStatus;
+  reviewUri: string;
 }
-export const ButtonsLatestLeases = ({ leaseId, leaseStatus }: ButtonsProps) => {
+export const ButtonsLatestLeases = ({ leaseId, leaseStatus, reviewUri }: ButtonsProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const navigate = useNavigate();
@@ -91,13 +92,12 @@ export const ButtonsLatestLeases = ({ leaseId, leaseStatus }: ButtonsProps) => {
     case "ENDED":
       return (
         <Box sx={{ display: "flex", gap: "12px", width: "100%" }}>
-          <Button fullWidth variant="outlined" disabled color="info">
-            ENDED
-          </Button>
+
           <Button
             fullWidth
             variant="outlined"
             color="info"
+            disabled={!!reviewUri}
             onClick={handleClickReview}
           >
             Review

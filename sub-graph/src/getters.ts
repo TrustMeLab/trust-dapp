@@ -35,11 +35,11 @@ export function getOrCreateLease(id: string): Lease {
     lease.rentAmount = ZERO;
     lease.totalNumberOfRents = ZERO;
     lease.paymentToken = ZERO_ADDRESS;
+    lease.currencyPair = '';
     lease.rentPaymentInterval = ZERO;
     lease.rentPaymentLimitTime = ZERO;
     lease.startDate = ZERO;
     lease.status = 'PENDING';
-    lease.uri = '';
     lease.cancelledByOwner = false;
     lease.cancelledByTenant = false;
     lease.save();

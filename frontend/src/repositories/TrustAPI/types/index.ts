@@ -21,13 +21,13 @@ export type Account = {
 };
 
 export interface Tenant extends Person {
-  hasLease: boolean
+  hasLease: boolean;
 }
 export interface Owner extends Person {}
 
 export interface Profile {
-  tenant?: Tenant
-  owner?: Owner
+  tenant?: Tenant;
+  owner?: Owner;
 }
 
 export enum LeaseStatus {
@@ -47,9 +47,8 @@ enum PaymentStatus {
 
 export interface RentPayment {
   id: string;
-  amount: number;
-  paymentToken: number;
-  paymentDate: number;
+  amount: string;
+  paymentDate: string;
   withoutIssues: boolean;
   tenant: Tenant;
   owner: Owner;
@@ -57,19 +56,19 @@ export interface RentPayment {
 }
 
 export interface Lease {
-  id: string; // 1-0
+  id: string;
   startDate: string; // ms since unix new Date()
   status: LeaseStatus;
   updatedAt: string;
   createdAt: string;
-  rentAmount: number; // rent per period
-  totalNumberOfRents: number;
-  rentPaymentInterval: number;
+  rentAmount: string; // rent per period
+  totalNumberOfRents: string;
+  rentPaymentInterval: string;
   uri: string;
   rentPayments: Array<RentPayment>;
   tenant: Tenant;
   owner: Owner;
-  paymentToken: number;
+  paymentToken: string;
   currencyPair: string;
   tenantReviewUri: string;
   ownerReviewUri: string;

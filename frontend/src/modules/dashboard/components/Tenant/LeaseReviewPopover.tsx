@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import {
   Alert,
   Box,
-  Paper,
   Popover,
   TextField,
   Typography,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-// import postToIPFS from "../../../../repositories/services/ipfsUtils";
 import { useUser } from "../../../../contexts/UserContext";
-// import { reviewLease } from "../../../../contracts/utils";
+import postToIPFS from "../../../../repositories/services/ipfsUtils";
+import {reviewLease} from "../../../../contracts/utils";
 
 interface LeaseReviewPopoverProps {
   owner?: string;
@@ -52,11 +51,13 @@ export const LeaseReviewPopover = ({
 
     setLoading(true);
     try {
-      //   const uri = await postToIPFS(JSON.stringify(review));
-      //   if (signer && uri) await reviewLease(signer, leaseId, uri);
+      const uri = await postToIPFS(JSON.stringify(review));
+      console.log("uri", uri);
+      if (signer && uri) await reviewLease(signer, leaseId, uri);
       setAnchorEl(null);
       setLoading(false);
     } catch (error) {
+      console.log("IPFS error: ",error);
       setError("An error occurred");
       setLoading(false);
     }

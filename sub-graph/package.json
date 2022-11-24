@@ -5,7 +5,6 @@
     "codegen": "graph codegen",
     "graphhelp": "graph help",
     "build": "graph build",
-    "build:localhost": "graph build --network localhost",
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ trust-protocol",
     "create-local": "graph create --node http://localhost:8020/ trust-protocol",
     "remove-local": "graph remove --node http://localhost:8020/ trust-protocol",

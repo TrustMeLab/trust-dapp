@@ -36,8 +36,8 @@ export function handleLeaseCreated(event: LeaseCreated): void {
   log.warning('Lease - handleLeaseCreated - LeaseId from entity just created: {}', [lease.id])
   lease.owner = Owner.load(event.params.ownerId.toString())!.id;
   lease.tenant = Tenant.load(event.params.tenantId.toString())!.id;
-  // log.warning('Lease - handleLeaseCreated - TenantId from entity linked to Lease: {}', [lease.tenant])
-  // log.warning('Lease - handleLeaseCreated - OwnerId from entity linked to Lease: {}', [lease.owner])
+  log.warning('Lease - handleLeaseCreated - TenantId from entity linked to Lease: {}', [lease.tenant!.toString()])
+  log.warning('Lease - handleLeaseCreated - OwnerId from entity linked to Lease: {}', [lease.owner!.toString()])
   lease.rentAmount = event.params.rentAmount;
   lease.totalNumberOfRents = BigInt.fromI32(event.params.totalNumberOfRents);
   lease.paymentToken = event.params.paymentToken;

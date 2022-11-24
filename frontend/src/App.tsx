@@ -11,6 +11,7 @@ import { Dashboard } from "./modules/dashboard/components/Dashboard";
 import GuardedRoute from "./commons/components/GuardedRoute";
 import { useUser } from "./contexts/UserContext";
 import { Owner } from "./modules/dashboard/pages/Owner";
+import { LeaseDetail } from "./modules/dashboard/pages/LeaseDetail";
 
 function App() {
   const { address } = useUser();
@@ -26,7 +27,7 @@ function App() {
     GuardedRoute({ path: "dashboard", element: <Dashboard />, children: [
       { path: 'tenant', element: <WrapperRoute />, children: [
         { path: 'leases', element: <Tenant /> },
-        { path: 'leases/:id', element: <WrapperRoute /> },
+        { path: 'leases/:id', element: <LeaseDetail /> },
       ]},
       { path: 'owner', element: <WrapperRoute />, children: [
         { path: 'leases', element: <Owner /> },

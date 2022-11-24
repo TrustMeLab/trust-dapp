@@ -393,12 +393,25 @@ task("deploy", "Deploys contracts")
     console.log('***********************************************************************')
     console.log('***********************************************************************')
     console.log('************************** All Data deployed **************************')
-    console.log('Please copy these addresses in the "sub-graph/networks.json file" and in the "sub-graph/subgraph.yaml" file')
     console.log('***********************************************************************')
     console.log('***********************************************************************')
-    console.log("OwnerId address:", ownerIdContract.address);
-    console.log("TenantId address:", tenantIdContract.address);
-    console.log("LeaseId address:", leaseContract.address);
+    console.log('**                                                                   **')
+    console.log('**               Please copy these addresses in:                     **')
+    console.log('**                                                                   **')
+    console.log('**               - sub-graph/networks.json                           **')
+    console.log('**               - sub-graph/subgraph.yaml                           **')
+    console.log('**                                                                   **')
+    console.log('**               In the "src/sub-graph" directory                    **')
+    console.log('**                                                                   **')
+    console.log(`**   OwnerId address:, ${ownerIdContract.address}    **`)
+    console.log(`**   TenantId address:, ${tenantIdContract.address}   **`)
+    console.log(`**   LeaseId address:, ${leaseContract.address}    **`)
+    console.log('**                                                                   **')
+    console.log('**                                                                   **')
+    console.log('**                                                                   **')
+    console.log('***********************************************************************')
+    console.log('***********************************************************************')
+    console.log('***********************************************************************')
 
 
 

@@ -56,7 +56,7 @@ export const LeasePopoverDetails = ({ lease, period }: PopoverProps) => {
           {formatDuration(
             intervalToDuration({
               start: 0,
-              end: lease.rentPaymentInterval * 1000,
+              end: Number(lease.rentPaymentInterval) * 1000,
             })
           )}
         </Typography>
