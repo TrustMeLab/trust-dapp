@@ -3,9 +3,6 @@ import {ethers} from "hardhat";
 import {getCurrentTimestamp} from "hardhat/internal/hardhat-network/provider/utils/getCurrentTimestamp";
 import {ConfigAddresses} from "../contract-addresses";
 
-//npx hardhat deploy --normal-rent --network localhost
-//npx hardhat deploy --normal-token-rent --network localhost
-//npx hardhat deploy --normal-token-rent --network localhost
 // npx hardhat deploy --fiat-rent-payment-eth --fiat-rent-payment-token --normal-rent --normal-token-rent --network localhost
 task("deploy", "Deploys contracts")
   .addFlag('normalRent', 'Rents paid & not paid in ETH')
@@ -391,6 +388,19 @@ task("deploy", "Deploys contracts")
       const cancelOwnerTx = await leaseContract.connect(croseus).cancelLease(1);
       await cancelOwnerTx.wait();
     }
+
+    console.log('***********************************************************************')
+    console.log('***********************************************************************')
+    console.log('***********************************************************************')
+    console.log('************************** All Data deployed **************************')
+    console.log('Please copy these addresses in the "sub-graph/networks.json file" and in the "sub-graph/subgraph.yaml" file')
+    console.log('***********************************************************************')
+    console.log('***********************************************************************')
+    console.log("OwnerId address:", ownerIdContract.address);
+    console.log("TenantId address:", tenantIdContract.address);
+    console.log("LeaseId address:", leaseContract.address);
+
+
 
     // if (normalRent || cancelLease) {
     //   //Both review the lease

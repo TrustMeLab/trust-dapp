@@ -203,3 +203,46 @@
 18:51:15.667938 version@stat F·[1 1] S·27KiB[3KiB 24KiB] Sc·[0.25 0.00]
 18:51:15.695835 db@janitor F·4 G·0
 18:51:15.696127 db@open done T·43.6587ms
+=============== Nov 23, 2022 (UTC) ===============
+20:45:04.425437 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+20:45:04.431987 version@stat F·[1 1] S·27KiB[3KiB 24KiB] Sc·[0.25 0.00]
+20:45:04.432430 db@open opening
+20:45:04.433609 journal@recovery F·1
+20:45:04.433936 journal@recovery recovering @49
+20:45:04.446092 memdb@flush created L0@51 N·42 S·2KiB "/F5..IAA,v1334":"/pr..TYZ,v1366"
+20:45:04.448358 version@stat F·[2 1] S·30KiB[6KiB 24KiB] Sc·[0.50 0.00]
+20:45:04.478823 db@janitor F·5 G·0
+20:45:04.479050 db@open done T·46.4452ms
+=============== Nov 24, 2022 (UTC) ===============
+01:33:45.769614 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+01:33:45.779009 version@stat F·[2 1] S·30KiB[6KiB 24KiB] Sc·[0.50 0.00]
+01:33:45.779740 db@open opening
+01:33:45.781380 journal@recovery F·1
+01:33:45.781874 journal@recovery recovering @52
+01:33:45.795648 memdb@flush created L0@54 N·274 S·22KiB "/F5..IAA,v1377":"/pr..CAA,v1444"
+01:33:45.799239 version@stat F·[3 1] S·52KiB[28KiB 24KiB] Sc·[0.75 0.00]
+01:33:45.837261 db@janitor F·6 G·0
+01:33:45.837643 db@open done T·57.5807ms
+08:16:16.648630 db@close closing
+08:16:16.650724 db@close done T·2.1178ms
+=============== Nov 24, 2022 (UTC) ===============
+08:16:50.536367 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+08:16:50.542959 version@stat F·[3 1] S·52KiB[28KiB 24KiB] Sc·[0.75 0.00]
+08:16:50.543633 db@open opening
+08:16:50.545123 journal@recovery F·1
+08:16:50.545620 journal@recovery recovering @55
+08:16:50.558858 memdb@flush created L0@57 N·184 S·21KiB "/F5..IAA,v1652":"/pr..CAA,v1814"
+08:16:50.561773 version@stat F·[4 1] S·74KiB[49KiB 24KiB] Sc·[1.00 0.00]
+08:16:50.595519 db@janitor F·7 G·0
+08:16:50.595846 db@open done T·51.9698ms
+08:16:50.595972 table@compaction L0·4 -> L1·1 S·74KiB Q·1835
+08:16:50.623690 table@build created L1@60 N·253 S·30KiB "/F5..IAA,v1652":"/pr..CAA,v1814"
+08:16:50.624016 version@stat F·[0 1] S·30KiB[0B 30KiB] Sc·[0.00 0.00]
+08:16:50.627873 table@compaction committed F-4 S-44KiB Ke·0 D·496 T·31.216ms
+08:16:50.629648 table@remove removed @57
+08:16:50.631540 table@remove removed @54
+08:16:50.633302 table@remove removed @51
+08:16:50.635177 table@remove removed @48
+08:16:50.636756 table@remove removed @47
+08:17:07.245233 db@close closing
+08:17:07.246603 db@close done T·1.3697ms

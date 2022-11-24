@@ -132,6 +132,7 @@ contract OwnerId is ERC721A, AccessControl {
     function _afterMint(string memory _ownerName) private {
         uint256 ownerId = _nextTokenId() - 1;
         Owner storage owner = owners[ownerId];
+        owner.id = ownerId;
         owner.name = _ownerName;
         takenNames[_ownerName] = true;
 

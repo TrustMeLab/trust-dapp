@@ -26,12 +26,12 @@ export function getOrCreateOwner(id: string): Owner {
   return owner;
 }
 
-export function getOrCreateLease(id: string, ownerId: string, tenantId: string): Lease {
+export function getOrCreateLease(id: string): Lease {
   let lease = Lease.load(id);
   if (!lease) {
     lease = new Lease(id);
-    lease.owner = getOrCreateOwner(ownerId).id;
-    lease.tenant = getOrCreateTenant(tenantId).id;
+    // lease.owner = '0';
+    // lease.tenant = '0';
     lease.rentAmount = ZERO;
     lease.totalNumberOfRents = ZERO;
     lease.paymentToken = ZERO_ADDRESS;
@@ -56,12 +56,9 @@ export function getOrCreateRentPayment(id: string): RentPayment {
     rentPayment.validationDate = ZERO;
     rentPayment.rentPaymentDate = ZERO;
     rentPayment.rentPaymentLimitDate = ZERO;
-    rentPayment.withoutIssues = false;
-    rentPayment.tenant = '';
-    rentPayment.owner = '';
-    rentPayment.lease = '';
     rentPayment.exchangeRate = ZERO;
     rentPayment.exchangeRateTimestamp = ZERO;
+    rentPayment.withoutIssues = false;
     rentPayment.status = 'PENDING';
     rentPayment.save();
   }
