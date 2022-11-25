@@ -64,7 +64,7 @@ export const SignUp = () => {
         {step === 0 ? (
           <Box
             sx={{
-              padding: "80px 0px",
+              padding: "80px",
             }}
           >
             <Typography variant="h2" sx={{ textAlign: "center" }}>
@@ -98,7 +98,7 @@ export const SignUp = () => {
                 variant="h2"
                 sx={{ textAlign: "center", margin: "42px 0px" }}
               >
-                Thank you! To create your account, please enter your name :
+                To create your account, please enter your name :
               </Typography>
               <FinalBlock
                 handleSubmit={handleSubmit}
