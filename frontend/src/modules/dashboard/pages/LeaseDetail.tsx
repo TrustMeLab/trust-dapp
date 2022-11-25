@@ -10,6 +10,7 @@ import {CONST, tokens} from "../../../const";
 import {ethers, FixedNumber} from "ethers";
 import {LeaseDetailCard} from "../../../commons/components/LeaseDetailCard";
 import useLeaseDetails from "../../../hooks/useLeaseDetails";
+
 import {SmallTenantRentCard} from "../../../commons/components/SmallTenantRentCard";
 
 export const LeaseDetail = () => {

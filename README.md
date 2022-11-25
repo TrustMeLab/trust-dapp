@@ -36,29 +36,32 @@ https://goerli.etherscan.io/address/0xE7304dF39c9f861D0fe210f441Ded3f8Dd057440
 https://goerli.etherscan.io/address/0x2E2CfeA8A06c29a25B502F8D69498FbfbDE94F6c#readContract
 
 ## How to set up a local environment
+### Requirement
+
+> NodeJS 18+ LTS
+
 ### General Settings
-#### .env file
-You need a ".env" file at the root of the project containing certain environment variables. An example
-file ".env.example" has been provided with usable values for testing in local. Even a wallet seed is provided with testnet Ethers.
+
 ----
 ### Smart Contracts Settings
 #### Open a terminal in the "/_contract URI folder_"
 
 Execute the following commands:
 
-> npm i
+> cd ./contracts
 >
-> npx hardhat node
+> npm ci
+>
+> npm run start
 >
 Keep this terminal open and open a new one in the root folder of the project in the same directory
 and execute the following command:
 
-
-> npx hardhat deploy --fiat-rent-payment-eth --fiat-rent-payment-token --normal-rent --normal-token-rent --network localhost
+> npm run deploy:localhost
 
 The logs will print contract addresses as such:
 
-![img.png](Users/quent/Documents/Developpement Web/Web3/TrustHackathon/trust-fullstack/img.pnguent/Documents/Developpement Web/Web3/TrustHackathon/trust-fullstack/img.png)
+![img.png](img.png)
 
 Keep these at hand as you will need them in the next step.
 
@@ -68,28 +71,44 @@ Copy / Paste each contract address from the previous section to the following fi
 
 - networks.json: Replace the corresponding addresses in the "localhost" section:
 
-
-![img_1.png](Users/quent/Documents/Developpement Web/Web3/TrustHackathon/trust-fullstack/img_1.pngnt/Documents/Developpement Web/Web3/TrustHackathon/trust-fullstack/img_1.png)
+![img_1.png](img_1.png)
 
 - subgraph.yaml: Replace the corresponding addresses in the "address" section:
 
-![img_2.png](Users/quent/Documents/Developpement Web/Web3/TrustHackathon/trust-fullstack/img_2.pngnt/Documents/Developpement Web/Web3/TrustHackathon/trust-fullstack/img_2.png)
+![img_2.png](img_2.png)
+
+- Same goes for the frontend folder (/frontend/src/config/trust.config_localhost.json)
+
+![img_3.png](img_3.png)
 
 
 #### Open a Docker container (Docker Desktop or terminal) and execute the following commands in the "/_sub-graph URI folder_":
-(You need a bash able to execute sh commands. Linux & Mac have it natively, you can use GIT bash on WIndows for example)
 
+> cd ./sub-graph
+>
+> npm ci
+>
+> docker compose up (or sh run-graph-node.sh for unix users)
+>
 
-> npm i
->
-> sh run-graph-node.sh
->
-Keep this terminal open and open a new one in  the same directory
+Keep this terminal open and open a new one in the same directory
 and execute the following command:
 
 
-> make regenerate
+> npm run start
 
 /!\ **Make sure to keep the "node" & "Docker" terminals open at all time during your use of the Dapp** /!\
 ## _You are now all set for runnintg the dapp :)_
+
+---
+### Frontend
+
+To serve the website locally, execute the following commands
+
+> cd ./frontend
+>
+> npm ci
+>
+> npm run build && npm run preview
+
 
