@@ -16,7 +16,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import { useDisconnect } from "wagmi";
 import { useUser } from "../../contexts/UserContext";
 import { theme } from "../../theme";
-import Logo from "../../assets/logo_trust.png";
+import Logo from "../../../public/logo_white.png";
 
 interface Props {
   children: ReactNode;
@@ -69,13 +69,18 @@ export const Layout = ({ children }: PropsWithChildren) => {
         <Container maxWidth="xl">
           <Toolbar
             disableGutters
-            sx={{ display: "flex", justifyContent: "space-between" }}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              height: "100px",
+              letterSpacing: ".2rem",
+            }}
           >
             <Box
               component="img"
               sx={{
-                height: 64,
-                margin: "12px",
+                padding: "10px",
+                height: "100%",
               }}
               alt="Your logo."
               src={Logo}

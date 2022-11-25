@@ -8,7 +8,7 @@ export const theme = createTheme({
     },
     primary: {
       main: "#007873", //Green
-      contrastText: "#fff",
+      contrastText: "#ffffff",
     },
     secondary: {
       main: "#ffffff",
@@ -30,14 +30,18 @@ export const theme = createTheme({
   },
 
   typography: {
-    fontFamily: "sans-serif",
+    fontFamily: `"Montserrat", sans-serif`,
+    fontSize: 16,
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,
     h1: {
       fontSize: 60,
-      fontWeight: "lighter",
+      fontWeight: "normal",
     },
     h2: {
       fontSize: 48,
-      fontWeight: "lighter",
+      fontWeight: "normal",
     },
     h3: {
       fontSize: 34,
@@ -64,11 +68,11 @@ export const theme = createTheme({
       fontWeight: "bold",
     },
     body1: {
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: "normal",
     },
     body2: {
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: "normal",
     },
     caption: {
