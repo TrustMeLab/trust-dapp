@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {Contract} from "@ethersproject/contracts";
 import {BigNumber, ethers, Signer} from "ethers";
 import TenantIdABI from "./TenantId.json";
@@ -7,6 +8,16 @@ import ERC20ABI from "./ERC20.json";
 import OracleABI from "./IexecRateOracle.json";
 import {config} from "../config/config";
 import {OracleData} from "../repositories/TrustAPI";
+=======
+import { Contract } from "@ethersproject/contracts";
+import { ethers, Signer } from "ethers";
+import TenantIdABI from "./TenantId.json";
+import OwnerABI from "./OwnerId.json";
+import LeaseABI from "./Lease.json";
+import OracleABI from "./IexecRateOracle.json";
+import { config } from "../config/config";
+import { OracleData } from "../repositories/TrustAPI";
+>>>>>>> add owner page, 404
 
 // ***************************   TenantId   ***************************
 
