@@ -1,20 +1,23 @@
-import {Contract} from '@ethersproject/contracts';
-import {ethers, Signer} from 'ethers';
-import TenantIdABI from './TenantId.json';
-import OwnerABI from './OwnerId.json';
-import LeaseABI from './Lease.json';
-import OracleABI from './IexecRateOracle.json';
-import {config} from '../config/config';
-import {OracleData} from "../repositories/TrustAPI";
-
+import { Contract } from "@ethersproject/contracts";
+import { ethers, Signer } from "ethers";
+import TenantIdABI from "./TenantId.json";
+import OwnerABI from "./OwnerId.json";
+import LeaseABI from "./Lease.json";
+import OracleABI from "./IexecRateOracle.json";
+import { config } from "../config/config";
+import { OracleData } from "../repositories/TrustAPI";
 
 // ***************************   TenantId   ***************************
 
 export const mintTenantId = async (
   signer: Signer,
-  handle: string,
+  handle: string
 ): Promise<void> => {
-  const tenantIdContract = new Contract(config.tenantIdAddress, TenantIdABI.abi, signer);
+  const tenantIdContract = new Contract(
+    config.tenantIdAddress,
+    TenantIdABI.abi,
+    signer
+  );
   await tenantIdContract.mint(handle);
 };
 
@@ -23,7 +26,11 @@ export const updateTenantProfileData = async (
   tokenId: string,
   newCid: string
 ): Promise<void> => {
-  const tenantIdContract = new Contract(config.tenantIdAddress, TenantIdABI.abi, signer);
+  const tenantIdContract = new Contract(
+    config.tenantIdAddress,
+    TenantIdABI.abi,
+    signer
+  );
   await tenantIdContract.updateProfileData(tokenId, newCid);
 };
 
@@ -32,7 +39,11 @@ export const updateTenantHasLease = async (
   tokenId: string,
   hasLease: boolean
 ): Promise<void> => {
-  const tenantIdContract = new Contract(config.tenantIdAddress, TenantIdABI.abi, signer);
+  const tenantIdContract = new Contract(
+    config.tenantIdAddress,
+    TenantIdABI.abi,
+    signer
+  );
   await tenantIdContract.updateHasLease(tokenId, hasLease);
 };
 
@@ -40,9 +51,13 @@ export const updateTenantHasLease = async (
 
 export const mintOwnerId = async (
   signer: Signer,
-  handle: string,
+  handle: string
 ): Promise<void> => {
-  const ownerIdContract = new Contract(config.ownerIdAddress, OwnerABI.abi, signer);
+  const ownerIdContract = new Contract(
+    config.ownerIdAddress,
+    OwnerABI.abi,
+    signer
+  );
   await ownerIdContract.mint(handle);
 };
 
@@ -51,13 +66,15 @@ export const updateOwnerProfileData = async (
   tokenId: string,
   newCid: string
 ): Promise<void> => {
-  const ownerIdContract = new Contract(config.ownerIdAddress, OwnerABI.abi, signer);
+  const ownerIdContract = new Contract(
+    config.ownerIdAddress,
+    OwnerABI.abi,
+    signer
+  );
   await ownerIdContract.updateProfileData(tokenId, newCid);
 };
 
-
 // ***************************   Lease   ***************************
-
 
 export const createLease = async (
   signer: Signer,
@@ -71,13 +88,22 @@ export const createLease = async (
   startDate: string
 ): Promise<void> => {
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
-  await leaseContract.createLease(tenantId, rentAmount, totalNumberOfRents, paymentToken, rentPaymentInterval, rentPaymentLimitTime, currencyPair, startDate);
+  await leaseContract.createLease(
+    tenantId,
+    rentAmount,
+    totalNumberOfRents,
+    paymentToken,
+    rentPaymentInterval,
+    rentPaymentLimitTime,
+    currencyPair,
+    startDate
+  );
 };
 
 export const updateLeaseMetaData = async (
   signer: Signer,
   leaseId: string,
-  newCid: string,
+  newCid: string
 ): Promise<void> => {
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
   await leaseContract.updateLeaseMetaData(leaseId, newCid);
@@ -85,7 +111,7 @@ export const updateLeaseMetaData = async (
 
 export const declineLease = async (
   signer: Signer,
-  leaseId: string,
+  leaseId: string
 ): Promise<void> => {
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
   await leaseContract.declineLease(leaseId);
@@ -93,7 +119,7 @@ export const declineLease = async (
 
 export const validateLease = async (
   signer: Signer,
-  leaseId: string,
+  leaseId: string
 ): Promise<void> => {
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
   await leaseContract.validateLease(leaseId);
@@ -104,13 +130,15 @@ export const payCryptoRentInETH = async (
   leaseId: string,
   rentId: string,
   withoutIssues: string,
-  amount: string,
+  amount: string
 ): Promise<void> => {
   //The "amount" MUST already be in wei
-  const amountInWei = ethers.utils.parseUnits(amount,'wei');
+  const amountInWei = ethers.utils.parseUnits(amount, "wei");
 
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
-  await leaseContract.payCryptoRentInETH(leaseId, rentId, withoutIssues, {value : amountInWei});
+  await leaseContract.payCryptoRentInETH(leaseId, rentId, withoutIssues, {
+    value: amountInWei,
+  });
 };
 
 //TODO Authorize token transfer for token amount
@@ -119,13 +147,18 @@ export const payCryptoRentInToken = async (
   leaseId: string,
   rentId: string,
   withoutIssues: string,
-  amount: string,
+  amount: string
 ): Promise<void> => {
   //The "amount" MUST already be in smallest token unit
-  const amountInToken = ethers.utils.parseUnits(amount,0);
+  const amountInToken = ethers.utils.parseUnits(amount, 0);
 
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
-  await leaseContract.payCryptoRentInETH(leaseId, rentId, withoutIssues, amountInToken);
+  await leaseContract.payCryptoRentInETH(
+    leaseId,
+    rentId,
+    withoutIssues,
+    amountInToken
+  );
 };
 
 //TODO call oracle to determine eth value to send
@@ -134,13 +167,15 @@ export const payFiatRentInEth = async (
   leaseId: string,
   rentId: string,
   withoutIssues: string,
-  amount: string,
+  amount: string
 ): Promise<void> => {
   //The "amount" MUST already be in wei
-  const amountInWei = ethers.utils.parseUnits(amount,'wei');
+  const amountInWei = ethers.utils.parseUnits(amount, "wei");
 
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
-  await leaseContract.payFiatRentInEth(leaseId, rentId, withoutIssues, {value : amountInWei});
+  await leaseContract.payFiatRentInEth(leaseId, rentId, withoutIssues, {
+    value: amountInWei,
+  });
 };
 
 //TODO call oracle to determine token value to send
@@ -150,19 +185,24 @@ export const payFiatRentInToken = async (
   leaseId: string,
   rentId: string,
   withoutIssues: string,
-  amount: string,
+  amount: string
 ): Promise<void> => {
   //The "amount" MUST already be in smallest token unit
-  const amountInToken = ethers.utils.parseUnits(amount,0);
+  const amountInToken = ethers.utils.parseUnits(amount, 0);
 
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
-  await leaseContract.payFiatRentInToken(leaseId, rentId, withoutIssues, amountInToken);
+  await leaseContract.payFiatRentInToken(
+    leaseId,
+    rentId,
+    withoutIssues,
+    amountInToken
+  );
 };
 
 export const markRentAsNotPaid = async (
   signer: Signer,
   leaseId: string,
-  rentId: string,
+  rentId: string
 ): Promise<void> => {
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
   await leaseContract.markRentAsNotPaid(leaseId, rentId);
@@ -171,7 +211,7 @@ export const markRentAsNotPaid = async (
 export const markRentAsPending = async (
   signer: Signer,
   leaseId: string,
-  rentId: string,
+  rentId: string
 ): Promise<void> => {
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
   await leaseContract.markRentAsPending(leaseId, rentId);
@@ -179,7 +219,7 @@ export const markRentAsPending = async (
 
 export const cancelLease = async (
   signer: Signer,
-  leaseId: string,
+  leaseId: string
 ): Promise<void> => {
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
   await leaseContract.cancelLease(leaseId);
@@ -188,13 +228,11 @@ export const cancelLease = async (
 export const reviewLease = async (
   signer: Signer,
   leaseId: string,
-  reviewUri: string,
+  reviewUri: string
 ): Promise<void> => {
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
   await leaseContract.reviewLease(leaseId, reviewUri);
 };
-
-
 
 // ***************************   Oracle   ***************************
 
@@ -202,9 +240,13 @@ export const getRate = async (
   signer: Signer,
   currencyPair: string
 ): Promise<any> => {
-// ): Promise<OracleData> => {
+  // ): Promise<OracleData> => {
   //TODO Pas sur du retour, peut être un array.Je met "any" pour l'instant
-  const oracleContract = new Contract(config.fakeIexecOracle, OracleABI.abi, signer);
+  const oracleContract = new Contract(
+    config.fakeIexecOracle,
+    OracleABI.abi,
+    signer
+  );
   return await oracleContract.getRate(currencyPair);
 };
 
@@ -212,7 +254,10 @@ export const updateRate = async (
   signer: Signer,
   currencyPair: string
 ): Promise<void> => {
-  const oracleContract = new Contract(config.fakeIexecOracle, OracleABI.abi, signer);
+  const oracleContract = new Contract(
+    config.fakeIexecOracle,
+    OracleABI.abi,
+    signer
+  );
   await oracleContract.updateRate(currencyPair);
 };
-

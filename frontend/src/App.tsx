@@ -13,6 +13,8 @@ import { useUser } from "./contexts/UserContext";
 import { Owner } from "./modules/dashboard/pages/Owner";
 import { LeaseDetail } from "./modules/dashboard/pages/LeaseDetail";
 import Homepage from "./modules/home/components/Homepage";
+import { NotFound } from "./modules/dashboard/pages/NotFound";
+import { OwnerCreateLease } from "./modules/dashboard/pages/OwnerCreateLease";
 
 function App() {
   const { address } = useUser();
@@ -43,13 +45,15 @@ function App() {
             element: <WrapperRoute />,
             children: [
               { path: "leases", element: <Owner /> },
-              { path: "leases/:id", element: <WrapperRoute /> },
+              { path: "leases/create", element: <Owner /> },
+              { path: "leases/:id", element: <OwnerCreateLease /> },
             ],
           },
         ],
       },
       address != null
     ),
+    { path: "/*", element: <NotFound /> },
   ]);
 
   return (
