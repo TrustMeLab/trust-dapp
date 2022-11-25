@@ -13,7 +13,6 @@ import {
   Stepper,
   Typography,
 } from "@mui/material";
-import { Layout } from "../../../commons/components/Layout";
 import { Signer } from "ethers";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../../contexts/UserContext";
@@ -48,7 +47,6 @@ export const OwnerCreateLease = () => {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<Partial<CreateLeaseForm>>({});
   const navigate = useNavigate();
-  console.log(values);
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
@@ -73,158 +71,156 @@ export const OwnerCreateLease = () => {
     }
   };
   return (
-    <Layout activeTab="owner">
-      <Box sx={{ margin: "auto", width: "60%" }}>
-        <Stepper activeStep={activeStep} sx={{ marginBottom: "48px" }}>
-          {steps.map((label, index) => {
-            const stepProps: { completed?: boolean } = {};
+    <Box sx={{ margin: "auto", width: "60%" }}>
+      <Stepper activeStep={activeStep} sx={{ marginBottom: "48px" }}>
+        {steps.map((label, index) => {
+          const stepProps: { completed?: boolean } = {};
 
-            return (
-              <Step {...stepProps} key={index}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
-        <Box sx={{ margin: "28px 0px", display: "flex" }}>
-          {activeStep === 0 ? (
-            <>
-              <Box
+          return (
+            <Step {...stepProps} key={index}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          );
+        })}
+      </Stepper>
+      <Box sx={{ margin: "28px 0px", display: "flex" }}>
+        {activeStep === 0 ? (
+          <>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-evenly",
+                alignItems: "center",
+              }}
+            >
+              <Button
+                onClick={() => {
+                  setValues((prev) => ({ ...prev, paymentMethod: "crypto" }));
+                  setActiveStep(activeStep + 1);
+                }}
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-evenly",
-                  alignItems: "center",
+                  height: "60px",
+                  padding: 6,
+                  fontSize: "24px",
                 }}
               >
+                <img
+                  src={Crypto}
+                  style={{ width: "80px", marginRight: "12px" }}
+                />
+                Crypto currency
+              </Button>
+              <Button
+                onClick={() => {
+                  setValues((prev) => ({ ...prev, paymentMethod: "fiat" }));
+                  setActiveStep(activeStep + 1);
+                }}
+                sx={{
+                  height: "60px",
+                  padding: 6,
+                  fontSize: "24px",
+                }}
+              >
+                <img
+                  src={Fiat}
+                  style={{ width: "100px", marginRight: "12px" }}
+                />
+                Fiat currency
+              </Button>
+            </Box>
+          </>
+        ) : activeStep === 1 ? (
+          <FormControl
+            sx={{
+              width: "50%",
+              margin: "auto",
+            }}
+          >
+            <InputLabel>Pair</InputLabel>
+            {values.paymentMethod === "crypto" ? (
+              <Select
+                id="currencyPair"
+                value={values.currencyPair}
+                label="Currency Pair"
+                onChange={(event: SelectChangeEvent) => {
+                  setValues((prev) => ({
+                    ...prev,
+                    currencyPair: event.target.value as string,
+                  }));
+                  setActiveStep(activeStep + 1);
+                }}
+              >
+                <MenuItem value={"ETH"}>ETH</MenuItem>
+                <MenuItem value={"CRT"}>CRT</MenuItem>
+              </Select>
+            ) : (
+              <Select
+                id="currencyPair"
+                value={values.currencyPair}
+                label="Currency Pair"
+                onChange={(event: SelectChangeEvent) => {
+                  setValues((prev) => ({
+                    ...prev,
+                    currencyPair: event.target.value as string,
+                  }));
+                  setActiveStep(activeStep + 1);
+                }}
+              >
+                <MenuItem value={"USD-ETH"}>USD-ETH</MenuItem>
+                <MenuItem value={"EUR-ETH"}>EUR-ETH</MenuItem>
+              </Select>
+            )}
+          </FormControl>
+        ) : activeStep === 2 ? (
+          <>
+            <Typography sx={{ mt: 2, mb: 1 }}>
+              Pleae complete the form
+            </Typography>
+          </>
+        ) : (
+          activeStep === steps.length && (
+            <>
+              <Typography sx={{ mt: 2, mb: 1 }}>
+                Lease created. Please go back
+              </Typography>
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Box sx={{ flex: "1 1 auto" }} />
                 <Button
                   onClick={() => {
-                    setValues((prev) => ({ ...prev, paymentMethod: "crypto" }));
-                    setActiveStep(activeStep + 1);
-                  }}
-                  sx={{
-                    height: "60px",
-                    padding: 6,
-                    fontSize: "24px",
+                    navigate("/dashboard/owner/leases");
                   }}
                 >
-                  <img
-                    src={Crypto}
-                    style={{ width: "80px", marginRight: "12px" }}
-                  />
-                  Crypto currency
-                </Button>
-                <Button
-                  onClick={() => {
-                    setValues((prev) => ({ ...prev, paymentMethod: "fiat" }));
-                    setActiveStep(activeStep + 1);
-                  }}
-                  sx={{
-                    height: "60px",
-                    padding: 6,
-                    fontSize: "24px",
-                  }}
-                >
-                  <img
-                    src={Fiat}
-                    style={{ width: "100px", marginRight: "12px" }}
-                  />
-                  Fiat currency
+                  Go Back
                 </Button>
               </Box>
             </>
-          ) : activeStep === 1 ? (
-            <FormControl
-              sx={{
-                width: "50%",
-                margin: "auto",
-              }}
-            >
-              <InputLabel>Pair</InputLabel>
-              {values.paymentMethod === "crypto" ? (
-                <Select
-                  id="currencyPair"
-                  value={values.currencyPair}
-                  label="Currency Pair"
-                  onChange={(event: SelectChangeEvent) => {
-                    setValues((prev) => ({
-                      ...prev,
-                      currencyPair: event.target.value as string,
-                    }));
-                    setActiveStep(activeStep + 1);
-                  }}
-                >
-                  <MenuItem value={"ETH"}>ETH</MenuItem>
-                  <MenuItem value={"CRT"}>CRT</MenuItem>
-                </Select>
-              ) : (
-                <Select
-                  id="currencyPair"
-                  value={values.currencyPair}
-                  label="Currency Pair"
-                  onChange={(event: SelectChangeEvent) => {
-                    setValues((prev) => ({
-                      ...prev,
-                      currencyPair: event.target.value as string,
-                    }));
-                    setActiveStep(activeStep + 1);
-                  }}
-                >
-                  <MenuItem value={"USD-ETH"}>USD-ETH</MenuItem>
-                  <MenuItem value={"EUR-ETH"}>EUR-ETH</MenuItem>
-                </Select>
-              )}
-            </FormControl>
-          ) : activeStep === 2 ? (
-            <>
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                Pleae complete the form
-              </Typography>
-            </>
-          ) : (
-            activeStep === steps.length && (
-              <>
-                <Typography sx={{ mt: 2, mb: 1 }}>
-                  Lease created. Please go back
-                </Typography>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Box sx={{ flex: "1 1 auto" }} />
-                  <Button
-                    onClick={() => {
-                      navigate("/dashboard/owner/leases");
-                    }}
-                  >
-                    Go Back
-                  </Button>
-                </Box>
-              </>
-            )
-          )}
-        </Box>
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          )
+        )}
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Button
+          color="primary"
+          variant="outlined"
+          disabled={activeStep === 0}
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+        >
+          Back
+        </Button>
+        {activeStep === steps.length - 1 && (
           <Button
             color="primary"
-            variant="outlined"
-            disabled={activeStep === 0}
-            onClick={handleBack}
+            variant="contained"
+            disabled={loading}
+            onClick={handleSubmit}
             sx={{ mr: 1 }}
           >
-            Back
+            Create Lease
           </Button>
-          {activeStep === steps.length - 1 && (
-            <Button
-              color="primary"
-              variant="contained"
-              disabled={loading}
-              onClick={handleSubmit}
-              sx={{ mr: 1 }}
-            >
-              Create Lease
-            </Button>
-          )}
-        </Box>
-
-        {error && <Alert severity="error">{error}</Alert>}
+        )}
       </Box>
-    </Layout>
+
+      {error && <Alert severity="error">{error}</Alert>}
+    </Box>
   );
 };

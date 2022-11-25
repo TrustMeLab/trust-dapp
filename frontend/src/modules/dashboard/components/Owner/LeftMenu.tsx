@@ -12,7 +12,6 @@ export const LeftMenu = ({ activeTab, setActiveTab }: LeftMenuProps) => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
-  console.log(activeTab);
 
   return (
     <Tabs

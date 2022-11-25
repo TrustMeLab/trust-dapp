@@ -45,8 +45,8 @@ function App() {
             element: <WrapperRoute />,
             children: [
               { path: "leases", element: <Owner /> },
-              { path: "leases/create", element: <Owner /> },
-              { path: "leases/:id", element: <OwnerCreateLease /> },
+              { path: "leases/create", element: <OwnerCreateLease /> },
+              { path: "leases/:id", element: <WrapperRoute /> },
             ],
           },
         ],

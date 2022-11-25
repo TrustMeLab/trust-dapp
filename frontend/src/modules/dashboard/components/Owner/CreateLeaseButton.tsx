@@ -18,7 +18,7 @@ export const CreateLeaseButton = () => {
           boxShadow: "rgba(0, 0, 0, 0.5) 0px 4px 12px;",
         },
       }}
-      onClick={() => navigate("/dashboard/owner/lease/create")}
+      onClick={() => navigate("/dashboard/owner/leases/create")}
     >
       <Typography variant="h4">Create Lease Form</Typography>
     </Card>
