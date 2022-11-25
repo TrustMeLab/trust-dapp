@@ -31,6 +31,7 @@ function App() {
         path: "dashboard",
         element: <Dashboard />,
         children: [
+          { path: "profile", element: <Profile /> },
           {
             path: "tenant",
             element: <WrapperRoute />,
