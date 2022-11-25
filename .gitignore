@@ -1,6 +1,11 @@
 # compiled output
 /dist
-/node_modules
+**/node_modules
+/sub-graph/node_modules
+/sub-graph/data/ipfs
+/sub-graph/data/postgres
+/sub-graph/build
+/contracts/node_modules
 
 # Logs
 logs
