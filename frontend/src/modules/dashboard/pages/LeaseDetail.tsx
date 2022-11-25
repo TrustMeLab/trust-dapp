@@ -11,7 +11,7 @@ import {ethers, FixedNumber} from "ethers";
 import {LeaseDetailCard} from "../../../commons/components/LeaseDetailCard";
 import useLeaseDetails from "../../../hooks/useLeaseDetails";
 
-// import {SmallTenantRentCard} from "../../../commons/components/SmallTenantRentCard";
+import {SmallTenantRentCard} from "../../../commons/components/SmallTenantRentCard";
 
 export const LeaseDetail = () => {
   const { profile } = useUser();
@@ -100,8 +100,7 @@ export const LeaseDetail = () => {
           }}
         >
           {leaseDetail && leaseDetail.rentPayments.map((rentPayment: RentPayment) => (
-            <div></div>
-            /*<SmallTenantRentCard
+            <SmallTenantRentCard
               rentInfos={returnRentInfos(
                 rentPayment.amount,
                 leaseDetail.currencyPair,
@@ -116,7 +115,7 @@ export const LeaseDetail = () => {
                 leaseDetail.totalNumberOfRents
               )}
               handleClick={() => {}}
-            />*/))}
+            />))}
         </Box>
       </Container>);
 
