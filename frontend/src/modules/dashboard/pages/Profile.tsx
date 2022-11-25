@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
-import { Layout } from "../../../commons/components/Layout";
 import { useUser } from "../../../contexts/UserContext";
 import avatar from "/src/assets/avatar_logo.jpg";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
@@ -65,9 +64,6 @@ export const Profile = () => {
     ownerInfos = profile.owner && generateInfos(restOwner, leasesOwner);
   }
 
-  useEffect(() => {
-    if (!hasProfile) navigate("/sign-up");
-  });
   const generateIcon = (info: string) => {
     switch (info) {
       case "name":
@@ -85,61 +81,57 @@ export const Profile = () => {
     }
   };
   return (
-    <Layout>
-      <Container maxWidth="xl">
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Avatar
-            alt="avatar"
-            src={avatar}
-            sx={{ width: 400, height: 400, marginRight: "42px" }}
-          />
-          <Box sx={{ display: "flex" }}>
-            <Grid item xs={12} md={6}>
-              <Typography sx={{ mt: 4, mb: 2 }} variant="h4" component="div">
-                General informations
-              </Typography>
-              {/* <Demo> */}
-              {tenantInfos.length > 0 && (
-                <List>
-                  <Card>Tenant Infos</Card>
+    <Container maxWidth="xl">
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Avatar
+          alt="avatar"
+          src={avatar}
+          sx={{ width: 400, height: 400, marginRight: "42px" }}
+        />
+        <Box sx={{ display: "flex" }}>
+          <Grid item xs={12} md={6}>
+            <Typography sx={{ mt: 4, mb: 2 }} variant="h4" component="div">
+              General informations
+            </Typography>
+            {tenantInfos.length > 0 && (
+              <List>
+                <Card>Tenant Infos</Card>
 
-                  {tenantInfos.map((el: any) => (
-                    <ListItem>
-                      <ListItemIcon>{generateIcon(el.info)} </ListItemIcon>
-                      <ListItemText
-                        primary={el.info}
-                        secondary={el.data ?? null}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              )}
+                {tenantInfos.map((el: any) => (
+                  <ListItem>
+                    <ListItemIcon>{generateIcon(el.info)} </ListItemIcon>
+                    <ListItemText
+                      primary={el.info}
+                      secondary={el.data ?? null}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            )}
 
-              {ownerInfos.length > 0 && (
-                <List>
-                  <Card>Owner Infos</Card>
+            {ownerInfos.length > 0 && (
+              <List>
+                <Card>Owner Infos</Card>
 
-                  {ownerInfos.map((el: any) => (
-                    <ListItem>
-                      <ListItemIcon>{generateIcon(el.info)} </ListItemIcon>
-                      <ListItemText
-                        primary={el.info}
-                        secondary={el.data ?? null}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              )}
-              {/* </Demo> */}
-            </Grid>
-          </Box>
+                {ownerInfos.map((el: any) => (
+                  <ListItem>
+                    <ListItemIcon>{generateIcon(el.info)} </ListItemIcon>
+                    <ListItemText
+                      primary={el.info}
+                      secondary={el.data ?? null}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            )}
+          </Grid>
         </Box>
-      </Container>
-    </Layout>
+      </Box>
+    </Container>
   );
 };
