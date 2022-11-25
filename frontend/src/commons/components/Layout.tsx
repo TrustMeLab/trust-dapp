@@ -213,7 +213,10 @@ export const Layout = ({ children }: PropsWithChildren) => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Box marginTop="42px">{children}</Box>
+
+      <Container maxWidth="xl">
+        <Box marginTop="42px">{children}</Box>
+      </Container>
     </Fragment>
   );
 };

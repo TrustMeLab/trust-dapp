@@ -13,7 +13,7 @@ interface LargeCardProps {
   buttons?: React.ReactNode;
   buttonTitle?: string;
   lease: Lease;
-  handleClick: () => void;
+  handleClick?: () => void;
   handleClickButton?: (e: React.MouseEvent) => void;
 }
 export const LargeCard = ({
@@ -80,9 +80,11 @@ export const LargeCard = ({
           sx={{ display: "flex", flexDirection: "column", gap: "8px" }}
         >
           <LeasePopoverDetails period={period} lease={lease} />
-          <Button variant="outlined" onClick={handleClick}>
-            Go to Lease Payments
-          </Button>
+          {handleClick && (
+            <Button variant="outlined" onClick={handleClick}>
+              Go to Lease Payments
+            </Button>
+          )}
           <Box sx={{ display: "flex" }}>
             {remarks && (
               <Typography
