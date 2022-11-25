@@ -9,16 +9,18 @@ import { useUser } from "../../../contexts/UserContext";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { address } = useUser();
+  const { address, fetchProfile } = useUser();
   const $api = useTrust();
   const [error, setError] = useState("");
 
   const handleProfile = async (addressAccount: string) => {
     try {
-      const profile = await $api.getProfile(addressAccount);
-      if (!profile.tenant && !profile.owner) {
+      const profile = await fetchProfile(addressAccount);
+      if (!profile?.tenant && !profile?.owner) {
         navigate("/sign-up");
-      } else navigate("/dashboard");
+      } else {
+        navigate("/dashboard")
+      };
     } catch (_) {
       navigate("/sign-up");
     }

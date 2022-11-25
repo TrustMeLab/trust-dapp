@@ -1,4 +1,4 @@
-import React from "react";
+import { Fragment } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import TrustContextProvider from "./contexts/TrustContext";
@@ -28,7 +28,7 @@ const wagmiClient = createClient({
 const ethereumClient = new EthereumClient(wagmiClient, chains);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  <Fragment>
     <WagmiConfig client={wagmiClient}>
       <TrustContextProvider>
         <UserContextProvider>
@@ -42,5 +42,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       accentColor="default"
       ethereumClient={ethereumClient}
     />
-  </React.StrictMode>
+  </Fragment>
 );

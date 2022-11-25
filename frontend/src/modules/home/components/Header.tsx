@@ -31,7 +31,7 @@ export default function HomepageHeader() {
 					height: "100%",
 					}}
 					alt="Your logo."
-					src={"../public/logo_white.png"}
+					src={"/logo_white.png"}
 				/>
 				<Box sx={{ml: '1em'}}>Trust.Me</Box>
 			</Box>

@@ -18,7 +18,7 @@ const useLeseDetails = (id: string): Lease | null => {
       }
     };
     fetchData();
-  }, [setLeases]);
+  }, [id]);
 
   return leases;
 };

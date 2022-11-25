@@ -5,7 +5,7 @@ import {  } from '../TrustAPI/types/index';
 
 const processRequest = async (query: string): Promise<any> => {
   try {
-    return await axios.post(import.meta.env.SUBGRAPH_URL, { query });
+    return await axios.post(SUBGRAPH_URL, { query });
   } catch (err) {
     console.log(err);
     return null;

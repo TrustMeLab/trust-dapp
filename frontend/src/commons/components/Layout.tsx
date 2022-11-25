@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import {useLocation, useNavigate} from "react-router-dom";
 import { useDisconnect } from "wagmi";
-import { useUser } from "../../contexts/UserContext";
+import {DEFAULT_PROFILE, useUser} from "../../contexts/UserContext";
 import { theme } from "../../theme";
 import Logo from "../../../public/logo_white.png";
 
@@ -25,7 +25,7 @@ interface Props {
 export const Layout = ({ children }: PropsWithChildren) => {
   const navigate = useNavigate();
   const { disconnect } = useDisconnect();
-  const { hasProfile, address, profile } = useUser();
+  const { hasProfile, address, profile, setProfile } = useUser();
 
   const location = useLocation()
   const isActiveTab = (path: string) => location.pathname.includes(path)
@@ -48,6 +48,12 @@ export const Layout = ({ children }: PropsWithChildren) => {
       navigate("/dashboard/tenant/leases");
     } else if (page === "owner") navigate("/dashboard/owner/leases");
   };
+
+  function logout () {
+    disconnect()
+    setProfile(DEFAULT_PROFILE())
+    navigate('/login')
+  }
 
   function ShowScore () {
     const isOwner = isActiveTab('owner')
@@ -196,10 +202,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
                     {settings.map((setting) => (
                       <MenuItem
                         key={setting}
-                        onClick={() => {
-                          if (setting === "Logout") disconnect();
-                          navigate("/login");
-                        }}
+                        onClick={logout}
                       >
                         <Typography textAlign="center">{setting}</Typography>
                       </MenuItem>

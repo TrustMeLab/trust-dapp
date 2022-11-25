@@ -8,7 +8,6 @@ import { useTrust } from "../../../../contexts/TrustContext";
 import { Layout } from "../../../../commons/components/Layout";
 import { useUser } from "../../../../contexts/UserContext";
 import { mintOwnerId, mintTenantId } from "../../../../contracts/utils";
-import {getFullTrustProfileData} from "../../../../repositories/services/queries";
 
 export enum UserType {
   Owner,
