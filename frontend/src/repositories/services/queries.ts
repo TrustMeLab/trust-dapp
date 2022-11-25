@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import axios from 'axios';
-import { SUBGRAPH_URL } from '../../config/config';
-import {  } from '../TrustAPI/types/index';
+import axios from "axios";
+import { SUBGRAPH_URL } from "../../config/config";
+import {} from "../TrustAPI/types/index";
 
 const processRequest = async (query: string): Promise<any> => {
   try {
@@ -125,5 +125,3 @@ export const getLeasesByTenantId = (id: string): Promise<any> => {
   `;
   return processRequest(query);
 };
-
-

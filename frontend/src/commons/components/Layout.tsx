@@ -17,17 +17,19 @@ import {
   Tooltip,
   Avatar,
   MenuItem,
+  useTheme,
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDisconnect } from "wagmi";
-import {DEFAULT_PROFILE, useUser} from "../../contexts/UserContext";
-import { theme } from "../../theme";
+import { DEFAULT_PROFILE, useUser } from "../../contexts/UserContext";
+import Logo from "../../assets/logo_trust.png";
 
 interface Props {
   children: ReactNode;
   activeTab?: string;
 }
 export const Layout = ({ children }: PropsWithChildren) => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const { disconnect } = useDisconnect();
   const { hasProfile, address, profile, setProfile } = useUser();
@@ -54,16 +56,20 @@ export const Layout = ({ children }: PropsWithChildren) => {
     } else if (page === "owner") navigate("/dashboard/owner/leases");
   };
 
-  function logout () {
-    disconnect()
-    setProfile(DEFAULT_PROFILE())
-    navigate('/login')
+  function logout() {
+    disconnect();
+    setProfile(DEFAULT_PROFILE());
+    navigate("/login");
   }
 
-  function ShowScore () {
-    const isOwner = isActiveTab('owner')
-    const score = isOwner ? profile.owner?.score || 1 : profile.tenant?.score || 1
-    const total = isOwner ? profile.owner?.nbPayment || 0 : profile.tenant?.nbPayment || 0
+  function ShowScore() {
+    const isOwner = isActiveTab("owner");
+    const score = isOwner
+      ? profile.owner?.score || 1
+      : profile.tenant?.score || 1;
+    const total = isOwner
+      ? profile.owner?.nbPayment || 0
+      : profile.tenant?.nbPayment || 0;
 
     return (
       <Box
@@ -101,14 +107,9 @@ export const Layout = ({ children }: PropsWithChildren) => {
                 margin: "12px",
                 cursor: "pointer",
               }}
-<<<<<<< HEAD
-              alt="Your logo."
-              src={'/logo_white.png'}
-=======
               alt="trust_logo"
               src={Logo}
               onClick={() => navigate("/dashboard/tenant/leases")}
->>>>>>> add dashboard profile page
             />
 
             {hasProfile && (
@@ -218,17 +219,14 @@ export const Layout = ({ children }: PropsWithChildren) => {
                     {settings.map((setting) => (
                       <MenuItem
                         key={setting}
-<<<<<<< HEAD
-                        onClick={logout}
-=======
                         onClick={() => {
                           if (setting === "Logout") {
                             disconnect();
+                            setProfile(DEFAULT_PROFILE);
                             navigate("/login");
                           } else if (setting === "Profile")
                             navigate("/dashboard/profile");
                         }}
->>>>>>> add dashboard profile page
                       >
                         <Typography textAlign="center">{setting}</Typography>
                       </MenuItem>
