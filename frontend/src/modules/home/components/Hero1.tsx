@@ -40,11 +40,14 @@ export default function Hero1() {
             textAlign: "center",
           }}
         >
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries
+          Provide to both tenants and owners, a transparent, thrustless &
+          decentralized way to:
+          <br />
+          Prove a clean track record of all the tenant’s payments
+          <br />
+          Pay & receive periodic rent payments through the smart contracts
+          <br />
+          Evaluate both tenant & owner each other at the end of your lease.
         </Box>
         <Box
           sx={{
