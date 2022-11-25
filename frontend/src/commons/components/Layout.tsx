@@ -16,7 +16,6 @@ import {useLocation, useNavigate} from "react-router-dom";
 import { useDisconnect } from "wagmi";
 import {DEFAULT_PROFILE, useUser} from "../../contexts/UserContext";
 import { theme } from "../../theme";
-import Logo from "../../../public/logo_white.png";
 
 interface Props {
   children: ReactNode;
@@ -89,7 +88,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
                 height: "100%",
               }}
               alt="Your logo."
-              src={Logo}
+              src={'/logo_white.png'}
             />
 
             {hasProfile && (

@@ -23,7 +23,8 @@ interface IUserContext {
   signer: Signer | undefined;
 }
 const UserContext = createContext<IUserContext>(undefined as any);
-``export const DEFAULT_PROFILE = (): Profile => ({
+
+export const DEFAULT_PROFILE = (): Profile => ({
   tenant: undefined,
   owner: undefined,
 });
