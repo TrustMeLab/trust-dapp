@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import TrustContextProvider from "./contexts/TrustContext";
-import UserContextProvider from "./contexts/UserContext";
+import UserContextProvider, {useUser} from "./contexts/UserContext";
 import { Web3Modal } from "@web3modal/react";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import {
@@ -12,6 +12,7 @@ import {
 } from "@web3modal/ethereum";
 
 const chains = [chain.localhost];
+// const chains = [chain.goerli];
 
 const PROJECT_ID = "c141c9b6af4c51a104d40b6417ce36e2";
 

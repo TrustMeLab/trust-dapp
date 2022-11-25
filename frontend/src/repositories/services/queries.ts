@@ -5,7 +5,7 @@ import {  } from '../TrustAPI/types/index';
 
 const processRequest = async (query: string): Promise<any> => {
   try {
-    return await axios.post(SUBGRAPH_URL, { query });
+    return await axios.post(import.meta.env.SUBGRAPH_URL, { query });
   } catch (err) {
     console.log(err);
     return null;
@@ -27,6 +27,28 @@ export const getTenantById = (id: string): Promise<any> => {
        tenants(where: {id: "${id}"})
     }
   `;
+  return processRequest(query);
+};
+
+export const getFullTrustProfileData = (address: string): Promise<any> => {
+  const query = `{
+          owners(where: {address: "${address}"}) {
+            id handle address uri
+            leases(where: {status_not: PENDING}) {
+              rentPayments(where: {status: PAID}) {
+                withoutIssues
+              }
+            }
+          }
+          tenants(where: {address: "${address}"}) {
+            id handle address uri hasLease
+            leases(where: {status_not: PENDING}) {
+              rentPayments(where: {status_in: [PAID, NOT_PAID]}) {
+                status
+              }
+            }
+          }
+        }`;
   return processRequest(query);
 };
 

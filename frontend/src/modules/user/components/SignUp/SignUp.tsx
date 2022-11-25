@@ -8,6 +8,7 @@ import { useTrust } from "../../../../contexts/TrustContext";
 import { Layout } from "../../../../commons/components/Layout";
 import { useUser } from "../../../../contexts/UserContext";
 import { mintOwnerId, mintTenantId } from "../../../../contracts/utils";
+import {getFullTrustProfileData} from "../../../../repositories/services/queries";
 
 export enum UserType {
   Owner,
@@ -22,6 +23,9 @@ export interface UserForm {
 export const SignUp = () => {
   const { address, hasProfile, setProfile, signer } = useUser();
   const $api = useTrust();
+  const { profile } = useUser();
+  console.log("profile",profile);
+  console.log(import.meta.env.VITE_SUBGRAPH_URL)
 
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
