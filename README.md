@@ -1,3 +1,27 @@
+## Problem
+
+![Problem slide](https://github.com/TheOutsidersLab/trust-fullstack/blob/master/Slide3.JPG?raw=true)
+
+***
+## Solution
+*How did you resolve this issue? 
+![Problem slide](https://github.com/TheOutsidersLab/trust-fullstack/blob/master/Slide4.JPG?raw=true)
+![Problem slide](https://github.com/TheOutsidersLab/trust-fullstack/blob/master/Slide5.JPG?raw=true)
+*What was your biggest technical challenge and how does your solution solve it?*
+![Problem slide]https://github.com/maofalt/starton_readme_test/blob/main/%5B0%5DOutsider%20Lab%20-%20Solution%20-2.jpg.jpg?raw=true)
+ 
+ ***
+## Facility
+*Explain, step-by-step, how someone can install your project and use it. The jury will mainly use MacOS, Ubuntu, Android, and iOS. Setting up a docker/docker-compose is a good idea to allow someone to test the project easily.*
+![Problem slide](https://github.com/maofalt/starton_readme_test/blob/main/%5B0%5DOutsider%20Lab%20-%20Facility%20.jpg?raw=true)
+
+
+***
+## Team and comments
+*Specify the name of your team (the same as on the discord/gather), and tell us what you learned during this hackathon!*
+![Problem slide](https://github.com/TheOutsidersLab/trust-fullstack/blob/master/Slide6.JPG?raw=true)
+
+
 # Trust protocol Dapp
 
 ## Introduction
