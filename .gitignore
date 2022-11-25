@@ -2,7 +2,9 @@
 /dist
 **/node_modules
 /sub-graph/node_modules
-/sub-graph/data/**
+/sub-graph/data/ipfs
+/sub-graph/data/postgres
+/sub-graph/build
 /contracts/node_modules
 
 # Logs

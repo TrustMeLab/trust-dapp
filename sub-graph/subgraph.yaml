@@ -7,7 +7,7 @@ dataSources:
     network: localhost
     source:
       abi: OwnerId
-      address: "0xBe16616Ffb87CC3845dC33bA7a7419768697D511"
+      address: "0x1Ce33915e6F56f880b981891C109121dCE91c601"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -29,7 +29,7 @@ dataSources:
     network: localhost
     source:
       abi: TenantId
-      address: "0x0AB0976ed91F74FA8D8F1D9EA9BEa24b7c1cb65e"
+      address: "0x62Ad07183530a4202097377e1f955FCcda827754"
       startBlock: 0
     mapping:
       kind: ethereum/events
@@ -53,7 +53,7 @@ dataSources:
     network: localhost
     source:
       abi: Lease
-      address: "0x048ca8B5df207A87E8a17Ddb1fc2BFf40029C391"
+      address: "0xE99F4178bF67D8EdDE14E625E6F7E3568d52cb86"
       startBlock: 0
     mapping:
       kind: ethereum/events

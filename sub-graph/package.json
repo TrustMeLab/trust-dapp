@@ -9,7 +9,7 @@
     "create-local": "graph create --node http://localhost:8020/ trust-protocol",
     "remove-local": "graph remove --node http://localhost:8020/ trust-protocol",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 trust-protocol --version-label 0.0.1",
-    "start": "npm run codegen && npm run build:localhost && npm run remove-local && npm run create-local && npm run deploy-local"
+    "start": "npm run codegen && npm run build:localhost && npm run build && npm run remove-local && npm run create-local && npm run deploy-local"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.25.1",
