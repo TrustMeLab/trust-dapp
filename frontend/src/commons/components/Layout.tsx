@@ -109,7 +109,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
               }}
               alt="trust_logo"
               src={Logo}
-              onClick={() => navigate("/dashboard/tenant/leases")}
+              onClick={() => navigate("/dashboard/profile")}
             />
 
             {hasProfile && (
@@ -222,7 +222,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
                         onClick={() => {
                           if (setting === "Logout") {
                             disconnect();
-                            setProfile(DEFAULT_PROFILE);
+                            setProfile(DEFAULT_PROFILE());
                             navigate("/login");
                           } else if (setting === "Profile")
                             navigate("/dashboard/profile");
