@@ -2,6 +2,9 @@ import { Box, Button, Card, Typography } from "@mui/material";
 import React from "react";
 import { useTheme } from "@mui/material/styles";
 import { Lease } from "../../repositories/TrustAPI/types";
+import {formatDuration, intervalToDuration, format} from "date-fns";
+import {tokens} from "../../const";
+import {ethers, FixedNumber} from "ethers";
 
 interface LargeCardProps {
   title: string;

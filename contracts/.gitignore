@@ -9,3 +9,4 @@ msc.config_localhost.json
 #Hardhat files
 cache
 artifacts
+.env

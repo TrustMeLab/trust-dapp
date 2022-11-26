@@ -15,7 +15,7 @@ type ConfigAddresses = {
   ownerIdAddress : string,
   tenantIdAddress : string,
   leaseAddress : string,
-  fakeIexecOracle : string,
+  iexecOracle : string,
   croesusToken : string
 };
 

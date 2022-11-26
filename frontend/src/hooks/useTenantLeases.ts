@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import {Lease} from "../repositories/TrustAPI";
-import {getLeaseDetailsById} from "../repositories/services/queries";
+import {getLeaseDetailsById, getLeasesByTenantId} from "../repositories/services/queries";
 
-const useLeseDetails = (id: string): Lease | null => {
-  const [leases, setLeases] = useState<Lease | null>(null);
+const useLeasesByTenantId = (id: string): Lease[] => {
+  const [leases, setLeases] = useState<Lease[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         console.log('id', id);
-        const response = await getLeaseDetailsById(id);
-        console.log('response', response);
+        const response = await getLeasesByTenantId(id);
+        // console.log('response', response);
         if (response?.data?.data?.leases) {
-          setLeases(response.data.data.leases[0]);
+          setLeases(response.data.data.leases);
         }
       } catch (err: any) {
         // eslint-disable-next-line no-console
@@ -25,4 +25,4 @@ const useLeseDetails = (id: string): Lease | null => {
   return leases;
 };
 
-export default useLeseDetails;
+export default useLeasesByTenantId;

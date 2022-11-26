@@ -26,6 +26,7 @@ function App() {
   const routes = createBrowserRouter([
     { index: true, element: <Homepage /> },
     { path: "login", element: <Login /> },
+    //TODO: if no profile redirect to sign-up
     GuardedRoute({ path: "sign-up", element: <SignUp /> }, address != null),
     GuardedRoute(
       {

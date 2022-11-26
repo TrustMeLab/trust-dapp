@@ -5,7 +5,7 @@ import {  } from '../TrustAPI/types/index';
 
 const processRequest = async (query: string): Promise<any> => {
   try {
-    return await axios.post(SUBGRAPH_URL, { query });
+    return await axios.post(import.meta.env.VITE_SUBGRAPH_URL, { query });
   } catch (err) {
     console.log(err);
     return null;
@@ -77,7 +77,7 @@ export const getLeaseDetailsById = (id: string): Promise<any> => {
           handle
           updatedAt
         }
-        rentPayments {
+         rentPayments(orderBy: rentPaymentDate) {
           amount
           exchangeRate
           exchangeRateTimestamp
@@ -96,6 +96,30 @@ export const getLeaseDetailsById = (id: string): Promise<any> => {
           }
         }
       }
+  `;
+  return processRequest(query);
+};
+
+export const getLeasesByTenantId = (id: string): Promise<any> => {
+  const query = `
+    {
+        leases(where: {tenant_: {id: "${id}"}}) {
+          id
+          status
+          rentPaymentInterval
+          totalNumberOfRents
+          rentAmount
+          currencyPair
+          paymentToken
+          tenantReviewUri
+          ownerReviewUri
+          startDate
+          tenant {
+            id
+            handle
+          }
+          }
+  }
   `;
   return processRequest(query);
 };

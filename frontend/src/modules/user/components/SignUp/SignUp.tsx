@@ -23,7 +23,7 @@ export const SignUp = () => {
   const { address, hasProfile, setProfile, signer } = useUser();
   const $api = useTrust();
   const { profile } = useUser();
-  console.log("profile",profile);
+  console.log("Signup: profile",profile);
   console.log(import.meta.env.VITE_SUBGRAPH_URL)
 
   const navigate = useNavigate();
@@ -58,7 +58,8 @@ export const SignUp = () => {
 
   useEffect(() => {
     if (!address) navigate("/login");
-    if (hasProfile) navigate("/dashboard");
+    //TODO redo redirect logic here
+    // if (hasProfile) navigate("/dashboard");
   }, [address]);
 
   return (

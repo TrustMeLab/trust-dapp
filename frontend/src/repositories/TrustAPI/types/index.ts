@@ -1,5 +1,5 @@
 export interface Person {
-  id: number
+  id: string
   handle: string // name
   address: string
   score: number
@@ -37,7 +37,7 @@ export enum LeaseStatus {
   CANCELLED = "CANCELLED",
 }
 
-enum PaymentStatus {
+export enum PaymentStatus {
   PENDING = "PENDING",
   PAID = "PAID",
   NOT_PAID = "NOT_PAID",
@@ -49,10 +49,12 @@ export interface RentPayment {
   id: string;
   amount: string;
   paymentDate: string;
+  status: string;
+  validationDate: string;
+  rentPaymentDate: string;
+  exchangeRate: string;
+  rentPaymentLimitDate: string;
   withoutIssues: boolean;
-  tenant: Tenant;
-  owner: Owner;
-  lease: Lease;
 }
 
 export interface Lease {

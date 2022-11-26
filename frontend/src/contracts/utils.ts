@@ -3,6 +3,7 @@ import { ethers, Signer } from "ethers";
 import TenantIdABI from "./TenantId.json";
 import OwnerABI from "./OwnerId.json";
 import LeaseABI from "./Lease.json";
+import ERC20ABI from "./ERC20.json";
 import OracleABI from "./IexecRateOracle.json";
 import { config } from "../config/config";
 import { OracleData } from "../repositories/TrustAPI";
@@ -18,7 +19,10 @@ export const mintTenantId = async (
     TenantIdABI.abi,
     signer
   );
-  await tenantIdContract.mint(handle);
+  console.log("mint signer", await signer.getChainId());
+  console.log("tenantIdContract", tenantIdContract);
+  const tsx = await tenantIdContract.mint(handle);
+  console.log("tsx", tsx);
 };
 
 export const updateTenantProfileData = async (
@@ -129,7 +133,8 @@ export const payCryptoRentInETH = async (
   signer: Signer,
   leaseId: string,
   rentId: string,
-  withoutIssues: string,
+  //TODO a check si ca doit petre un string ici
+  withoutIssues: boolean,
   amount: string
 ): Promise<void> => {
   //The "amount" MUST already be in wei
@@ -146,13 +151,17 @@ export const payCryptoRentInToken = async (
   signer: Signer,
   leaseId: string,
   rentId: string,
-  withoutIssues: string,
+  paymentToken: string,
+  withoutIssues: boolean,
   amount: string
 ): Promise<void> => {
   //The "amount" MUST already be in smallest token unit
-  const amountInToken = ethers.utils.parseUnits(amount, 0);
-
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
+  const tokenContract = new Contract(paymentToken, ERC20ABI.abi, signer);
+
+  const amountInToken = ethers.utils.parseUnits(amount, 0);
+  //Approve the transfer of the token amount by Lease contract
+  await tokenContract.approve(config.leaseAddress, amountInToken);
   await leaseContract.payCryptoRentInETH(
     leaseId,
     rentId,
@@ -166,7 +175,7 @@ export const payFiatRentInEth = async (
   signer: Signer,
   leaseId: string,
   rentId: string,
-  withoutIssues: string,
+  withoutIssues: boolean,
   amount: string
 ): Promise<void> => {
   //The "amount" MUST already be in wei
@@ -184,13 +193,18 @@ export const payFiatRentInToken = async (
   signer: Signer,
   leaseId: string,
   rentId: string,
-  withoutIssues: string,
+  paymentToken: string,
+  withoutIssues: boolean,
   amount: string
 ): Promise<void> => {
   //The "amount" MUST already be in smallest token unit
-  const amountInToken = ethers.utils.parseUnits(amount, 0);
-
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
+  const tokenContract = new Contract(paymentToken, ERC20ABI.abi, signer);
+
+  const amountInToken = ethers.utils.parseUnits(amount, 0);
+  //Approve the transfer of the token amount by Lease contract
+  await tokenContract.approve(config.leaseAddress, amountInToken);
+
   await leaseContract.payFiatRentInToken(
     leaseId,
     rentId,
@@ -241,9 +255,9 @@ export const getRate = async (
   currencyPair: string
 ): Promise<any> => {
   // ): Promise<OracleData> => {
-  //TODO Pas sur du retour, peut être un array.Je met "any" pour l'instant
+  //TODO Pas sur du retour, peut être un array. Je met "any" pour l'instant
   const oracleContract = new Contract(
-    config.fakeIexecOracle,
+    config.iexecOracle,
     OracleABI.abi,
     signer
   );
@@ -255,9 +269,13 @@ export const updateRate = async (
   currencyPair: string
 ): Promise<void> => {
   const oracleContract = new Contract(
-    config.fakeIexecOracle,
+    config.iexecOracle,
     OracleABI.abi,
     signer
   );
   await oracleContract.updateRate(currencyPair);
 };
+
+
+// ***************************   ERC20 Tokens   ***************************
+

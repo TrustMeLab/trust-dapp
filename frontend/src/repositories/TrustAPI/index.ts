@@ -5,7 +5,7 @@ export * from "./types";
 
 export default function TrustAPI() {
   const theGraphInstance = ofetch.create({
-    baseURL: SUBGRAPH_URL
+    baseURL: import.meta.env.VITE_SUBGRAPH_URL
   });
 
   return {
@@ -67,7 +67,7 @@ export default function TrustAPI() {
       if (!tenant && !owner) {
         throw new Error("profile.not-found");
       }
-      
+
       if (tenant) {
         const payments = tenant.leases.flatMap((lease: any) => lease.rentPayments)
         const paid = payments.filter((payment: any) => payment.status === 'PAID')

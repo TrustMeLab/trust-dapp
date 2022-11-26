@@ -13,6 +13,8 @@ import { formatDuration, intervalToDuration, format } from "date-fns";
 import { ButtonsLatestLeases } from "../components/Tenant/ButtonsLatestLeases";
 import { CONST, tokens } from "../../../const";
 import { ethers, FixedNumber } from "ethers";
+import useLeasesByTenantId from "../../../hooks/useTenantLeases";
+import useTenantById from "../../../hooks/useTenantById";
 
 export const returnTitle = (leaseStatus: LeaseStatus) => {
   if (leaseStatus === (LeaseStatus.ENDED || LeaseStatus.CANCELLED))
@@ -59,30 +61,24 @@ export const returnRentInfos = (
   const convertInterval = formatDuration(
     intervalToDuration({ start: 0, end: Number(rentPaymentInterval) * 1000 })
   ); // 30days
+  console.log(`${parsedRentAmount} ${displayCurrency} / ${convertInterval}`)
   return `${parsedRentAmount} ${displayCurrency} / ${convertInterval}`;
 };
 
 export const Tenant = () => {
   const navigate = useNavigate();
-  const $api = useTrust();
   const { profile } = useUser();
-  // const [tenantLeases ,setTenantLeases] = useState<Lease[]>([]);
-
-  // const getAllLeasesFromTenant = async () => {
-  //   if (profile.tenant) {
-  //     const result = await $api.getTenantLeases(profile?.tenant?.address);
-  //     setTenantLeases(result);
-  //   }
-  // };
+  const tenantLeases = useLeasesByTenantId(profile?.tenant?.id as string);
+  console.log("Tenant.tsx: tenantLeases", tenantLeases);
+  console.log("Tenant.tsx: profile", profile);
 
   const lastLease = tenantLeases[0];
-
-  useEffect(() => {
-    // getAllLeasesFromTenant();
-  }, []);
+  // const lastLease = tenantLeases;
+  // console.log("Tenant.tsx: lastLease", lastLease);
 
   return (
-    <Fragment>
+    !tenantLeases ? <p>You don't have a lease</p> :
+    lastLease && <Fragment>
       <LargeCard
         title={returnTitle(lastLease.status)}
         period={returnPeriod(
@@ -101,7 +97,7 @@ export const Tenant = () => {
         generalInfo={`Owner : ${lastLease.tenant.handle}`}
         remarks={
           lastLease.status === "CANCELLED"
-            ? `Cnacellation requested`
+            ? `Cancellation requested`
             : undefined
         }
         handleClick={() => navigate(`/dashboard/tenant/leases/${lastLease.id}`)}
@@ -109,7 +105,7 @@ export const Tenant = () => {
           <ButtonsLatestLeases
             leaseId={lastLease.id}
             leaseStatus={lastLease.status}
-            reviewUri={lastLease.reviewUri}
+            reviewUri={lastLease.tenantReviewUri}
           />
         }
       />

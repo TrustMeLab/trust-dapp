@@ -7,6 +7,7 @@ import { LeasesDisplay } from "../components/Owner/LeasesDisplay";
 import { useUser } from "../../../contexts/UserContext";
 import { CreateLeaseButton } from "../components/Owner/CreateLeaseButton";
 import { Lease, LeaseStatus } from "../../../repositories/TrustAPI/types";
+import useLeasesByTenantId from "../../../hooks/useTenantLeases";
 
 export const Owner = () => {
   const [activeTabMenu, setActiveTabMenu] = useState(0);
