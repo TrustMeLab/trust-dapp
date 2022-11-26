@@ -16,12 +16,12 @@ export default function Hero3 () {
 		<Box sx={{
 				display: 'flex',
 				flexDirection: 'column',
-				justifyContent: 'center',
+				justifyContent: 'space-between',
 				alignItems: 'center',
 				width: '50%'
 			}}>
 			<Box sx={{
-					mb: '1em',
+					mt: '2em',
 					fontSize: '1.5em',
 					textAlign: 'center'
 			}}>Are you a Professional? Use our SDK to integrate our service
@@ -30,7 +30,6 @@ export default function Hero3 () {
 				component="img"
 				sx={{
 					height: "80%",
-					mb: '-2.6em'
 				}}
 				alt="fusee"
 				src={"/fusee.jpg"}
