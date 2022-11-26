@@ -17,25 +17,23 @@ export const Dashboard = () => {
       navigate("/login");
       return;
     }
+    if (pathname === "/dashboard" && hasProfile) {
+      navigate(
+        profile.tenant && !profile.owner
+          ? "tenant/leases"
+          : profile.owner && !profile.tenant
+          ? "owner/leases"
+          : "profile"
+      );
+      return;
+    }
 
-    //TODO a refacto
-    // if (pathname === '/dashboard' && hasProfile) {
-    //   navigate(profile.tenant
-    //     ? 'tenant/leases'
-    //     : 'owner/leases'
-    //   )
-    //   return
-    // }
-
-    !hasProfile &&
-      !loading &&
-      fetchProfile(address)
-        .then(
-          (res) =>
-            pathname === "/dashboard" &&
-            navigate(res?.tenant ? "tenant/leases" : "owner/leases")
-        )
-        .catch(() => navigate("/sign-up"));
+    !hasProfile && !loading && fetchProfile(address);
+    // .then((res) => pathname === '/dashboard' && navigate(res?.tenant
+    //   ? 'tenant/leases'
+    //   : 'owner/leases'
+    // ))
+    // .catch(() => navigate("/sign-up"));
   }, []);
 
   return (

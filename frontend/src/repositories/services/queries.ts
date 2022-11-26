@@ -30,6 +30,15 @@ export const getTenantById = (id: string): Promise<any> => {
   return processRequest(query);
 };
 
+export const getTenantbyHandle = (handle: string): Promise<any> => {
+  const query = `
+    {
+       tenants(where: {handle_contains: "${handle}"})
+    }
+  `;
+  return processRequest(query);
+};
+
 export const getFullTrustProfileData = (address: string): Promise<any> => {
   const query = `{
           owners(where: {address: "${address}"}) {

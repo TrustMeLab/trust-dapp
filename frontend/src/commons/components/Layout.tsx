@@ -78,6 +78,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
           borderRadius: "10px",
           padding: "10px",
           margin: "10px",
+          cursor: "pointer",
         }}
       >
         <Typography>
