@@ -4,6 +4,7 @@ import {config as dotenvConfig} from "dotenv";
 import {resolve} from "path";
 import {Network} from "./scripts/config";
 import "./scripts/deploy";
+import "./scripts/deployPartialData";
 import "./scripts/iexecTestDeploy";
 import "@nomicfoundation/hardhat-toolbox";
 

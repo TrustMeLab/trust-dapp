@@ -45,24 +45,23 @@ export const returnRentInfos = (
   rentPaymentInterval: string,
   totalNumberOfRents: string,
   paymentToken: string
-) => {
+): string => {
   let displayCurrency = "";
-  if (currencyPair === "CRYPTO") {
+  if(currencyPair === "CRYPTO") {
     const token = tokens.find((token) => token.address === paymentToken);
     displayCurrency = token?.name || "";
+    rentAmount = ethers.utils.formatUnits(rentAmount, 18);
   } else {
-    displayCurrency = currencyPair.substring(0, currencyPair.indexOf("-"));
-    // displayCurrency = FixedNumber.from(currencyPair.substring(0, currencyPair.indexOf('-'))).round.(2).toString()
-    const paymentCurrency = tokens.find(
-      (token) => token.address === paymentToken
-    );
+    displayCurrency = currencyPair.substring(0, currencyPair.indexOf('-'));
+    //TODO Il faut intégrer la devise de paiement quelque part. On n'affiche que la devise Fiat
+    const paymentCurrency = tokens.find((token) => token.address === paymentToken);
   }
-  const parsedRentAmount = ethers.utils.formatUnits(rentAmount, 18);
-  const convertInterval = formatDuration(
-    intervalToDuration({ start: 0, end: Number(rentPaymentInterval) * 1000 })
-  ); // 30days
-  console.log(`${parsedRentAmount} ${displayCurrency} / ${convertInterval}`)
-  return `${parsedRentAmount} ${displayCurrency} / ${convertInterval}`;
+  let convertInterval = '0';
+  // rentAmount = FixedNumber.from(rentAmount).round(2).toString();
+  if(rentPaymentInterval){
+    convertInterval = formatDuration(intervalToDuration({ start: 0, end: Number(rentPaymentInterval) * 1000 })); // 30days
+  }
+  return `${rentAmount} ${displayCurrency} / ${convertInterval}`;
 };
 
 export const Tenant = () => {

@@ -3,8 +3,8 @@ import {ethers} from "hardhat";
 import {getCurrentTimestamp} from "hardhat/internal/hardhat-network/provider/utils/getCurrentTimestamp";
 import {ConfigAddresses} from "../contract-addresses";
 
-// npx hardhat deploy --fiat-rent-payment-eth --fiat-rent-payment-token --normal-rent --normal-token-rent --network localhost
-task("deploy", "Deploys contracts")
+// npx hardhat deploy-partial --fiat-rent-payment-eth --fiat-rent-payment-token --normal-rent --normal-token-rent --network localhost
+task("deploy-partial", "Deploys contracts")
   .addFlag('normalRent', 'Rents paid & not paid in ETH')
   .addFlag('alreadyDeployed', 'If contracts already deployed')
   .addFlag('normalTokenRent', 'Rents paid & not paid in token')
@@ -13,7 +13,7 @@ task("deploy", "Deploys contracts")
   .addFlag('cancelLease', 'Rents paid & not paid & lease is cancelled')
   .setAction(async (taskArgs, {ethers, run}) => {
     const {normalRent, normalTokenRent, cancelLease, fiatRentPaymentToken, fiatRentPaymentEth} = taskArgs;
-    const [deployer, croseus, brutus, maximus, aurelius] = await ethers.getSigners();
+    const [deployer, croesus, brutus, maximus, aurelius] = await ethers.getSigners();
     console.log("Deploying contracts with the account:", deployer.address);
     await run("compile");
 
@@ -52,7 +52,7 @@ task("deploy", "Deploys contracts")
     await croesusToken.transfer(brutus.address, ethers.utils.parseEther('1000'))
     await croesusToken.transfer(maximus.address, ethers.utils.parseEther('1000'))
     await croesusToken.transfer(aurelius.address, ethers.utils.parseEther('1000'))
-    await croesusToken.transfer(croseus.address, ethers.utils.parseEther('1000'))
+    await croesusToken.transfer(croesus.address, ethers.utils.parseEther('1000'))
 
     // // UNCOMMENT IF DEPLOYED
     // const oracleContract = await ethers.getContractAt('IexecRateOracle', ConfigAddresses.oracleAddress,)
@@ -87,9 +87,9 @@ task("deploy", "Deploys contracts")
     await mintTxDeployerTenant.wait();
     console.log('TheBoss tenantId: ', await tenantIdContract.getUserId(deployer.address))
 
-    const mintTx = await ownerIdContract.connect(croseus).mint('Croesus');
+    const mintTx = await ownerIdContract.connect(croesus).mint('Croesus');
     await mintTx.wait();
-    console.log('Croesus ownerId: ', await ownerIdContract.getOwnerIdFromAddress(croseus.address))
+    console.log('Croesus ownerId: ', await ownerIdContract.getOwnerIdFromAddress(croesus.address))
 
     const mintTx2 = await ownerIdContract.connect(brutus).mint('Brutus');
     await mintTx2.wait();
@@ -103,13 +103,21 @@ task("deploy", "Deploys contracts")
     await mintTx4.wait();
     console.log('Aurelius tenantId: ', await tenantIdContract.getUserId(aurelius.address));
 
+    const mintTx5 = await tenantIdContract.connect(croesus).mint('Croesus');
+    await mintTx5.wait();
+    console.log('Maximus tenantId: ', await tenantIdContract.getUserId(maximus.address))
+
+    const mintTx7 = await tenantIdContract.connect(brutus).mint('Brutus');
+    await mintTx7.wait();
+    console.log('Aurelius tenantId: ', await tenantIdContract.getUserId(aurelius.address));
+
 
     // console.log('Aurelius profil: ', await tenantIdContract.getTenant('2'));
 
 
     if (normalRent) {
       //Create lease for ETH payment
-      const createLeaseTx = await leaseContract.connect(croseus).createLease(// '4',
+      const createLeaseTx = await leaseContract.connect(deployer).createLease(// '4',
         await tenantIdContract.getUserId(maximus.address),
         ethers.utils.parseEther('0.0000000000005'),
         '12',
@@ -130,40 +138,23 @@ task("deploy", "Deploys contracts")
       const hasLease = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(maximus.address));
       console.log('Maximus has lease: ', hasLease);
 
-      // //Reject Lease
-      // const rejectLeaseTx = await leaseContract.connect(carol).declineLease(1);
-      // await rejectLeaseTx.wait();
-      // const lease = await leaseContract.leases(1)
-      // console.log('Lease Declined: ', lease.status)
-      //
-      // const hasLease = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(carol.address));
-      // console.log('Maximus has lease: ', hasLease);
-
-      //Maximus pays 8 rents
-      for (let i = 0; i < 8; i++) {
+      for (let i = 0; i < 4; i++) {
         const payRentTx = await leaseContract.connect(maximus).payCryptoRentInETH(1, i, true, {value: ethers.utils.parseEther('0.0000000000005')});
         await payRentTx.wait();
         console.log('Maximus paid rent: ', i)
       }
 
       //Croesus marks 4 rents as not paid
-      for (let i = 8; i < 12; i++) {
-        const markRentNotPaidTx = await leaseContract.connect(croseus).markRentAsNotPaid(1, i);
+      for (let i = 5; i < 7; i++) {
+        const markRentNotPaidTx = await leaseContract.connect(deployer).markRentAsNotPaid(1, i);
         await markRentNotPaidTx.wait();
         console.log('Croesus marked rent as not paid: ', i)
       }
 
-      const reviewLeaseTx = await leaseContract.connect(maximus).reviewLease(1, 'TenantReviewURI');
-      await reviewLeaseTx.wait();
-      console.log('Maximus reviewed lease: ', 1)
-      const reviewLeaseTx2 = await leaseContract.connect(croseus).reviewLease(1, 'OwnerReviewURI');
-      await reviewLeaseTx2.wait();
-      console.log('Croesus reviewed lease: ', 1)
-
       const hasLeaseEnd = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(maximus.address));
       console.log('Maximus has lease: ', hasLeaseEnd);
 
-      const daveHasLeaseEnd = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(aurelius.address));
+      const daveHasLeaseEnd = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(deployer.address));
       console.log('Aurelius has lease: ', daveHasLeaseEnd);
     }
 
@@ -172,7 +163,7 @@ task("deploy", "Deploys contracts")
       await croesusToken.connect(aurelius).approve(leaseContract.address, totalAmountToApprove);
 
       //Create token lease
-      const createLeaseTx = await leaseContract.connect(croseus).createLease(// '4',
+      const createLeaseTx = await leaseContract.connect(deployer).createLease(// '4',
         await tenantIdContract.getUserId(aurelius.address),
         ethers.utils.parseEther('0.0000000000005'),
         '12',
@@ -194,27 +185,20 @@ task("deploy", "Deploys contracts")
       console.log('Aurelius has lease: ', hasLease);
 
       //Aurelius pays 8 rents
-      for (let i = 0; i < 8; i++) {
+      for (let i = 0; i < 4; i++) {
         const payRentTx = await leaseContract.connect(aurelius).payCryptoRentInToken(2, i, true, ethers.utils.parseEther('0.0000000000005'));
         await payRentTx.wait();
         console.log('Aurelius paid rent: ', i)
       }
 
       //Croesus marks 4 rents as not paid
-      for (let i = 8; i < 12; i++) {
-        const markRentNotPaidTx = await leaseContract.connect(croseus).markRentAsNotPaid(2, i);
+      for (let i = 8; i < 7; i++) {
+        const markRentNotPaidTx = await leaseContract.connect(deployer).markRentAsNotPaid(2, i);
         await markRentNotPaidTx.wait();
         console.log('Croesus marked rent as not paid: ', i)
       }
 
-      const reviewLeaseTx = await leaseContract.connect(aurelius).reviewLease(2, 'TenantReviewURI');
-      await reviewLeaseTx.wait();
-      console.log('Aurelius reviewed lease: ', 2)
-      const reviewLeaseTx2 = await leaseContract.connect(croseus).reviewLease(2, 'OwnerReviewURI');
-      await reviewLeaseTx2.wait();
-      console.log('Croesus reviewed lease: ', 2)
-
-      const hasLeaseEnd = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(maximus.address));
+      const hasLeaseEnd = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(deployer.address));
       console.log('Maximus has lease: ', hasLeaseEnd);
 
       const daveHasLeaseEnd = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(aurelius.address));
@@ -228,12 +212,12 @@ task("deploy", "Deploys contracts")
       await oracleContract.updateRate('USD-SHI');
       // const totalAmountToApprove = ethers.utils.parseEther('0.0000000000005').mul(12);
       // await croesusToken.connect(aurelius).approve(leaseContract.address, totalAmountToApprove);
-      const aureliusId = await tenantIdContract.getUserId(aurelius.address)
-      console.log('Aurelius id ', aureliusId)
+      const aurelusId = await tenantIdContract.getUserId(brutus.address)
+      console.log('brutus id ', aurelusId)
 
       //Create token lease
-      const createLeaseTx = await leaseContract.connect(croseus).createLease(
-        await tenantIdContract.getUserId(aurelius.address),
+      const createLeaseTx = await leaseContract.connect(deployer).createLease(
+        await tenantIdContract.getUserId(brutus.address),
         "5",
         '12',
         croesusTokenAddress,
@@ -245,15 +229,15 @@ task("deploy", "Deploys contracts")
       // console.log('Lease created: ', await leaseContract.leases(2))
 
       //Validate token Lease
-      const validateLeaseTx = await leaseContract.connect(aurelius).validateLease(3);
+      const validateLeaseTx = await leaseContract.connect(brutus).validateLease(3);
       await validateLeaseTx.wait();
       const lease = await leaseContract.leases(3)
       console.log('Lease validated: ', lease.status)
 
-      const hasLease = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(aurelius.address));
-      console.log('Aurelius has lease: ', hasLease);
+      const hasLease = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(brutus.address));
+      console.log('brutus has lease: ', hasLease);
 
-      //Aurelius pays 8 rents
+      //brutus pays 8 rents
       // await oracleContract.updateRate('USD-ETH');
       const conversionRate = await oracleContract.getRate(lease.paymentData.currencyPair);
       console.log('Conversion rate: ', conversionRate[0].toNumber() / 10**18); // usd-eth
@@ -263,44 +247,37 @@ task("deploy", "Deploys contracts")
       console.log('Rent amount in token: ', rentAmountInToken.toString());
 
       const totalAmountToApprove = rentAmountInToken.mul(8);
-      await croesusToken.connect(aurelius).approve(leaseContract.address, totalAmountToApprove);
+      await croesusToken.connect(brutus).approve(leaseContract.address, totalAmountToApprove);
 
-      for (let i = 0; i < 8; i++) {
-        const payRentTx = await leaseContract.connect(aurelius).payFiatRentInToken(3, i, true, rentAmountInToken);
+      for (let i = 0; i < 4; i++) {
+        const payRentTx = await leaseContract.connect(brutus).payFiatRentInToken(3, i, true, rentAmountInToken);
         await payRentTx.wait();
-        console.log('Aurelius paid rent: ', i)
+        console.log('brutus paid rent: ', i)
       }
 
       //Croesus marks 4 rents as not paid
-      for (let i = 8; i < 12; i++) {
-        const markRentNotPaidTx = await leaseContract.connect(croseus).markRentAsNotPaid(3, i);
+      for (let i = 8; i < 7; i++) {
+        const markRentNotPaidTx = await leaseContract.connect(deployer).markRentAsNotPaid(3, i);
         await markRentNotPaidTx.wait();
         console.log('Croesus marked rent as not paid: ', i)
       }
 
-      const reviewLeaseTx = await leaseContract.connect(aurelius).reviewLease(3, 'TenantReviewURI');
-      await reviewLeaseTx.wait();
-      console.log('Aurelius reviewed lease: ', 3)
-      const reviewLeaseTx2 = await leaseContract.connect(croseus).reviewLease(3, 'OwnerReviewURI');
-      await reviewLeaseTx2.wait();
-      console.log('Croesus reviewed lease: ', 3)
-
-      const hasLeaseEnd = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(maximus.address));
+      const hasLeaseEnd = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(deployer.address));
       console.log('Maximus has lease: ', hasLeaseEnd);
 
-      const daveHasLeaseEnd = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(aurelius.address));
-      console.log('Aurelius has lease: ', daveHasLeaseEnd);
+      const daveHasLeaseEnd = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(brutus.address));
+      console.log('brutus has lease: ', daveHasLeaseEnd);
     }
 
     if (fiatRentPaymentEth) {
       const totalAmountToApprove = ethers.utils.parseEther('0.0000000000005').mul(12);
-      await croesusToken.connect(aurelius).approve(leaseContract.address, totalAmountToApprove);
-      const auralusId = await tenantIdContract.getUserId(aurelius.address)
-      console.log('Aurelius id ', auralusId)
+      await croesusToken.connect(croesus).approve(leaseContract.address, totalAmountToApprove);
+      const auralusId = await tenantIdContract.getUserId(croesus.address)
+      console.log('croesus id ', auralusId)
 
       //Create ETH lease
-      const createLeaseTx = await leaseContract.connect(croseus).createLease(
-        await tenantIdContract.getUserId(aurelius.address),
+      const createLeaseTx = await leaseContract.connect(deployer).createLease(
+        await tenantIdContract.getUserId(croesus.address),
         "5",
         '12',
         croesusTokenAddress,
@@ -312,15 +289,15 @@ task("deploy", "Deploys contracts")
       // console.log('Lease created: ', await leaseContract.leases(2))
 
       //Validate token Lease
-      const validateLeaseTx = await leaseContract.connect(aurelius).validateLease(4);
+      const validateLeaseTx = await leaseContract.connect(croesus).validateLease(4);
       await validateLeaseTx.wait();
       const lease = await leaseContract.leases(4)
       console.log('Lease validated: ', lease.status)
 
-      const hasLease = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(aurelius.address));
-      console.log('Aurelius has lease: ', hasLease);
+      const hasLease = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(croesus.address));
+      console.log('croesus has lease: ', hasLease);
 
-      //Aurelius pays 8 rents
+      //croesus pays 8 rents
       // await oracleContract.updateRate('USD-ETH');
       const conversionRate = await oracleContract.getRate(lease.paymentData.currencyPair);
       console.log('Conversion rate: ', conversionRate[0].toNumber()); // usd-eth * wei
@@ -329,31 +306,24 @@ task("deploy", "Deploys contracts")
       const rentAmountInWei = lease.paymentData.rentAmount.mul(conversionRate[0]);
       console.log('Rent amount in token: ', rentAmountInWei.toString());
 
-      for (let i = 0; i < 8; i++) {
-        const payRentTx = await leaseContract.connect(aurelius).payFiatRentInEth(4, i, true, {value: rentAmountInWei});
+      for (let i = 0; i < 4; i++) {
+        const payRentTx = await leaseContract.connect(croesus).payFiatRentInEth(4, i, true, {value: rentAmountInWei});
         await payRentTx.wait();
-        console.log('Aurelius paid rent: ', i)
+        console.log('croesus paid rent: ', i)
       }
 
       //Croesus marks 4 rents as not paid
-      for (let i = 8; i < 12; i++) {
-        const markRentNotPaidTx = await leaseContract.connect(croseus).markRentAsNotPaid(4, i);
+      for (let i = 8; i < 7; i++) {
+        const markRentNotPaidTx = await leaseContract.connect(deployer).markRentAsNotPaid(4, i);
         await markRentNotPaidTx.wait();
         console.log('Croesus marked rent as not paid: ', i)
       }
 
-      const reviewLeaseTx = await leaseContract.connect(aurelius).reviewLease(4, 'TenantReviewURI');
-      await reviewLeaseTx.wait();
-      console.log('Aurelius reviewed lease', 4)
-      const reviewLeaseTx2 = await leaseContract.connect(croseus).reviewLease(4, 'OwnerReviewURI');
-      await reviewLeaseTx2.wait();
-      console.log('Croesus reviewed lease', 4)
-
-      const hasLeaseEnd = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(aurelius.address));
+      const hasLeaseEnd = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(croesus.address));
       console.log('Maximus has lease: ', hasLeaseEnd);
 
       const daveHasLeaseEnd = await tenantIdContract.tenantHasLease(await tenantIdContract.getUserId(maximus.address));
-      console.log('Aurelius has lease: ', daveHasLeaseEnd);
+      console.log('croesus has lease: ', daveHasLeaseEnd);
     }
 
     if (cancelLease) {
@@ -365,12 +335,12 @@ task("deploy", "Deploys contracts")
 
       //Croesus marks 4 rents as not paid
       for (let i = 4; i < 8; i++) {
-        const markRentNotPaidTx = await leaseContract.connect(croseus).markRentAsNotPaid(1, i);
+        const markRentNotPaidTx = await leaseContract.connect(croesus).markRentAsNotPaid(1, i);
         await markRentNotPaidTx.wait();
       }
 
       //Test owner marks rend 7 as pending
-      const markRentPendingTx = await leaseContract.connect(croseus).markRentAsPending(1, 7);
+      const markRentPendingTx = await leaseContract.connect(croesus).markRentAsPending(1, 7);
       await markRentPendingTx.wait();
 
       const payments = await leaseContract.getPayments(1);
@@ -385,7 +355,7 @@ task("deploy", "Deploys contracts")
       //Both cancel the lease
       const cancelTenantTx = await leaseContract.connect(maximus).cancelLease(1);
       await cancelTenantTx.wait();
-      const cancelOwnerTx = await leaseContract.connect(croseus).cancelLease(1);
+      const cancelOwnerTx = await leaseContract.connect(croesus).cancelLease(1);
       await cancelOwnerTx.wait();
     }
 
@@ -419,13 +389,13 @@ task("deploy", "Deploys contracts")
     //   //Both review the lease
     //   const reviewLeaseTx = await leaseContract.connect(maximus).reviewLease(1, 'TenantReviewURI');
     //   await reviewLeaseTx.wait();
-    //   const reviewLeaseTx2 = await leaseContract.connect(croseus).reviewLease(1, 'OwnerReviewURI');
+    //   const reviewLeaseTx2 = await leaseContract.connect(croesus).reviewLease(1, 'OwnerReviewURI');
     //   await reviewLeaseTx2.wait();
     // } else if (normalTokenRent) {
     //   //Both review the lease
     //   const reviewLeaseTx = await leaseContract.connect(aurelius).reviewLease(2, 'TenantReviewURI');
     //   await reviewLeaseTx.wait();
-    //   const reviewLeaseTx2 = await leaseContract.connect(croseus).reviewLease(2, 'OwnerReviewURI');
+    //   const reviewLeaseTx2 = await leaseContract.connect(croesus).reviewLease(2, 'OwnerReviewURI');
     //   await reviewLeaseTx2.wait();
     // }
 

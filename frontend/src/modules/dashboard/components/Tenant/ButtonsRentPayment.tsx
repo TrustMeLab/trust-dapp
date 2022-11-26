@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button } from "@mui/material";
-import {PaymentStatus, RentPayment} from "../../../../repositories/TrustAPI/types";
+import {PaymentStatus } from "../../../../repositories/TrustAPI/types";
 import {
-  declineLease,
-  validateLease,
-  cancelLease,
   payCryptoRentInETH,
   payCryptoRentInToken,
-  getRate,
-  payFiatRentInEth, payFiatRentInToken,
+  payFiatRentInEth,
+  payFiatRentInToken,
+  updateRate,
 } from "../../../../contracts/utils";
 import { useUser } from "../../../../contexts/UserContext";
-import { LeaseReviewPopover } from "./LeaseReviewPopover";
 import {CONST, tokens} from "../../../../const";
 
 interface ButtonsProps {
@@ -34,26 +31,25 @@ export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, statu
   const navigate = useNavigate();
   const { signer } = useUser();
 
+  //TODO le booleen doit venir d'un state lié à un champ type radio
   const handlePay = async (e: React.MouseEvent) => {
     e.stopPropagation();
+    const contractRentId = rentId.substring(rentId.indexOf('-') + 1, rentId.length);
     if (signer) {
       if (currencyPair === "CRYPTO") {
         if (paymentToken == CONST.ETH_ADDRESS) {
-          await payCryptoRentInETH(signer, leaseId, rentId, withoutIssues, amount);
+          await payCryptoRentInETH(signer, leaseId, contractRentId, withoutIssues, amount);
         } else {
-          await payCryptoRentInToken(signer, leaseId, rentId, paymentToken, withoutIssues, amount);
+          await payCryptoRentInToken(signer, leaseId, contractRentId, paymentToken, withoutIssues, amount);
         }
       } else if(paymentToken == CONST.ETH_ADDRESS) {
-        const oracleRateData = await getRate(signer, currencyPair);
-        console.log("oracleRateData : ",oracleRateData);
-        //TODO check la data et la passer dans la fonction
-        //TODO ajouter un fake oracle pour la démo
-        await payFiatRentInEth(signer, leaseId, rentId, withoutIssues, oracleRateData);
+        //Update oracle rate value before calling the pay function
+        await updateRate(signer, currencyPair);
+        await payFiatRentInEth(signer, leaseId, contractRentId, withoutIssues, amount, currencyPair);
       } else {
-        const oracleRateData = await getRate(signer, currencyPair);
-        console.log("oracleRateData : ",oracleRateData);
-        //TODO check la data et la passer dans la fonction
-        await payFiatRentInToken(signer, leaseId, rentId, paymentToken, withoutIssues, oracleRateData);
+        //Update oracle rate value before calling the pay function
+        await updateRate(signer, currencyPair);
+        const tx = await payFiatRentInToken(signer, leaseId, contractRentId, paymentToken, withoutIssues, amount, currencyPair);
     }
   }
   };
@@ -62,6 +58,7 @@ export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, statu
     case PaymentStatus.PENDING.toString():
       const canPay = Date.now() >= Number(rentPaymentLimitDate);
       return (
+        //TODO ajouter ici un booleen a mettre dans le fonction
         <Box
           sx={{
             display: "flex",
@@ -81,6 +78,7 @@ export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, statu
         </Box>
       );
     case PaymentStatus.PAID.toString():
+      //TODO ajouter ici le statut de whthoutissues
       return (
         <Box sx={{ display: "flex", gap: "12px", width: "100%" }}>
           <Button

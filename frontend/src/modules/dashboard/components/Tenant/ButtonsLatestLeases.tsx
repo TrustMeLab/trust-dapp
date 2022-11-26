@@ -13,9 +13,12 @@ import { LeaseReviewPopover } from "./LeaseReviewPopover";
 interface ButtonsProps {
   leaseId: string;
   leaseStatus: LeaseStatus;
+  // cancellationRequestedByOwner: boolean;
+  // cancellationRequestedByTenant: boolean;
   reviewUri: string;
+
 }
-export const ButtonsLatestLeases = ({ leaseId, leaseStatus, reviewUri }: ButtonsProps) => {
+export const ButtonsLatestLeases = ({ leaseId, leaseStatus, reviewUri,  }: ButtonsProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const navigate = useNavigate();

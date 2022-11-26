@@ -23,6 +23,7 @@ interface SmallTenantCardProps {
   withoutIssues: boolean,
   startDate: string,
   rentPaymentInterval: string,
+  rentPaymentLimitDate: string,
   handleClick: () => void;
 }
 
@@ -43,6 +44,7 @@ export const SmallTenantRentCard = ({
   startDate,
   rentPaymentInterval,
   handleClick,
+  rentPaymentLimitDate
   }: SmallTenantCardProps) => {
 
   const renderPeriod = (
@@ -51,10 +53,6 @@ export const SmallTenantRentCard = ({
     totalNumberOfRents: string
   ) => {
     const debutDate = format(new Date(Number(startDate)), "dd/MM/yyyy");
-    // console.log("debutDate : ",debutDate);
-    // console.log("startDate : ",startDate);
-    // console.log("rentPaymentInterval : ",rentPaymentInterval);
-    // console.log("totalNumberOfRents : ",totalNumberOfRents);
     const endDate = format(
       new Date(Number(startDate) + Number(rentPaymentInterval) * Number(totalNumberOfRents)),
       "dd/MM/yyyy"
@@ -94,6 +92,7 @@ export const SmallTenantRentCard = ({
   };
 
   return (<Card
+    id={rentId}
     sx={{
       display: "flex",
       flexDirection: "column",
@@ -111,7 +110,7 @@ export const SmallTenantRentCard = ({
     onClick={handleClick}
   >
     <Typography sx={{ fontSize: 18, backgroundColor: green }} color="text.primary" gutterBottom>
-      Lease {index}
+      Rent {index}
     </Typography>
     <Typography variant="h6" sx={{fontWeight: "light"}}>
       {renderPeriod(startDate, rentPaymentInterval, totalNumberOfRents)}
@@ -129,7 +128,7 @@ export const SmallTenantRentCard = ({
       amount={amount}
       rentPaymentDate={paymentDate}
       paymentDate={paymentDate}
-      rentPaymentLimitDate={paymentDate}
+      rentPaymentLimitDate={rentPaymentLimitDate}
       validationDate={validationDate}
       currencyPair={currencyPair}
       withoutIssues={withoutIssues}

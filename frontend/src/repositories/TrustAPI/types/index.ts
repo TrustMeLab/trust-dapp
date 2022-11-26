@@ -79,6 +79,6 @@ export interface Lease {
 }
 
 export type OracleData = {
-  rate: string;
-  date: string;
+  _rate: string;
+  _date: string;
 };
