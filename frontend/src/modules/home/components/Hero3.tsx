@@ -18,18 +18,24 @@ export default function Hero3 () {
 				flexDirection: 'column',
 				justifyContent: 'space-between',
 				alignItems: 'center',
-				width: '50%'
+				width: '70%'
 			}}>
 			<Box sx={{
-					mt: '2em',
+					mt: '1.5em',
 					fontSize: '1.5em',
 					textAlign: 'center'
-			}}>Are you a Professional? Use our SDK to integrate our service
+			}}>Are you a Professional?</Box>
+			<Box sx={{
+				textAlign: 'center',
+				width: '50%'
+			}}>
+				Use our SDK to integrate our service simple solution that allows you to use trust protocole with your web2 website
 			</Box>
+			
 			<Box
 				component="img"
 				sx={{
-					height: "80%",
+					height: "70%",
 				}}
 				alt="fusee"
 				src={"/fusee.jpg"}
