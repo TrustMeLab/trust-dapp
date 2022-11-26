@@ -1,12 +1,14 @@
 import { Box } from "@mui/material";
+import { useTheme } from "@mui/material";
 
 export default function Hero4() {
+	const theme = useTheme();
+
   return (
     <Box
       sx={{
-        mt: "3em", // a voir selon préférences
         height: "28em",
-        bgcolor: "#FAFAFC",
+        bgcolor: "#FFFFFF",
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
@@ -17,7 +19,7 @@ export default function Hero4() {
         sx={{
           display: "flex",
           justifyContent: "space-around",
-          width: "80%",
+          width: "65%",
           height: "100%",
         }}
       >
@@ -53,7 +55,7 @@ export default function Hero4() {
           component="img"
           sx={{
             padding: "10px",
-            height: "15%",
+            height: "16%",
           }}
           alt="ledger"
           src={"/ledger.png"}
