@@ -167,11 +167,3 @@ To serve the website locally, execute the following commands
 
 _Specify the name of your team (the same as on the discord/gather), and tell us what you learned during this hackathon!_
 ![Problem slide](https://github.com/TheOutsidersLab/trust-fullstack/blob/master/Slide6.JPG?raw=true)
-
-<<<<<<< HEAD
-=======
-> > > > > > > Update README.md
-
->>>>>>> Update README.md
-_Specify the name of your team (the same as on the discord/gather), and tell us what you learned during this hackathon!_
-![Problem slide](https://github.com/TheOutsidersLab/trust-fullstack/blob/master/Slide6.JPG?raw=true)
