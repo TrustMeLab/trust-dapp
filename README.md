@@ -153,8 +153,6 @@ To serve the website locally, execute the following commands
 
 ## Team and comments
 
-=======
-
 ---
 
 ## Team and comments
