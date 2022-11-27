@@ -14,19 +14,19 @@ interface LeasesDisplay {
 export const LeasesDisplay = ({ leases }: LeasesDisplay) => {
   return (
     <Container>
-      <Box
-        sx={{
-          marginTop: "32px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "30px",
-        }}
-      >
-        {leases.length === 0 ? (
-          <Typography>You don't have any active leases</Typography>
-        ) : (
-          leases.map((lease) => (
+      {leases.length === 0 ? (
+        <Typography>You don't have any active leases</Typography>
+      ) : (
+        <Box
+          sx={{
+            marginTop: "32px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "30px",
+          }}
+        >
+          {leases.map((lease) => (
             <LargeCard
               title={returnTitle(lease.status)}
               period={returnPeriod(
@@ -56,9 +56,9 @@ export const LeasesDisplay = ({ leases }: LeasesDisplay) => {
                 />
               }
             />
-          ))
-        )}
-      </Box>
+          ))}
+        </Box>
+      )}
     </Container>
   );
 };
