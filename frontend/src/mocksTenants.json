@@ -2,8 +2,47 @@
   "tenants": [
     {
       "id": "1",
-      "address": "0x9F89836C22f250595DEA30327af026bA1c029f28",
-      "handle": "TheBoss"
+      "address": "0x9f89836c22f250595dea30327af026ba1c029f28",
+      "handle": "TheBoss",
+      "uri": "/src/assets/doggo_3.png",
+
+      "leases": [
+        {
+          "id": "1",
+          "status": "ENDED",
+          "tenantReviewUri": "Very nice tenant. Everything was paid on time. Clean and tidy.",
+          "owner": { "id": "1", "handle": "Carol" },
+          "rentPayments": [
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "NOT_PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true }
+          ]
+        },
+        {
+          "id": "2",
+          "status": "ENDED",
+          "tenantReviewUri": "Very good. Tenant is nice and polite. Very communicative. Never broke anything",
+          "owner": { "id": "1", "handle": "Carol" },
+          "rentPayments": [
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "NOT_PAID", "withoutIssues": true }
+          ]
+        },
+        {
+          "id": "3",
+          "status": "ENDED",
+          "owner": { "id": "1", "handle": "Carol" },
+          "tenantReviewUri": "Cool tenant, you will never have problems with him, for payments or for the house. I recommend! ",
+          "rentPayments": [
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true }
+          ]
+        }
+      ]
     },
     {
       "id": "2",
@@ -13,17 +52,164 @@
     {
       "id": "3",
       "address": "0x858ee79b08ae13efd752838d25d1155d3ccd1894",
-      "handle": "Aurelius"
+      "handle": "Nugah",
+      "uri": "/src/assets/doggo_1.png",
+      "leases": [
+        {
+          "id": "42",
+          "status": "ENDED",
+          "owner": { "id": "1", "handle": "Carol" },
+          "tenantReviewUri": "I don't recommend this tenant. I always had to call for the payment, always late (and I authorized two weeks of limit time)",
+          "rentPayments": [
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true }
+          ]
+        },
+        {
+          "id": "41",
+          "status": "ENDED",
+          "owner": { "id": "1", "handle": "Carol" },
+          "tenantReviewUri": "He's a very discrete and calm tenant, he won't cause you trouble with the neighbours. But he could pay at least on time.. ",
+          "rentPayments": [
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true }
+          ]
+        },
+        {
+          "id": "40",
+          "status": "ENDED",
+          "tenantReviewUri": "All good.",
+          "owner": { "id": "1", "handle": "Carol" },
+          "rentPayments": [{ "status": "PAID", "withoutIssues": true }]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "address": "0x4B3380d3A8C1AF85e47dBC1Fc6C3f4e0c8F78fEa",
+      "handle": "BT",
+      "uri": "/src/assets/doggo_2.png",
+      "leases": [
+        {
+          "id": "45",
+          "status": "ENDED",
+          "tenantReviewUri": "Tenant is cool but sometimes pay late (one or two days). But we echanged and it was resolved.",
+          "owner": { "id": "1", "handle": "Carol" },
+          "rentPayments": [{ "status": "PAID", "withoutIssues": true }]
+        },
+        {
+          "id": "46",
+          "status": "ENDED",
+          "tenantReviewUri": "I recommend. But some part of the appartment were a little damaged (kitchen walls)",
+          "owner": { "id": "1", "handle": "Carol" },
+          "rentPayments": [
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true },
+
+            { "status": "PAID", "withoutIssues": true }
+          ]
+        },
+        {
+          "id": "47",
+          "status": "ENDED",
+          "tenantReviewUri": "Everything was OK! Payment on time each month.",
+          "owner": { "id": "1", "handle": "Carol" },
+          "rentPayments": [{ "status": "PAID", "withoutIssues": true }]
+        }
+      ]
     },
     {
       "id": "4",
-      "address": "0x4B3380d3A8C1AF85e47dBC1Fc6C3f4e0c8F78fEa",
-      "handle": "Croesus"
+      "address": "0x85fge79b08ae13ettd752838d25d1155d3ccd1895",
+      "handle": "ita6666",
+      "uri": "/src/assets/doggo_4.png",
+      "leases": [
+        {
+          "id": "12",
+          "status": "ENDED",
+          "owner": { "id": "1", "handle": "Carol" },
+          "tenantReviewUri": "It's nice. yeah. well mannered! ",
+          "rentPayments": [
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true },
+
+            { "status": "PAID", "withoutIssues": true }
+          ]
+        },
+        {
+          "id": "11",
+          "status": "ENDED",
+          "owner": { "id": "1", "handle": "Carol" },
+          "tenantReviewUri": "What a splendid young man!",
+          "rentPayments": [
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true }
+          ]
+        }
+      ]
     },
     {
       "id": "5",
-      "address": "0xC02b6135F68Be2909Ef0850580451A83373A0D3c",
-      "handle": "Brutus"
+      "address": "0x85fge79b08ae13ettd752838d25d1155d3ccd1895",
+      "handle": "maofalt",
+      "uri": "/src/assets/doggo_5.png",
+      "leases": [
+        {
+          "id": "765",
+          "status": "ENDED",
+          "owner": { "id": "1", "handle": "Carol" },
+          "tenantReviewUri": "It's nice.",
+          "rentPayments": [
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true }
+          ]
+        },
+        {
+          "id": "768",
+          "status": "ENDED",
+          "owner": { "id": "1", "handle": "Carol" },
+          "tenantReviewUri": "What a splendid young man!",
+          "rentPayments": [
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "address": "0x85fge79b08ae13ettd752838d25d1155d3ccd1895",
+      "handle": "duck",
+      "uri": "/src/assets/doggo_6.png",
+      "leases": [
+        {
+          "id": "89",
+          "status": "ENDED",
+          "owner": { "id": "1", "handle": "José" },
+          "tenantReviewUri": "It has been a rough year. But the tenant was still nice. Everything OK! ",
+          "rentPayments": [
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true },
+
+            { "status": "PAID", "withoutIssues": true }
+          ]
+        },
+        {
+          "id": "90",
+          "status": "ENDED",
+          "owner": { "id": "1", "handle": "José" },
+          "tenantReviewUri": "I recommend.",
+          "rentPayments": [
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true },
+            { "status": "PAID", "withoutIssues": true }
+          ]
+        }
+      ]
     }
   ]
 }

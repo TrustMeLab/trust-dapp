@@ -29,32 +29,47 @@ interface ProfileInfos {
 }
 
 type DetailsInfos = Partial<Tenant>;
+export const generateIcon = (info: string) => {
+  switch (info) {
+    case "name":
+      return <PermIdentityIcon />;
+    case "address":
+      return <FingerprintIcon />;
 
+    case "id":
+      return <NumbersIcon />;
+    case "Number of leases":
+      return <HouseIcon />;
+
+    default:
+      break;
+  }
+};
+
+export const generateInfos = (
+  info: DetailsInfos,
+  leases: Lease[]
+): ProfileInfos[] => {
+  return Object.entries(info).map((el) => {
+    if (el[0] === "hasLease")
+      return {
+        info: "Number of leases",
+        data: leases.length > 0 ? leases.length : 0,
+      };
+
+    return {
+      info: el[0] === "handle" ? "name" : el[0],
+      data:
+        el[1].toString().charAt(0).toUpperCase() + el[1].toString().slice(1),
+    };
+  });
+};
 export const Profile = () => {
   const { profile } = useUser();
   const navigate = useNavigate();
 
   let tenantInfos: Array<ProfileInfos> | [] = [];
   let ownerInfos: Array<ProfileInfos> | [] = [];
-
-  const generateInfos = (
-    info: DetailsInfos,
-    leases: Lease[]
-  ): ProfileInfos[] => {
-    return Object.entries(info).map((el) => {
-      if (el[0] === "hasLease")
-        return {
-          info: "Number of leases",
-          data: leases.length > 0 ? leases.length : 0,
-        };
-
-      return {
-        info: el[0] === "handle" ? "name" : el[0],
-        data:
-          el[1].toString().charAt(0).toUpperCase() + el[1].toString().slice(1),
-      };
-    });
-  };
 
   if (profile.tenant) {
     const { leases: leasesTenant, ...restTenant } = profile.tenant;
@@ -66,22 +81,6 @@ export const Profile = () => {
     ownerInfos = profile.owner && generateInfos(restOwner, leasesOwner);
   }
 
-  const generateIcon = (info: string) => {
-    switch (info) {
-      case "name":
-        return <PermIdentityIcon />;
-      case "address":
-        return <FingerprintIcon />;
-
-      case "id":
-        return <NumbersIcon />;
-      case "Number of leases":
-        return <HouseIcon />;
-
-      default:
-        break;
-    }
-  };
   return (
     <Container maxWidth="xl">
       <Box
