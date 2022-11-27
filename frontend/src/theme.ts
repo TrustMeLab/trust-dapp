@@ -37,15 +37,18 @@ export const theme = createTheme({
     fontWeightMedium: 500,
     h1: {
       fontSize: 60,
-      fontWeight: "normal",
+      fontWeight: "bold",
+      letterSpacing: 3,
     },
     h2: {
       fontSize: 48,
-      fontWeight: "normal",
+      fontWeight: "bold",
+      letterSpacing: 3,
     },
     h3: {
       fontSize: 34,
-      fontWeight: "normal",
+      fontWeight: "bold",
+      letterSpacing: 3,
     },
     h4: {
       fontSize: 24,

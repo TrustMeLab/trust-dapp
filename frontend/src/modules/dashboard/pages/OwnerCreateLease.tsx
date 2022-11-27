@@ -3,24 +3,20 @@ import {
   Alert,
   Box,
   Button,
-  FormControl,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
   Step,
   StepLabel,
   Stepper,
-  TextField,
   Typography,
 } from "@mui/material";
 import { Signer } from "ethers";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../../contexts/UserContext";
-import Crypto from "../../../assets/cryptocurrency.png";
-import Fiat from "../../../assets/fiat.png";
-import mocks from "../../mocks.json";
+
+import mocksCryptoCurrencies from "../../../mocksCryptoCurrencies.json";
+
+// import useTenants from "../../../hooks/useTenants";
+import { FirstFormBlock } from "../components/Owner/FirstFormBlock";
+import { SecondFormBlock } from "../components/Owner/SecondFormBlock";
+import { ThirdFormBlock } from "../components/Owner/ThirdFormBlock";
 
 export interface CreateLeaseForm {
   signer: Signer;
@@ -32,18 +28,17 @@ export interface CreateLeaseForm {
   rentPaymentLimitTime: string;
   currencyPair: string;
   startDate: string;
-  paymentMethod: string; //needed for the form, will not be sent to the contract
+  paymentMethod: string;
+  tenantInfo: { address: string; handle: string; id: string };
 }
 
 const steps = [
   "Choose your payment method",
-  "Choose your currency pair",
+  "Choose your preferred currencie(s)",
   "Complete rent details",
 ];
 
 export const OwnerCreateLease = () => {
-  const { signer } = useUser();
-
   const [activeStep, setActiveStep] = React.useState(0);
 
   const [error, setError] = useState("");
@@ -58,19 +53,61 @@ export const OwnerCreateLease = () => {
   };
 
   const handleSubmit = async () => {
-    const { currencyPair, rentAmount, tenantId, paymentToken } = values;
+    const {
+      currencyPair,
+      rentAmount,
+      tenantId,
+      paymentMethod,
+      rentPaymentInterval,
+      rentPaymentLimitTime,
+      totalNumberOfRents,
+      startDate,
+    } = values;
+
+    const parsedCurrencyPair =
+      paymentMethod === "crypto?" ? "CRYPTO" : currencyPair;
+
+    const paymentToken = mocksCryptoCurrencies.data.currencies.crypto.find(
+      (el) => el.value === currencyPair
+    )?.addressToken;
+
+    const parseDateToSeconds = Math.floor(
+      new Date(startDate as string).getTime() / 1000
+    );
+
+    const transformDurationToSeconds = (duration: string) => {
+      switch (duration) {
+        case "day":
+          return 24 * 60 * 60;
+        case "week":
+          return 7 * 24 * 60 * 60;
+        case "month":
+          return 4 * 7 * 24 * 60 * 60;
+
+        default:
+          break;
+      }
+    };
+
     const formValues = {
-      signer,
       tenantId,
       rentAmount,
-      currencyPair,
-      paymentToken,
+      totalNumberOfRents,
+      paymentToken: paymentToken,
+      rentPaymentInterval: transformDurationToSeconds(
+        rentPaymentInterval as string
+      ),
+      rentPaymentLimitTime: transformDurationToSeconds(
+        rentPaymentLimitTime as string
+      ),
+      currencyPair: parsedCurrencyPair,
+      startDate: parseDateToSeconds,
     };
+
+    console.log(">>>>FORM VALUES>>", formValues);
     setLoading(true);
     try {
-      // TODO, call mint smart contract
-      //await createLease(formValues)
-      // navigate("/dashboard/owner/leases");
+      //await createLease(formValues) //TODO : DECOMMENT
       setActiveStep(activeStep + 1);
     } catch (error) {
       setError("Une erreur est survenue");
@@ -79,13 +116,9 @@ export const OwnerCreateLease = () => {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<Element>, id: string) => {
-    setValues({ ...values, [id]: e.target.value });
-  };
-
   return (
     <Box sx={{ margin: "auto", width: "60%" }}>
-      <Stepper activeStep={activeStep} sx={{ marginBottom: "48px" }}>
+      <Stepper activeStep={activeStep} sx={{ marginBottom: "60px" }}>
         {steps.map((label, index) => {
           const stepProps: { completed?: boolean } = {};
 
@@ -98,170 +131,20 @@ export const OwnerCreateLease = () => {
       </Stepper>
       <Box sx={{ margin: "28px 0px", display: "flex" }}>
         {activeStep === 0 ? (
-          <>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-evenly",
-                alignItems: "center",
-              }}
-            >
-              <Button
-                onClick={() => {
-                  setValues((prev) => ({ ...prev, paymentMethod: "crypto" }));
-                  setActiveStep(activeStep + 1);
-                }}
-                sx={{
-                  height: "60px",
-                  padding: 6,
-                  fontSize: "24px",
-                }}
-              >
-                <img
-                  src={Crypto}
-                  style={{ width: "80px", marginRight: "12px" }}
-                />
-                Crypto currency
-              </Button>
-              <Button
-                onClick={() => {
-                  setValues((prev) => ({ ...prev, paymentMethod: "fiat" }));
-                  setActiveStep(activeStep + 1);
-                }}
-                sx={{
-                  height: "60px",
-                  padding: 6,
-                  fontSize: "24px",
-                }}
-              >
-                <img
-                  src={Fiat}
-                  style={{ width: "100px", marginRight: "12px" }}
-                />
-                Fiat currency
-              </Button>
-            </Box>
-          </>
+          <FirstFormBlock
+            activeStep={activeStep}
+            setValues={setValues}
+            setActiveStep={setActiveStep}
+          />
         ) : activeStep === 1 ? (
-          <FormControl
-            sx={{
-              width: "50%",
-              margin: "auto",
-            }}
-          >
-            <InputLabel>Pair</InputLabel>
-            {values.paymentMethod === "crypto" ? (
-              <Select
-                id="currencyPair"
-                value={values.currencyPair}
-                label="Currency Pair"
-                onChange={(event: SelectChangeEvent) => {
-                  setValues((prev) => ({
-                    ...prev,
-                    currencyPair: event.target.value as string,
-                  }));
-                  setActiveStep(activeStep + 1);
-                }}
-              >
-                <MenuItem value={"ETH"}>ETH</MenuItem>
-                <MenuItem value={"CRT"}>CRT</MenuItem>
-              </Select>
-            ) : (
-              <Select
-                id="currencyPair"
-                value={values.currencyPair}
-                label="Currency Pair"
-                onChange={(event: SelectChangeEvent) => {
-                  setValues((prev) => ({
-                    ...prev,
-                    currencyPair: event.target.value as string,
-                  }));
-                  setActiveStep(activeStep + 1);
-                }}
-              >
-                <MenuItem value={"USD-ETH"}>USD-ETH</MenuItem>
-                <MenuItem value={"EUR-ETH"}>EUR-ETH</MenuItem>
-              </Select>
-            )}
-          </FormControl>
+          <SecondFormBlock
+            activeStep={activeStep}
+            setValues={setValues}
+            setActiveStep={setActiveStep}
+            values={values}
+          />
         ) : activeStep === 2 ? (
-          <FormControl
-            sx={{
-              width: "50%",
-              margin: "auto",
-              gap: "32px",
-            }}
-          >
-            <TextField
-              select
-              id="tenantId"
-              label="Tenant"
-              variant="outlined"
-              value={values.tenantId}
-              onChange={(event: SelectChangeEvent) => {
-                setValues((prev) => ({
-                  ...prev,
-                  tenantId: event.target.value as string,
-                }));
-              }}
-            >
-              {mocks.data.tenants.map((tenant) => (
-                <MenuItem key={tenant.handle} value={tenant.id}>
-                  {tenant.handle}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              id="rentAmount"
-              label="Rent Amount"
-              variant="outlined"
-              type="number"
-              // sx={{ width: 400 }}
-              value={values.rentAmount}
-              onChange={(e: React.ChangeEvent) =>
-                handleInputChange(e, "rentAmount")
-              }
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {values.currencyPair}
-                  </InputAdornment>
-                ),
-              }}
-            />
-
-            <TextField
-              select
-              id="rentPaymentInterval"
-              label="Payment Interval"
-              variant="outlined"
-              value={values.rentPaymentInterval}
-              onChange={(event: SelectChangeEvent) => {
-                setValues((prev) => ({
-                  ...prev,
-                  rentPaymentInterval: event.target.value as string,
-                }));
-              }}
-            >
-              {mocks.data.rentPaymentInterval.map((interval) => (
-                <MenuItem key={interval.id} value={interval.value}>
-                  {interval.value}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              id="startDate"
-              label="Starting date"
-              type="date"
-              value={values.startDate}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={(e: React.ChangeEvent) =>
-                handleInputChange(e, "startDate")
-              }
-            />
-          </FormControl>
+          <ThirdFormBlock setValues={setValues} values={values} />
         ) : (
           activeStep === steps.length && (
             <Box
@@ -285,7 +168,13 @@ export const OwnerCreateLease = () => {
           )
         )}
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "80px",
+        }}
+      >
         {activeStep !== steps.length && (
           <Button
             color="primary"

@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import {
   Avatar,
   Box,
-  Card,
+  Button,
   Container,
+  Divider,
   Grid,
   List,
   ListItem,
@@ -14,12 +15,13 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../../contexts/UserContext";
-import avatar from "/src/assets/avatar_logo.jpg";
+import avatar from "/src/assets/profile_picture.png";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import HouseIcon from "@mui/icons-material/House";
-import { Lease, Tenant, Owner } from "../../../repositories/TrustAPI/types";
+import { Lease, Tenant } from "../../../repositories/TrustAPI/types";
+import { ColoredTypography } from "../../../commons/components/ColoredTypography";
 
 interface ProfileInfos {
   info: string;
@@ -29,7 +31,7 @@ interface ProfileInfos {
 type DetailsInfos = Partial<Tenant>;
 
 export const Profile = () => {
-  const { profile, hasProfile } = useUser();
+  const { profile } = useUser();
   const navigate = useNavigate();
 
   let tenantInfos: Array<ProfileInfos> | [] = [];
@@ -91,42 +93,73 @@ export const Profile = () => {
         <Avatar
           alt="avatar"
           src={avatar}
-          sx={{ width: 400, height: 400, marginRight: "42px" }}
+          sx={{ width: 400, height: 400, marginRight: "80px" }}
         />
         <Box sx={{ display: "flex" }}>
           <Grid item xs={12} md={6}>
-            <Typography sx={{ mt: 4, mb: 2 }} variant="h4" component="div">
-              General informations
+            <Typography
+              sx={{ mt: 4, mb: 2, marginBottom: "42px" }}
+              variant="h3"
+              component="div"
+            >
+              General <ColoredTypography>informations</ColoredTypography>
             </Typography>
-            {tenantInfos.length > 0 && (
-              <List>
-                <Card>Tenant Infos</Card>
 
-                {tenantInfos.map((el: any) => (
-                  <ListItem>
-                    <ListItemIcon>{generateIcon(el.info)} </ListItemIcon>
-                    <ListItemText
-                      primary={el.info}
-                      secondary={el.data ?? null}
-                    />
-                  </ListItem>
-                ))}
+            {tenantInfos.length > 0 && (
+              <List
+                sx={{
+                  display: "flex",
+                  gap: "42px",
+                  alignItems: "center",
+                  marginBottom: "60px",
+                }}
+              >
+                <Box>
+                  <Typography>Tenant Infos</Typography>
+                  <Divider />
+                  {tenantInfos.map((el: any) => (
+                    <ListItem>
+                      <ListItemIcon>{generateIcon(el.info)} </ListItemIcon>
+                      <ListItemText
+                        primary={el.info}
+                        secondary={el.data ?? null}
+                      />
+                    </ListItem>
+                  ))}
+                </Box>
+
+                <Button
+                  variant="contained"
+                  sx={{ height: "60px" }}
+                  onClick={() => navigate("/dashboard/tenant/leases")}
+                >
+                  Go to Tenant dashboard
+                </Button>
               </List>
             )}
-
             {ownerInfos.length > 0 && (
-              <List>
-                <Card>Owner Infos</Card>
+              <List sx={{ display: "flex", gap: "42px", alignItems: "center" }}>
+                <Box>
+                  <Typography>Owner Infos</Typography>
+                  <Divider />
 
-                {ownerInfos.map((el: any) => (
-                  <ListItem>
-                    <ListItemIcon>{generateIcon(el.info)} </ListItemIcon>
-                    <ListItemText
-                      primary={el.info}
-                      secondary={el.data ?? null}
-                    />
-                  </ListItem>
-                ))}
+                  {ownerInfos.map((el: any) => (
+                    <ListItem>
+                      <ListItemIcon>{generateIcon(el.info)} </ListItemIcon>
+                      <ListItemText
+                        primary={el.info}
+                        secondary={el.data ?? null}
+                      />
+                    </ListItem>
+                  ))}
+                </Box>
+                <Button
+                  variant="contained"
+                  sx={{ height: "60px" }}
+                  onClick={() => navigate("/dashboard/owner/leases")}
+                >
+                  Go to Owner dashboard
+                </Button>
               </List>
             )}
           </Grid>

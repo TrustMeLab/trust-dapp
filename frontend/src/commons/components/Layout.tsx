@@ -23,11 +23,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDisconnect } from "wagmi";
 import { DEFAULT_PROFILE, useUser } from "../../contexts/UserContext";
 import Logo from "../../assets/logo_trust.png";
+import ProfilePicture from "../../assets/profile_picture.png";
 
-interface Props {
-  children: ReactNode;
-  activeTab?: string;
-}
 export const Layout = ({ children }: PropsWithChildren) => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -107,6 +104,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
                 height: 64,
                 margin: "12px",
                 cursor: "pointer",
+                marginRight: "42px",
               }}
               alt="trust_logo"
               src={Logo}
@@ -115,7 +113,12 @@ export const Layout = ({ children }: PropsWithChildren) => {
 
             {hasProfile && (
               <>
-                <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    display: { xs: "flex", md: "none" },
+                  }}
+                >
                   <Menu
                     id="menu-appbar"
                     anchorOrigin={{
@@ -138,7 +141,10 @@ export const Layout = ({ children }: PropsWithChildren) => {
                           variant={isActiveTab(page) ? "outlined" : "text"}
                           onClick={() => handleClickTab(page)}
                         >
-                          <Typography textAlign="center">
+                          <Typography
+                            textAlign="center"
+                            sx={{ letterSpacing: ".3rem" }}
+                          >
                             {page === "tenant" ? "Tenant" : "Owner"}
                           </Typography>
                         </Button>
@@ -194,12 +200,15 @@ export const Layout = ({ children }: PropsWithChildren) => {
                   </Box>
                   {hasProfile && <ShowScore />}
                   <Tooltip title="Open settings">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar alt="Remy Sharp" src="" />
+                    <IconButton
+                      onClick={handleOpenUserMenu}
+                      sx={{ p: 0, marginLeft: "24px" }}
+                    >
+                      <Avatar alt="Remy Sharp" src={ProfilePicture} />
                     </IconButton>
                   </Tooltip>
                   <Menu
-                    sx={{ mt: "45px" }}
+                    sx={{ mt: "55px" }}
                     id="menu-appbar"
                     anchorEl={anchorElUser}
                     anchorOrigin={{
@@ -214,7 +223,12 @@ export const Layout = ({ children }: PropsWithChildren) => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    <Typography sx={{ m: 2 }}>
+                    <Typography
+                      sx={{
+                        m: 2,
+                        color: theme.palette.primary.main,
+                      }}
+                    >
                       {profile.tenant?.handle || profile.owner?.handle}
                     </Typography>
                     {settings.map((setting) => (

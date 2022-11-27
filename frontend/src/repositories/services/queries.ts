@@ -30,6 +30,19 @@ export const getTenantById = (id: string): Promise<any> => {
   return processRequest(query);
 };
 
+export const getTenants = (): Promise<any> => {
+  const query = `
+    {
+      tenants {
+        id
+        address
+        handle
+      }
+    }
+  `;
+  return processRequest(query);
+};
+
 export const getTenantbyHandle = (handle: string): Promise<any> => {
   const query = `
     {
