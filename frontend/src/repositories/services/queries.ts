@@ -114,6 +114,8 @@ export const getLeasesByTenantId = (id: string): Promise<any> => {
           tenantReviewUri
           ownerReviewUri
           startDate
+          cancelledByOwner
+          cancelledByTenant
           tenant {
             id
             handle

@@ -1,25 +1,20 @@
-import React, { useEffect, Fragment } from "react";
-import { Box, Typography } from "@mui/material";
-import { LargeCard } from "../../../commons/components/LargeCard";
-import { useNavigate } from "react-router-dom";
-import { Container } from "@mui/system";
-import { SmallCard } from "../../../commons/components/SmallCard";
-import { Layout } from "../../../commons/components/Layout";
-import { Lease, LeaseStatus } from "../../../repositories/TrustAPI/types";
-import { useTrust } from "../../../contexts/TrustContext";
-import fns from "date-fns";
-import { useUser } from "../../../contexts/UserContext";
-import { formatDuration, intervalToDuration, format } from "date-fns";
-import { ButtonsLatestLeases } from "../components/Tenant/ButtonsLatestLeases";
-import { CONST, tokens } from "../../../const";
-import { ethers, FixedNumber } from "ethers";
+import React, {Fragment} from "react";
+import {Box, Typography} from "@mui/material";
+import {LargeCard} from "../../../commons/components/LargeCard";
+import {useNavigate} from "react-router-dom";
+import {Lease, LeaseStatus, UserType} from "../../../repositories/TrustAPI/types";
+import {format, formatDuration, intervalToDuration} from "date-fns";
+import {useUser} from "../../../contexts/UserContext";
+import {ButtonsLatestLeases} from "../components/Tenant/ButtonsLatestLeases";
+import {tokens} from "../../../const";
+import {ethers} from "ethers";
 import useLeasesByTenantId from "../../../hooks/useTenantLeases";
-import useTenantById from "../../../hooks/useTenantById";
+import {SmallCard} from "../../../commons/components/SmallCard";
 
 export const returnTitle = (leaseStatus: LeaseStatus) => {
   if (leaseStatus === (LeaseStatus.ENDED || LeaseStatus.CANCELLED))
-    return "Bail terminé";
-  return "Votre bail en cours";
+    return "Lease ended";
+  return "Your current Lease";
 };
 
 export const returnPeriod = (
@@ -70,11 +65,12 @@ export const Tenant = () => {
   const tenantLeases = useLeasesByTenantId(profile?.tenant?.id as string);
   console.log("Tenant.tsx: tenantLeases", tenantLeases);
   console.log("Tenant.tsx: profile", profile);
-
   const lastLease = tenantLeases[0];
-  // const lastLease = tenantLeases;
-  // console.log("Tenant.tsx: lastLease", lastLease);
 
+  let formerLeases = tenantLeases.filter(lease => lease.status === LeaseStatus.ENDED || lease.status === LeaseStatus.CANCELLED);
+  // const lastLease = tenantLeases;
+
+  console.log("Tenant.tsx: lastLease", lastLease);
   return (
     !tenantLeases ? <p>You don't have a lease</p> :
     lastLease && <Fragment>
@@ -105,12 +101,15 @@ export const Tenant = () => {
             leaseId={lastLease.id}
             leaseStatus={lastLease.status}
             reviewUri={lastLease.tenantReviewUri}
+            cancellationRequestedByOwner={lastLease.cancelledByOwner}
+            cancellationRequestedByTenant={lastLease.cancelledByTenant}
+            userType={UserType.TENANT}
           />
         }
       />
 
       <Typography variant="h4" marginTop={4} marginBottom={4}>
-        Historique
+        Former Leases
       </Typography>
 
       <Box
@@ -121,7 +120,7 @@ export const Tenant = () => {
           gap: "16px",
         }}
       >
-        {tenantLeases.map((lease: Lease) => (
+        {formerLeases.length !== 0 ? formerLeases.map((lease: Lease) => (
           <SmallCard
             rentInfos={returnRentInfos(
               lease.rentAmount,
@@ -137,7 +136,8 @@ export const Tenant = () => {
             )}
             handleClick={() => navigate(`/dashboard/tenant/leases/${lease.id}`)}
           />
-        ))}
+        )) :
+        "You don't have any former lease"}
       </Box>
     </Fragment>
   );
