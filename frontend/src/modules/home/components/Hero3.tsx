@@ -1,35 +1,46 @@
 import { Box, Button } from "@mui/material";
+import { useTheme } from "@mui/material";
 import Image from 'mui-image';
 
 export default function Hero3 () {
+	const theme = useTheme();
+
   return (
     <Box sx={{
 			mt: '3em', // a voir selon préférences
-			height: '28em',
-			bgcolor: '#FFFFFF',
+			height: '32em',
+			bgcolor: '#BCD5CF',
 			display: 'flex',
 			justifyContent: 'center'
 		}}>
 		<Box sx={{
 				display: 'flex',
 				flexDirection: 'column',
-				justifyContent: 'center',
+				justifyContent: 'space-between',
 				alignItems: 'center',
+				width: '70%'
+			}}>
+			<Box sx={{
+					mt: '1.5em',
+					fontSize: '1.5em',
+					textAlign: 'center'
+			}}>Are you a Professional?</Box>
+			<Box sx={{
+				textAlign: 'center',
 				width: '50%'
 			}}>
-			<Box sx={{mb: '1em', fontSize: '3em'}}>Trust.Me</Box>
-            <Box sx={{mb: '0.4em'}}>L O G O</Box>
-			<Box sx={{mb: '0.4em', fontSize: '1.5em'}}>Outil de gestion de location</Box>
-			<Box sx={{
-					mb: '1em',
-					fontSize: '1.2em',
-					textAlign: 'center'
-			}}>Are you Professional use our SDK to integrate the service
+				Use our SDK to integrate our service simple solution that allows you to use trust protocole with your web2 website
 			</Box>
-			<Box sx={{
-				display: 'flex'
-			}}>
-			</Box>
+			
+			<Box
+				component="img"
+				sx={{
+					height: "70%",
+				}}
+				alt="fusee"
+				src={"/fusee.jpg"}
+			/>
+	
 		</Box>
 	</Box>
   )

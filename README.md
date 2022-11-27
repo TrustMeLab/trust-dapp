@@ -49,7 +49,6 @@ https://goerli.etherscan.io/address/0xE18a3Ed893361cAA3a207306197Ceebd47C6BcA5#r
 https://goerli.etherscan.io/address/0xE7304dF39c9f861D0fe210f441Ded3f8Dd057440
 https://goerli.etherscan.io/address/0x2E2CfeA8A06c29a25B502F8D69498FbfbDE94F6c#readContract
 
-<<<<<<< HEAD
 _What was your biggest technical challenge and how does your solution solve it?_
 ![Problem slide]https://github.com/maofalt/starton_readme_test/blob/main/%5B0%5DOutsider%20Lab%20-%20Solution%20-2.jpg.jpg?raw=true)
 
@@ -73,8 +72,6 @@ _What was your biggest technical challenge and how does your solution solve it?_
 _Explain, step-by-step, how someone can install your project and use it. The jury will mainly use MacOS, Ubuntu, Android, and iOS. Setting up a docker/docker-compose is a good idea to allow someone to test the project easily._
 
 ## How to set up a local environment / install
-
-> > > > > > > Update README.md
 
 ### Requirement
 
@@ -138,7 +135,6 @@ and execute the following command:
 
 > npm run start
 
-<<<<<<< HEAD
 /!\ **Make sure to keep the "node" & "Docker" terminals open at all time during your use of the Dapp** /!\
 
 ## _You are now all set for runnintg the dapp :)_
@@ -155,23 +151,11 @@ To serve the website locally, execute the following commands
 >
 > npm run build && npm run preview
 
-## <<<<<<< HEAD
-
 ## Team and comments
-
-=======
 
 ---
 
 ## Team and comments
 
-_Specify the name of your team (the same as on the discord/gather), and tell us what you learned during this hackathon!_
-![Problem slide](https://github.com/TheOutsidersLab/trust-fullstack/blob/master/Slide6.JPG?raw=true)
-
-<<<<<<< HEAD
-=======
-> > > > > > > Update README.md
-
->>>>>>> Update README.md
 _Specify the name of your team (the same as on the discord/gather), and tell us what you learned during this hackathon!_
 ![Problem slide](https://github.com/TheOutsidersLab/trust-fullstack/blob/master/Slide6.JPG?raw=true)

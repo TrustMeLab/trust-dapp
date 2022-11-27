@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material";
 import Image from "mui-image";
 
 export default function Hero1() {
-  const theme = useTheme();
+	const theme = useTheme();
 
   return (
     <Box
