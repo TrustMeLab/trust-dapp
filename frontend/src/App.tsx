@@ -14,8 +14,6 @@ import { Owner } from "./modules/dashboard/pages/Owner";
 import { LeaseDetail } from "./modules/dashboard/pages/LeaseDetail";
 import { LeaseOwnerDetail } from "./modules/dashboard/pages/LeaseOwnerDetail";
 import Homepage from "./modules/home/components/Homepage";
-import { NotFound } from "./modules/dashboard/pages/NotFound";
-import { OwnerCreateLease } from "./modules/dashboard/pages/OwnerCreateLease";
 import { Profile } from "./modules/dashboard/pages/Profile";
 import { NotFound } from "./modules/dashboard/pages/NotFound";
 import { OwnerCreateLease } from "./modules/dashboard/pages/OwnerCreateLease";

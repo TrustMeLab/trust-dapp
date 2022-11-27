@@ -30,8 +30,8 @@ export const LeaseOwnerDetail = () => {
 
   const returnTitle = (leaseStatus: LeaseStatus) => {
     if (leaseStatus === (LeaseStatus.ENDED || LeaseStatus.CANCELLED))
-      return "Bail terminé";
-    return "Votre bail en cours";
+      return "Lease ended";
+    return "Active Lease";
   };
 
   const returnPeriod = (
@@ -111,8 +111,10 @@ export const LeaseOwnerDetail = () => {
             <ButtonsLatestLeases
               leaseId={leaseDetail.id}
               leaseStatus={leaseDetail.status}
-              // reviewUri=''
               reviewUri={leaseDetail.tenantReviewUri}
+              cancellationRequestedByOwner={leaseDetail.cancelledByOwner}
+              cancellationRequestedByTenant={leaseDetail.cancelledByTenant}
+              userType={UserType.TENANT}
             />
           }
         />
@@ -131,23 +133,28 @@ export const LeaseOwnerDetail = () => {
         }}
       >
         {leaseDetail &&
-          leaseDetail.rentPayments.map((rentPayment: RentPayment) => (
-            <SmallTenantRentCard
-              rentInfos={returnRentInfos(
-                rentPayment.amount,
-                leaseDetail.currencyPair,
-                leaseDetail.rentPaymentInterval,
-                leaseDetail.totalNumberOfRents,
-                leaseDetail.paymentToken
-              )}
-              period={returnPeriod(
-                leaseDetail.startDate,
-                leaseDetail.rentPaymentInterval,
-                leaseDetail.totalNumberOfRents
-              )}
-              handleClick={() => {}}
-            />
-          ))}
+          leaseDetail.rentPayments.map(
+            (rentPayment: RentPayment, index: number) => (
+              <SmallTenantRentCard
+                key={rentPayment.id}
+                index={index + 1}
+                rentId={rentPayment.id}
+                leaseId={leaseDetail.id}
+                amount={leaseDetail.rentAmount}
+                currencyPair={leaseDetail.currencyPair}
+                paymentDate={rentPayment.paymentDate}
+                validationDate={rentPayment.validationDate}
+                totalNumberOfRents={leaseDetail.totalNumberOfRents}
+                paymentToken={leaseDetail.paymentToken}
+                status={rentPayment.status}
+                withoutIssues={rentPayment.withoutIssues}
+                startDate={leaseDetail.startDate}
+                rentPaymentInterval={leaseDetail.rentPaymentInterval}
+                rentPaymentLimitDate={rentPayment.rentPaymentLimitDate}
+                handleClick={() => {}}
+              />
+            )
+          )}
       </Box>
     </Container>
   );
