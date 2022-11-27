@@ -1,13 +1,18 @@
 import {
-  createContext, useContext, useState, Dispatch, PropsWithChildren, useEffect,
+  createContext,
+  useContext,
+  useState,
+  Dispatch,
+  PropsWithChildren,
+  useEffect,
 } from "react";
 import { useTrust } from "./TrustContext";
 import { Profile } from "../repositories/TrustAPI";
 import sleep from "../tools/sleep";
-import {useAccount, useContract, useSigner} from "wagmi";
+import { useAccount, useContract, useSigner } from "wagmi";
 import { Signer } from "ethers";
-import {UserType} from "../modules/user/components/SignUp/SignUp";
-import {getFullTrustProfileData} from "../repositories/services/queries";
+import { UserType } from "../modules/user/components/SignUp/SignUp";
+import { getFullTrustProfileData } from "../repositories/services/queries";
 
 interface IUserContext {
   profile: Profile;
@@ -66,15 +71,14 @@ export default function UserContextProvider({ children }: PropsWithChildren) {
     if (!address) {
       return;
     }
-      fetchProfile(address);
+    fetchProfile(address);
   }, [address]);
 
-
-
-
   const createUser = async function (type: UserType, name: string) {
-    if (!signer) { return }
-  }
+    if (!signer) {
+      return;
+    }
+  };
 
   return (
     <UserContext.Provider

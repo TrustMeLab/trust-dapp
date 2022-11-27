@@ -1,0 +1,19 @@
+{
+  "tenants": [
+    {
+      "id": "1",
+      "address": "0x9f89836c22f250595dea30327af026ba1c029f28",
+      "handle": "TheBoss"
+    },
+    {
+      "id": "2",
+      "address": "0x858ee79b08ae13efd752838d25d1155d3ccd1894",
+      "handle": "Aurelius"
+    },
+    {
+      "id": "3",
+      "address": "0x85fge79b08ae13ettd752838d25d1155d3ccd1895",
+      "handle": "BT"
+    }
+  ]
+}

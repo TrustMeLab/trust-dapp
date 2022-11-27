@@ -1,4 +1,10 @@
-import {useState, MouseEvent, ReactNode, Fragment, PropsWithChildren} from "react";
+import {
+  useState,
+  MouseEvent,
+  ReactNode,
+  Fragment,
+  PropsWithChildren,
+} from "react";
 import {
   Box,
   Toolbar,
@@ -11,27 +17,26 @@ import {
   Tooltip,
   Avatar,
   MenuItem,
+  useTheme,
 } from "@mui/material";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDisconnect } from "wagmi";
-import {DEFAULT_PROFILE, useUser} from "../../contexts/UserContext";
-import { theme } from "../../theme";
+import { DEFAULT_PROFILE, useUser } from "../../contexts/UserContext";
+import Logo from "../../assets/logo_trust.png";
+import ProfilePicture from "../../assets/profile_picture.png";
 
-interface Props {
-  children: ReactNode;
-  activeTab?: string;
-}
 export const Layout = ({ children }: PropsWithChildren) => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const { disconnect } = useDisconnect();
   const { hasProfile, address, profile, setProfile } = useUser();
 
-  const location = useLocation()
-  const isActiveTab = (path: string) => location.pathname.includes(path)
+  const location = useLocation();
+  const isActiveTab = (path: string) => location.pathname.includes(path);
 
   const pages = [
     ...(profile && profile.tenant ? ["tenant"] : []),
-    ...(profile && profile.owner ? ["owner"] : [])
+    ...(profile && profile.owner ? ["owner"] : []),
   ];
   const settings = ["Profile", "Logout"];
 
@@ -48,24 +53,36 @@ export const Layout = ({ children }: PropsWithChildren) => {
     } else if (page === "owner") navigate("/dashboard/owner/leases");
   };
 
-  function logout () {
-    disconnect()
-    setProfile(DEFAULT_PROFILE())
-    navigate('/login')
+  function logout() {
+    disconnect();
+    setProfile(DEFAULT_PROFILE());
+    navigate("/login");
   }
 
-  function ShowScore () {
-    const isOwner = isActiveTab('owner')
-    const score = isOwner ? profile.owner?.score || 1 : profile.tenant?.score || 1
-    const total = isOwner ? profile.owner?.nbPayment || 0 : profile.tenant?.nbPayment || 0
+  function ShowScore() {
+    const isOwner = isActiveTab("owner");
+    const score = isOwner
+      ? profile.owner?.score || 1
+      : profile.tenant?.score || 1;
+    const total = isOwner
+      ? profile.owner?.nbPayment || 0
+      : profile.tenant?.nbPayment || 0;
 
     return (
-      <Box sx={{ border: 1, borderRadius: "10px", padding: "10px", margin: "10px" }}>
+      <Box
+        sx={{
+          border: 1,
+          borderRadius: "10px",
+          padding: "10px",
+          margin: "10px",
+          cursor: "pointer",
+        }}
+      >
         <Typography>
           {Math.round(score * 5 * 10) / 10}/5 - {total} records
         </Typography>
       </Box>
-    )
+    );
   }
 
   return (
@@ -84,16 +101,24 @@ export const Layout = ({ children }: PropsWithChildren) => {
             <Box
               component="img"
               sx={{
-                padding: "10px",
-                height: "100%",
+                height: 64,
+                margin: "12px",
+                cursor: "pointer",
+                marginRight: "42px",
               }}
-              alt="Your logo."
-              src={'/logo_white.png'}
+              alt="trust_logo"
+              src={Logo}
+              onClick={() => navigate("/dashboard/profile")}
             />
 
             {hasProfile && (
               <>
-                <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    display: { xs: "flex", md: "none" },
+                  }}
+                >
                   <Menu
                     id="menu-appbar"
                     anchorOrigin={{
@@ -116,10 +141,11 @@ export const Layout = ({ children }: PropsWithChildren) => {
                           variant={isActiveTab(page) ? "outlined" : "text"}
                           onClick={() => handleClickTab(page)}
                         >
-                          <Typography textAlign="center">
-                            {page === "tenant"
-                              ? "Tenant"
-                              : "Owner"}
+                          <Typography
+                            textAlign="center"
+                            sx={{ letterSpacing: ".3rem" }}
+                          >
+                            {page === "tenant" ? "Tenant" : "Owner"}
                           </Typography>
                         </Button>
                       </MenuItem>
@@ -137,10 +163,9 @@ export const Layout = ({ children }: PropsWithChildren) => {
                         sx={{
                           my: 2,
                           transition: "0.3s",
-                          color:
-                            isActiveTab(page)
-                              ? theme.palette.primary.main
-                              : theme.palette.secondary.main,
+                          color: isActiveTab(page)
+                            ? theme.palette.primary.main
+                            : theme.palette.secondary.main,
                           display: "block",
                           "&:hover": {
                             backgroundColor: "#F6F5F5",
@@ -149,9 +174,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
                         }}
                       >
                         <Typography textAlign="center">
-                          {page === "tenant"
-                            ? "Tenant"
-                            : "Owner"}
+                          {page === "tenant" ? "Tenant" : "Owner"}
                         </Typography>
                       </Button>
                     );
@@ -175,14 +198,17 @@ export const Layout = ({ children }: PropsWithChildren) => {
                   >
                     {address}
                   </Box>
-                  { hasProfile && <ShowScore /> }
+                  {hasProfile && <ShowScore />}
                   <Tooltip title="Open settings">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar alt="Remy Sharp" src="" />
+                    <IconButton
+                      onClick={handleOpenUserMenu}
+                      sx={{ p: 0, marginLeft: "24px" }}
+                    >
+                      <Avatar alt="Remy Sharp" src={ProfilePicture} />
                     </IconButton>
                   </Tooltip>
                   <Menu
-                    sx={{ mt: "45px" }}
+                    sx={{ mt: "55px" }}
                     id="menu-appbar"
                     anchorEl={anchorElUser}
                     anchorOrigin={{
@@ -197,11 +223,25 @@ export const Layout = ({ children }: PropsWithChildren) => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    <Typography sx={{ m: 2 }}>{profile.tenant?.handle || profile.owner?.handle}</Typography>
+                    <Typography
+                      sx={{
+                        m: 2,
+                        color: theme.palette.primary.main,
+                      }}
+                    >
+                      {profile.tenant?.handle || profile.owner?.handle}
+                    </Typography>
                     {settings.map((setting) => (
                       <MenuItem
                         key={setting}
-                        onClick={logout}
+                        onClick={() => {
+                          if (setting === "Logout") {
+                            disconnect();
+                            setProfile(DEFAULT_PROFILE());
+                            navigate("/login");
+                          } else if (setting === "Profile")
+                            navigate("/dashboard/profile");
+                        }}
                       >
                         <Typography textAlign="center">{setting}</Typography>
                       </MenuItem>

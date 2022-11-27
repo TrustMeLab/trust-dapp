@@ -1,0 +1,352 @@
+{
+  "leases": [
+    {
+      "currencyPair": "CRYPTO",
+      "id": "1",
+      "ownerReviewUri": "OwnerReviewURI",
+      "rentAmount": "500000",
+      "paymentToken": "0x0000000000000000000000000000000000000000",
+      "rentPaymentInterval": "1",
+      "rentPaymentLimitTime": "1",
+      "startDate": "1669467394",
+      "status": "ENDED",
+      "tenantReviewUri": "TenantReviewURI",
+      "totalNumberOfRents": "12",
+      "uri": null,
+      "updatedAt": "1669467420",
+      "cancelledByOwner": false,
+      "cancelledByTenant": false,
+      "createdAt": "1669467405",
+      "owner": {
+        "id": "2",
+        "handle": "Croesus",
+        "updatedAt": "0"
+      },
+      "rentPayments": [
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-0",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467394",
+          "rentPaymentLimitDate": "1669467394",
+          "status": "PAID",
+          "validationDate": "1669467407",
+          "withoutIssues": true
+        },
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-1",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467395",
+          "rentPaymentLimitDate": "1669467395",
+          "status": "PAID",
+          "validationDate": "1669467408",
+          "withoutIssues": true
+        },
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-2",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467396",
+          "rentPaymentLimitDate": "1669467396",
+          "status": "PAID",
+          "validationDate": "1669467409",
+          "withoutIssues": true
+        },
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-3",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467397",
+          "rentPaymentLimitDate": "1669467397",
+          "status": "PAID",
+          "validationDate": "1669467410",
+          "withoutIssues": true
+        },
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-4",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467398",
+          "rentPaymentLimitDate": "1669467398",
+          "status": "PAID",
+          "validationDate": "1669467411",
+          "withoutIssues": true
+        },
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-5",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467399",
+          "rentPaymentLimitDate": "1669467399",
+          "status": "PAID",
+          "validationDate": "1669467412",
+          "withoutIssues": true
+        },
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-6",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467400",
+          "rentPaymentLimitDate": "1669467400",
+          "status": "PAID",
+          "validationDate": "1669467413",
+          "withoutIssues": true
+        },
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-7",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467401",
+          "rentPaymentLimitDate": "1669467401",
+          "status": "PAID",
+          "validationDate": "1669467414",
+          "withoutIssues": true
+        },
+        {
+          "amount": "0",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-8",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467402",
+          "rentPaymentLimitDate": "1669467402",
+          "status": "NOT_PAID",
+          "validationDate": "1669467415",
+          "withoutIssues": false
+        },
+        {
+          "amount": "0",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-9",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467403",
+          "rentPaymentLimitDate": "1669467403",
+          "status": "NOT_PAID",
+          "validationDate": "1669467416",
+          "withoutIssues": false
+        },
+        {
+          "amount": "0",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-10",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467404",
+          "rentPaymentLimitDate": "1669467404",
+          "status": "NOT_PAID",
+          "validationDate": "1669467417",
+          "withoutIssues": false
+        },
+        {
+          "amount": "0",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-11",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467405",
+          "rentPaymentLimitDate": "1669467405",
+          "status": "NOT_PAID",
+          "validationDate": "1669467418",
+          "withoutIssues": false
+        }
+      ],
+      "tenant": {
+        "handle": "Maximus",
+        "id": "2",
+        "updatedAt": "1669467418"
+      }
+    },
+    {
+      "currencyPair": "CRYPTO",
+      "id": "1",
+      "ownerReviewUri": "OwnerReviewURI",
+      "rentAmount": "500000",
+      "paymentToken": "0x0000000000000000000000000000000000000000",
+      "rentPaymentInterval": "1",
+      "rentPaymentLimitTime": "1",
+      "startDate": "1669467394",
+      "status": "ACTIVE",
+      "tenantReviewUri": "TenantReviewURI",
+      "totalNumberOfRents": "12",
+      "uri": null,
+      "updatedAt": "1669467420",
+      "cancelledByOwner": false,
+      "cancelledByTenant": false,
+      "createdAt": "1669467405",
+      "owner": {
+        "id": "2",
+        "handle": "Croesus",
+        "updatedAt": "0"
+      },
+      "rentPayments": [
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-0",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467394",
+          "rentPaymentLimitDate": "1669467394",
+          "status": "PAID",
+          "validationDate": "1669467407",
+          "withoutIssues": true
+        },
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-1",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467395",
+          "rentPaymentLimitDate": "1669467395",
+          "status": "PAID",
+          "validationDate": "1669467408",
+          "withoutIssues": true
+        },
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-2",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467396",
+          "rentPaymentLimitDate": "1669467396",
+          "status": "PAID",
+          "validationDate": "1669467409",
+          "withoutIssues": true
+        },
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-3",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467397",
+          "rentPaymentLimitDate": "1669467397",
+          "status": "PAID",
+          "validationDate": "1669467410",
+          "withoutIssues": true
+        },
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-4",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467398",
+          "rentPaymentLimitDate": "1669467398",
+          "status": "PAID",
+          "validationDate": "1669467411",
+          "withoutIssues": true
+        },
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-5",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467399",
+          "rentPaymentLimitDate": "1669467399",
+          "status": "PAID",
+          "validationDate": "1669467412",
+          "withoutIssues": true
+        },
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-6",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467400",
+          "rentPaymentLimitDate": "1669467400",
+          "status": "PAID",
+          "validationDate": "1669467413",
+          "withoutIssues": true
+        },
+        {
+          "amount": "500000",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-7",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467401",
+          "rentPaymentLimitDate": "1669467401",
+          "status": "PAID",
+          "validationDate": "1669467414",
+          "withoutIssues": true
+        },
+        {
+          "amount": "0",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-8",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467402",
+          "rentPaymentLimitDate": "1669467402",
+          "status": "NOT_PAID",
+          "validationDate": "1669467415",
+          "withoutIssues": false
+        },
+        {
+          "amount": "0",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-9",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467403",
+          "rentPaymentLimitDate": "1669467403",
+          "status": "NOT_PAID",
+          "validationDate": "1669467416",
+          "withoutIssues": false
+        },
+        {
+          "amount": "0",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-10",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467404",
+          "rentPaymentLimitDate": "1669467404",
+          "status": "NOT_PAID",
+          "validationDate": "1669467417",
+          "withoutIssues": false
+        },
+        {
+          "amount": "0",
+          "exchangeRate": "0",
+          "exchangeRateTimestamp": "0",
+          "id": "1-11",
+          "paymentToken": "0x0000000000000000000000000000000000000000",
+          "rentPaymentDate": "1669467405",
+          "rentPaymentLimitDate": "1669467405",
+          "status": "NOT_PAID",
+          "validationDate": "1669467418",
+          "withoutIssues": false
+        }
+      ],
+      "tenant": {
+        "handle": "Maximus",
+        "id": "2",
+        "updatedAt": "1669467418"
+      }
+    }
+  ]
+}

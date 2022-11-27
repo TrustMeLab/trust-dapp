@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import axios from 'axios';
-import { SUBGRAPH_URL } from '../../config/config';
-import {  } from '../TrustAPI/types/index';
+import axios from "axios";
+import { SUBGRAPH_URL } from "../../config/config";
+import {} from "../TrustAPI/types/index";
 
 const processRequest = async (query: string): Promise<any> => {
   try {
@@ -25,6 +25,28 @@ export const getTenantById = (id: string): Promise<any> => {
   const query = `
     {
        tenants(where: {id: "${id}"})
+    }
+  `;
+  return processRequest(query);
+};
+
+export const getTenants = (): Promise<any> => {
+  const query = `
+    {
+      tenants {
+        id
+        address
+        handle
+      }
+    }
+  `;
+  return processRequest(query);
+};
+
+export const getTenantbyHandle = (handle: string): Promise<any> => {
+  const query = `
+    {
+       tenants(where: {handle_contains: "${handle}"})
     }
   `;
   return processRequest(query);
@@ -125,5 +147,3 @@ export const getLeasesByTenantId = (id: string): Promise<any> => {
   `;
   return processRequest(query);
 };
-
-

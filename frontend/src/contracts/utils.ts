@@ -1,12 +1,12 @@
-import {Contract} from "@ethersproject/contracts";
-import {BigNumber, ethers, Signer} from "ethers";
+import { Contract } from "@ethersproject/contracts";
+import { BigNumber, ethers, Signer } from "ethers";
 import TenantIdABI from "./TenantId.json";
 import OwnerABI from "./OwnerId.json";
 import LeaseABI from "./Lease.json";
 import ERC20ABI from "./ERC20.json";
 import OracleABI from "./IexecRateOracle.json";
-import {config} from "../config/config";
-import {OracleData} from "../repositories/TrustAPI";
+import { config } from "../config/config";
+import { OracleData } from "../repositories/TrustAPI";
 
 // ***************************   TenantId   ***************************
 
@@ -139,9 +139,14 @@ export const payCryptoRentInETH = async (
   const amountInWei = ethers.utils.parseUnits(amount, "wei");
 
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
-  return await leaseContract.payCryptoRentInETH(leaseId, rentId, withoutIssues, {
-    value: amountInWei,
-  });
+  return await leaseContract.payCryptoRentInETH(
+    leaseId,
+    rentId,
+    withoutIssues,
+    {
+      value: amountInWei,
+    }
+  );
 };
 
 export const payCryptoRentInToken = async (
@@ -164,7 +169,7 @@ export const payCryptoRentInToken = async (
     leaseId,
     rentId,
     withoutIssues,
-    amountInToken,
+    amountInToken
   );
 };
 
@@ -180,10 +185,10 @@ export const payFiatRentInEth = async (
   const oracleRateData = await getRate(signer, currencyPair);
 
   const amountInToken = BigNumber.from(amount).mul(oracleRateData._rate);
-  console.log("oracleRateData : ",oracleRateData._rate);
+  console.log("oracleRateData : ", oracleRateData._rate);
   const rentAmountInToken = amountInToken.mul(oracleRateData._rate);
   //The "amount" MUST already be in wei
-  console.log("rentAmountInToken : ",rentAmountInToken);
+  console.log("rentAmountInToken : ", rentAmountInToken);
 
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
   return await leaseContract.payFiatRentInEth(leaseId, rentId, withoutIssues, {
@@ -210,7 +215,12 @@ export const payFiatRentInToken = async (
   //Approve the transfer of the token amount by Lease contract
   await tokenContract.approve(config.leaseAddress, amountInToken);
 
-  return await leaseContract.payFiatRentInToken(leaseId, rentId, withoutIssues, amountInToken);
+  return await leaseContract.payFiatRentInToken(
+    leaseId,
+    rentId,
+    withoutIssues,
+    amountInToken
+  );
 };
 
 export const markRentAsNotPaid = async (
@@ -253,7 +263,7 @@ export const reviewLease = async (
 export const getRate = async (
   signer: Signer,
   currencyPair: string
-  ): Promise<OracleData> => {
+): Promise<OracleData> => {
   const oracleContract = new Contract(
     config.iexecOracle,
     OracleABI.abi,
@@ -274,6 +284,4 @@ export const updateRate = async (
   return await oracleContract.updateRate(currencyPair);
 };
 
-
 // ***************************   ERC20 Tokens   ***************************
-

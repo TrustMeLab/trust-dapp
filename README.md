@@ -2,8 +2,10 @@
 
 ![Problem slide](https://github.com/TheOutsidersLab/trust-fullstack/blob/master/Slide3.JPG?raw=true)
 
-***
+---
+
 ## Solution
+
 ![Problem slide](https://github.com/TheOutsidersLab/trust-fullstack/blob/master/Slide4.JPG?raw=true)
 
 ![Problem slide](https://github.com/TheOutsidersLab/trust-fullstack/blob/master/Slide5.JPG?raw=true)
@@ -11,11 +13,13 @@
 # Trust protocol Dapp
 
 ## Introduction
+
 Trust protocol uses smart contracts hosted on the Ethereum blockchain to provide a decentralized, trustless, and transparent way to record rent payments between 2 parties.
 
 ---
 
 ## Technologies used
+
 Our smart contracts are hosted on the ethereum blockchain - Using Meganode (NodeReal) as our node provider.
 
 We use WalletConnect to allow users to connect their Ethereum wallet to our Dapp using the WalletConnect of their choice, including Ledger which can be connected through LedgerLive to sign transactions, create user and owner accounts, and transfer tokens for rent payment.
@@ -45,23 +49,43 @@ https://goerli.etherscan.io/address/0xE18a3Ed893361cAA3a207306197Ceebd47C6BcA5#r
 https://goerli.etherscan.io/address/0xE7304dF39c9f861D0fe210f441Ded3f8Dd057440
 https://goerli.etherscan.io/address/0x2E2CfeA8A06c29a25B502F8D69498FbfbDE94F6c#readContract
 
-
-*What was your biggest technical challenge and how does your solution solve it?*
+<<<<<<< HEAD
+_What was your biggest technical challenge and how does your solution solve it?_
 ![Problem slide]https://github.com/maofalt/starton_readme_test/blob/main/%5B0%5DOutsider%20Lab%20-%20Solution%20-2.jpg.jpg?raw=true)
 
- ***
+---
+
 ## Facility
-*Explain, step-by-step, how someone can install your project and use it. The jury will mainly use MacOS, Ubuntu, Android, and iOS. Setting up a docker/docker-compose is a good idea to allow someone to test the project easily.*
+
+_Explain, step-by-step, how someone can install your project and use it. The jury will mainly use MacOS, Ubuntu, Android, and iOS. Setting up a docker/docker-compose is a good idea to allow someone to test the project easily._
 
 ## How to set up a local environment / install
+
+=======
+
+_What was your biggest technical challenge and how does your solution solve it?_
+![Problem slide]https://github.com/maofalt/starton_readme_test/blob/main/%5B0%5DOutsider%20Lab%20-%20Solution%20-2.jpg.jpg?raw=true)
+
+---
+
+## Facility
+
+_Explain, step-by-step, how someone can install your project and use it. The jury will mainly use MacOS, Ubuntu, Android, and iOS. Setting up a docker/docker-compose is a good idea to allow someone to test the project easily._
+
+## How to set up a local environment / install
+
+> > > > > > > Update README.md
+
 ### Requirement
 
 > NodeJS 18+ LTS
 
 ### General Settings
 
-----
+---
+
 ### Smart Contracts Settings
+
 #### Open a terminal in the "/_contract URI folder_"
 
 Execute the following commands:
@@ -72,8 +96,8 @@ Execute the following commands:
 >
 > npm run start
 >
-Keep this terminal open and open a new one in the root folder of the project in the same directory
-and execute the following command:
+> Keep this terminal open and open a new one in the root folder of the project in the same directory
+> and execute the following command:
 
 > npm run deploy:localhost
 
@@ -84,7 +108,9 @@ The logs will print contract addresses as such:
 Keep these at hand as you will need them in the next step.
 
 ---
+
 ### Sub-Graph Settings
+
 Copy / Paste each contract address from the previous section to the following files at the root of the sub-graph directory:
 
 - networks.json: Replace the corresponding addresses in the "localhost" section:
@@ -99,7 +125,6 @@ Copy / Paste each contract address from the previous section to the following fi
 
 ![img_3.png](img_3.png)
 
-
 #### Open a Docker container (Docker Desktop or terminal) and execute the following commands in the "/_sub-graph URI folder_":
 
 > cd ./sub-graph
@@ -107,18 +132,19 @@ Copy / Paste each contract address from the previous section to the following fi
 > npm ci
 >
 > docker compose up (or sh run-graph-node.sh for unix users)
->
 
 Keep this terminal open and open a new one in the same directory
 and execute the following command:
 
-
 > npm run start
 
+<<<<<<< HEAD
 /!\ **Make sure to keep the "node" & "Docker" terminals open at all time during your use of the Dapp** /!\
+
 ## _You are now all set for runnintg the dapp :)_
 
 ---
+
 ### Frontend
 
 To serve the website locally, execute the following commands
@@ -129,11 +155,23 @@ To serve the website locally, execute the following commands
 >
 > npm run build && npm run preview
 
-***
+## <<<<<<< HEAD
+
 ## Team and comments
-*Specify the name of your team (the same as on the discord/gather), and tell us what you learned during this hackathon!*
+
+=======
+
+---
+
+## Team and comments
+
+_Specify the name of your team (the same as on the discord/gather), and tell us what you learned during this hackathon!_
 ![Problem slide](https://github.com/TheOutsidersLab/trust-fullstack/blob/master/Slide6.JPG?raw=true)
 
+<<<<<<< HEAD
+=======
+> > > > > > > Update README.md
 
-
-
+>>>>>>> Update README.md
+_Specify the name of your team (the same as on the discord/gather), and tell us what you learned during this hackathon!_
+![Problem slide](https://github.com/TheOutsidersLab/trust-fullstack/blob/master/Slide6.JPG?raw=true)

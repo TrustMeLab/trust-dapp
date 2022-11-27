@@ -1,0 +1,84 @@
+{
+  "data": {
+    "rentPaymentInterval": [
+      {
+        "id": "day",
+        "value": "day",
+        "label": "daily"
+      },
+      {
+        "id": "week",
+        "value": "week",
+        "label": "weekly"
+      },
+      {
+        "id": "month",
+        "value": "month",
+        "label": "monthly"
+      }
+    ],
+    "rentPaymentLimitTime": [
+      {
+        "id": "day",
+        "value": "day",
+        "label": "1 day"
+      },
+      {
+        "id": "week",
+        "value": "week",
+        "label": "1 week"
+      },
+      {
+        "id": "twoWeek",
+        "value": "twoWeek",
+        "label": "2 week"
+      },
+      {
+        "id": "month",
+        "value": "month",
+        "label": "1 month"
+      }
+    ],
+    "currencies": {
+      "crypto": [
+        {
+          "value": "ETH",
+          "addressToken": "0x0000000000000000000000000000000000000000",
+          "label": "Ethers (ETH)"
+        },
+        {
+          "value": "CRT",
+          "addressToken": "0x2E2CfeA8A06c29a25B502F8D69498FbfbDE94F6c",
+          "label": "Croseus (CRT)"
+        },
+        {
+          "value": "DAI",
+          "addressToken": "0x73967c6a0904aa032c103b4104747e88c566b1a2",
+          "label": "DAI"
+        },
+        {
+          "value": "USDC",
+          "addressToken": "0x07865c6e87b9f70255377e024ace6630c1eaa37f",
+          "label": "USDC"
+        }
+      ],
+      "fiat": [
+        {
+          "value": "USD-ETH",
+          "label": "USD-ETH",
+          "addressToken": "0x0000000000000000000000000000000000000000"
+        },
+        {
+          "value": "EUR-ETH",
+          "label": "EUR-ETH",
+          "addressToken": "0x0000000000000000000000000000000000000000"
+        },
+        {
+          "value": "USD-SHI",
+          "label": "USD-SHI",
+          "addressToken": "0x0000000000000000000000000000000000000000"
+        }
+      ]
+    }
+  }
+}
