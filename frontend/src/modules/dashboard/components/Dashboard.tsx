@@ -9,16 +9,20 @@ export const Dashboard = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation()
   const { hasProfile, fetchProfile, address, loading, profile } = useUser();
-
+  // console.log("Dashboard: Profile",profile);
+  // console.log("Dashboard: Loading",loading);
+  // console.log("Dashboard: HasProfile",hasProfile);
   useEffect(() => {
     if (!address) { navigate('/login'); return }
-    if (pathname === '/dashboard' && hasProfile) {
-      navigate(profile.tenant
-        ? 'tenant/leases'
-        : 'owner/leases'
-      )
-      return
-    }
+
+    //TODO a refacto
+    // if (pathname === '/dashboard' && hasProfile) {
+    //   navigate(profile.tenant
+    //     ? 'tenant/leases'
+    //     : 'owner/leases'
+    //   )
+    //   return
+    // }
 
     !hasProfile && !loading && fetchProfile(address)
       .then((res) => pathname === '/dashboard' && navigate(res?.tenant

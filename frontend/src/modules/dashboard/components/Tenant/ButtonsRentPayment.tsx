@@ -9,8 +9,11 @@ import {
   payFiatRentInToken,
   updateRate,
 } from "../../../../contracts/utils";
+import { toast } from 'react-toastify';
 import { useUser } from "../../../../contexts/UserContext";
-import {CONST, tokens} from "../../../../const";
+import {CONST} from "../../../../const";
+import {useProvider} from "wagmi";
+import TransactionToast from "../../../../commons/components/TransactionToast";
 
 interface ButtonsProps {
   rentId: string;
@@ -25,11 +28,24 @@ interface ButtonsProps {
   withoutIssues: boolean;
   paymentToken: string;
 }
-export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, status, validationDate, rentPaymentDate,currencyPair, rentPaymentLimitDate, withoutIssues,paymentToken }: ButtonsProps) => {
+export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, status, validationDate, rentPaymentDate, currencyPair, rentPaymentLimitDate, withoutIssues,paymentToken }: ButtonsProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  //TODO @BT ajouter ici le statut de wihthoutissues. Un "useState" ou un "useRef" pour que je le passe dans les fonction de paiement
 
   const navigate = useNavigate();
   const { signer } = useUser();
+  const provider = useProvider();
+
+  //Only works in testnet :(
+  const renderToast = async (tx: any): Promise<void> => {
+    const receipt = await toast.promise(provider.waitForTransaction(tx.hash), {
+      pending: {
+        render() {
+          return (<TransactionToast message='Your update is in progress' transactionHash={tx.hash}/>);
+        }
+      }, success: 'Transaction successfully mined!', error: 'Transaction failed!',
+    });
+  };
 
   //TODO le booleen doit venir d'un state lié à un champ type radio
   const handlePay = async (e: React.MouseEvent) => {
@@ -38,7 +54,8 @@ export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, statu
     if (signer) {
       if (currencyPair === "CRYPTO") {
         if (paymentToken == CONST.ETH_ADDRESS) {
-          await payCryptoRentInETH(signer, leaseId, contractRentId, withoutIssues, amount);
+          const tx = await payCryptoRentInETH(signer, leaseId, contractRentId, withoutIssues, amount);
+          // renderToast(tx);
         } else {
           await payCryptoRentInToken(signer, leaseId, contractRentId, paymentToken, withoutIssues, amount);
         }
@@ -58,7 +75,6 @@ export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, statu
     case PaymentStatus.PENDING.toString():
       const canPay = Date.now() >= Number(rentPaymentLimitDate);
       return (
-        //TODO ajouter ici un booleen a mettre dans le fonction
         <Box
           sx={{
             display: "flex",
@@ -78,7 +94,6 @@ export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, statu
         </Box>
       );
     case PaymentStatus.PAID.toString():
-      //TODO ajouter ici le statut de whthoutissues
       return (
         <Box sx={{ display: "flex", gap: "12px", width: "100%" }}>
           <Button

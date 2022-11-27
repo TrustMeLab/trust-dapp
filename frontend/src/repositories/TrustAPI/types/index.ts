@@ -45,6 +45,11 @@ export enum PaymentStatus {
   CONFLICT = "CONFLICT",
 }
 
+export enum UserType {
+  OWNER = "OWNER",
+  TENANT = "TENANT",
+}
+
 export interface RentPayment {
   id: string;
   amount: string;

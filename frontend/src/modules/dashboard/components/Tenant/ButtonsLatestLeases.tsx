@@ -1,24 +1,20 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Box, Button } from "@mui/material";
-import { LeaseStatus } from "../../../../repositories/TrustAPI/types";
-import {
-  declineLease,
-  validateLease,
-  cancelLease,
-} from "../../../../contracts/utils";
-import { useUser } from "../../../../contexts/UserContext";
-import { LeaseReviewPopover } from "./LeaseReviewPopover";
+import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {Box, Button} from "@mui/material";
+import {LeaseStatus, UserType} from "../../../../repositories/TrustAPI/types";
+import {cancelLease, declineLease, validateLease,} from "../../../../contracts/utils";
+import {useUser} from "../../../../contexts/UserContext";
+import {LeaseReviewPopover} from "./LeaseReviewPopover";
 
 interface ButtonsProps {
   leaseId: string;
   leaseStatus: LeaseStatus;
-  // cancellationRequestedByOwner: boolean;
-  // cancellationRequestedByTenant: boolean;
+  cancellationRequestedByOwner: boolean;
+  cancellationRequestedByTenant: boolean;
   reviewUri: string;
-
+  userType: UserType;
 }
-export const ButtonsLatestLeases = ({ leaseId, leaseStatus, reviewUri,  }: ButtonsProps) => {
+export const ButtonsLatestLeases = ({ leaseId, leaseStatus, reviewUri, cancellationRequestedByTenant, cancellationRequestedByOwner, userType  }: ButtonsProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const navigate = useNavigate();
@@ -47,6 +43,13 @@ export const ButtonsLatestLeases = ({ leaseId, leaseStatus, reviewUri,  }: Butto
     e.stopPropagation();
     setAnchorEl(e.currentTarget);
   };
+
+  function renderCancelButtonText() {
+    if (userType === UserType.TENANT && cancellationRequestedByTenant || userType === UserType.OWNER && cancellationRequestedByOwner) {
+      return 'Cancellation requested...';
+    } else {
+      return 'Request Cancellation';}
+  }
 
   switch (leaseStatus) {
     case "PENDING":
@@ -78,8 +81,8 @@ export const ButtonsLatestLeases = ({ leaseId, leaseStatus, reviewUri,  }: Butto
       );
     case "ACTIVE":
       return (
-        <Box sx={{ display: "flex", gap: "12px", width: "100%" }}>
-          <Button fullWidth color="success" sx={{ cursor: "auto" }}>
+        <Box sx={{display: "flex", gap: "12px", width: "100%"}}>
+          <Button fullWidth color="success" sx={{cursor: "auto"}}>
             ACTIVE
           </Button>
           <Button
@@ -87,8 +90,9 @@ export const ButtonsLatestLeases = ({ leaseId, leaseStatus, reviewUri,  }: Butto
             variant="outlined"
             color="info"
             onClick={handleCancel}
+            disabled={userType === UserType.TENANT && cancellationRequestedByTenant || userType === UserType.OWNER && cancellationRequestedByOwner}
           >
-            Request Cancellation
+            {renderCancelButtonText()}
           </Button>
         </Box>
       );

@@ -17,6 +17,7 @@
     "@mui/material": "^5.10.15",
     "@web3modal/ethereum": "^2.0.0-beta.2",
     "@web3modal/react": "^2.0.0-beta.2",
+    "react-toastify": "^9.1.1",
     "date-fns": "^2.29.3",
     "ethers": "^5.7.2",
     "ipfs-http-client": "^59.0.0",

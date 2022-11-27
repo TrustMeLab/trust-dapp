@@ -2,12 +2,12 @@ import React from "react";
 import {Box, Typography} from "@mui/material";
 import {useParams} from "react-router-dom";
 import {Container} from "@mui/system";
-import {LeaseStatus, RentPayment} from "../../../repositories/TrustAPI";
+import {LeaseStatus, RentPayment, UserType} from "../../../repositories/TrustAPI";
 import {useUser} from "../../../contexts/UserContext";
-import {formatDuration, intervalToDuration, format} from "date-fns";
+import {format, formatDuration, intervalToDuration} from "date-fns";
 import {ButtonsLatestLeases} from "../components/Tenant/ButtonsLatestLeases";
-import {CONST, tokens} from "../../../const";
-import {ethers, FixedNumber} from "ethers";
+import {tokens} from "../../../const";
+import {ethers} from "ethers";
 import {LeaseDetailCard} from "../../../commons/components/LeaseDetailCard";
 import useLeaseDetails from "../../../hooks/useLeaseDetails";
 
@@ -89,8 +89,10 @@ export const LeaseDetail = () => {
           buttons={<ButtonsLatestLeases
             leaseId={leaseDetail.id}
             leaseStatus={leaseDetail.status}
-            // reviewUri=''
             reviewUri={leaseDetail.tenantReviewUri}
+            cancellationRequestedByOwner={leaseDetail.cancelledByOwner}
+            cancellationRequestedByTenant={leaseDetail.cancelledByTenant}
+            userType={UserType.TENANT}
           />}
         />}
 
