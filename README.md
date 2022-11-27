@@ -49,8 +49,6 @@ https://goerli.etherscan.io/address/0xE18a3Ed893361cAA3a207306197Ceebd47C6BcA5#r
 https://goerli.etherscan.io/address/0xE7304dF39c9f861D0fe210f441Ded3f8Dd057440
 https://goerli.etherscan.io/address/0x2E2CfeA8A06c29a25B502F8D69498FbfbDE94F6c#readContract
 
-_What was your biggest technical challenge and how does your solution solve it?_
-![Problem slide]https://github.com/maofalt/starton_readme_test/blob/main/%5B0%5DOutsider%20Lab%20-%20Solution%20-2.jpg.jpg?raw=true)
 
 ---
 
@@ -62,8 +60,6 @@ _Explain, step-by-step, how someone can install your project and use it. The jur
 
 =======
 
-_What was your biggest technical challenge and how does your solution solve it?_
-![Problem slide]https://github.com/maofalt/starton_readme_test/blob/main/%5B0%5DOutsider%20Lab%20-%20Solution%20-2.jpg.jpg?raw=true)
 
 ---
 
