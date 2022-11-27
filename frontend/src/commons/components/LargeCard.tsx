@@ -83,7 +83,7 @@ export const LargeCard = ({
           <LeasePopoverDetails period={period} lease={lease} />
           {handleClick && (
             <Button variant="outlined" onClick={handleClick}>
-              Go to Lease Payments
+              Go to Lease Details
             </Button>
           )}
           <Box sx={{ display: "flex" }}>

@@ -6,12 +6,15 @@ import { Lease } from "../../../../repositories/TrustAPI/types";
 import { LargeCard } from "../../../../commons/components/LargeCard";
 import { returnPeriod, returnRentInfos, returnTitle } from "../../pages/Tenant";
 import { ButtonsLatestLeases } from "../Tenant/ButtonsLatestLeases";
+import { useNavigate } from "react-router-dom";
 
 interface LeasesDisplay {
   leases: Lease[];
 }
 
 export const LeasesDisplay = ({ leases }: LeasesDisplay) => {
+  const navigate = useNavigate();
+
   return (
     <Container>
       {leases.length === 0 ? (
@@ -55,6 +58,7 @@ export const LeasesDisplay = ({ leases }: LeasesDisplay) => {
                   reviewUri={lease.uri}
                 />
               }
+              handleClick={() => navigate(`${lease.id}`)}
             />
           ))}
         </Box>
