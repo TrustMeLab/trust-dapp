@@ -3,16 +3,16 @@
     "tenant": {
       "id": "7f061b80-adeb-47c6-8949-91dd06f822f3",
       "hasLease": true,
-      "handle": "Carol",
-      "address": "0x4129164c1bFD4eD9D66a0e00c4C6dbff2DCCa35f",
+      "handle": "TheBoss",
+      "address": "0x9f89836c22f250595dea30327af026ba1c029f28",
       "leases": [1, 2, 3]
     },
     "owner": {
       "id": "7f061b80-adeb-47c6-8949-91dd06f822f3",
       "hasLease": true,
-      "handle": "Carol",
-      "address": "0x4129164c1bFD4eD9D66a0e00c4C6dbff2DCCa35f",
-      "leases": [1, 2]
+      "handle": "TheBoss",
+      "address": "0x9f89836c22f250595dea30327af026ba1c029f28",
+      "leases": [1, 2, 3]
     }
   }
 }

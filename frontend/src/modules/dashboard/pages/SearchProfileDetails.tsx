@@ -69,7 +69,7 @@ export const SearchProfileDetails = () => {
           <Avatar
             alt="avatar"
             src={profileReview.uri || "/src/assets/doggo_1.png"}
-            sx={{ width: 400, height: 400, marginRight: "80px" }}
+            sx={{ width: 400, height: 400, marginRight: "100px" }}
           />
           <Box sx={{ display: "flex" }}>
             <Grid item xs={12} md={6}>
@@ -78,7 +78,8 @@ export const SearchProfileDetails = () => {
                 variant="h3"
                 component="div"
               >
-                General Tenant
+                General{" "}
+                {location.state.profile === "tenant" ? "Tenant" : "Owner"}
                 <ColoredTypography> informations</ColoredTypography>
               </Typography>
 
@@ -90,9 +91,7 @@ export const SearchProfileDetails = () => {
                   <List
                     sx={{
                       display: "flex",
-                      gap: "42px",
                       alignItems: "center",
-                      marginBottom: "60px",
                     }}
                   >
                     <Box>
@@ -105,12 +104,12 @@ export const SearchProfileDetails = () => {
                           secondary={profileReview.handle}
                         />
                       </ListItem>
-                      <ListItem>
+                      <ListItem sx={{ marginBottom: "30px" }}>
                         <ListItemIcon>
                           <FingerprintIcon />
                         </ListItemIcon>
                         <ListItemText
-                          primary={"Name"}
+                          primary={"Address"}
                           secondary={profileReview.address}
                         />
                       </ListItem>
@@ -121,6 +120,7 @@ export const SearchProfileDetails = () => {
                             display: "flex",
                             flexDirection: "column",
                             marginBottom: "32px",
+                            minWidth: "800px",
                           }}
                         >
                           <CardContent

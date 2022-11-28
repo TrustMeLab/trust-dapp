@@ -92,7 +92,7 @@ export const Profile = () => {
         <Avatar
           alt="avatar"
           src={avatar}
-          sx={{ width: 400, height: 400, marginRight: "80px" }}
+          sx={{ width: 400, height: 400, marginRight: "100px" }}
         />
         <Box sx={{ display: "flex" }}>
           <Grid item xs={12} md={6}>
@@ -114,7 +114,9 @@ export const Profile = () => {
                 }}
               >
                 <Box>
-                  <Typography>Tenant Infos</Typography>
+                  <Typography sx={{ fontWeight: "bold" }}>
+                    Tenant Infos
+                  </Typography>
                   <Divider />
                   {tenantInfos.map((el: any) => (
                     <ListItem>
@@ -139,7 +141,9 @@ export const Profile = () => {
             {ownerInfos.length > 0 && (
               <List sx={{ display: "flex", gap: "42px", alignItems: "center" }}>
                 <Box>
-                  <Typography>Owner Infos</Typography>
+                  <Typography sx={{ fontWeight: "bold" }}>
+                    Owner Infos
+                  </Typography>
                   <Divider />
 
                   {ownerInfos.map((el: any) => (

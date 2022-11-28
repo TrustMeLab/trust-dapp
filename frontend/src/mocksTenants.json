@@ -4,7 +4,7 @@
       "id": "1",
       "address": "0x9f89836c22f250595dea30327af026ba1c029f28",
       "handle": "TheBoss",
-      "uri": "/src/assets/doggo_3.png",
+      "uri": "/src/assets/profile_picture.png",
 
       "leases": [
         {
@@ -46,11 +46,6 @@
     },
     {
       "id": "2",
-      "address": "0x858EE79B08Ae13eFD752838D25d1155D3CcD1894",
-      "handle": "Maximus"
-    },
-    {
-      "id": "3",
       "address": "0x858ee79b08ae13efd752838d25d1155d3ccd1894",
       "handle": "Nugah",
       "uri": "/src/assets/doggo_1.png",
