@@ -19,7 +19,9 @@ export const LeasesDisplay = ({ leases }: LeasesDisplay) => {
   return (
     <Container>
       {leases.length === 0 ? (
-        <Typography>You don't have any active leases</Typography>
+        <Typography sx={{ margin: "32px", texAlign: "center" }}>
+          You don't have any active leases
+        </Typography>
       ) : (
         <Box
           sx={{
