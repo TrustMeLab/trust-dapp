@@ -47,7 +47,7 @@ export const FinalBlock = ({
         sx={{ marginTop: 12 }}
         loading={loading}
       >
-        Créer son profil
+        Create a profile
       </LoadingButton>
     </Box>
   );
