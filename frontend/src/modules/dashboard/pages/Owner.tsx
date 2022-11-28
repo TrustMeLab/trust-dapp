@@ -5,6 +5,7 @@ import {useUser} from "../../../contexts/UserContext";
 import {CreateLeaseButton} from "../components/Owner/CreateLeaseButton";
 import {Lease, LeaseStatus} from "../../../repositories/TrustAPI/types";
 import useOwnerLeases from "../../../hooks/useOwnerLeases";
+import {LeasesDisplay} from "../components/Owner/LeasesDisplay";
 
 //TODO je galère encore avec cette page pour afficher la data. Mais pas prio.
 export const Owner = () => {
@@ -26,7 +27,8 @@ export const Owner = () => {
     leases.length > 0 &&
     leases.filter(
       (lease: Lease) =>
-        (LeaseStatus.CANCELLED || LeaseStatus.ENDED) === lease.status
+        //TODO Spé, le check ne marche pas si on change l'ordre des énums
+        (LeaseStatus.ENDED || LeaseStatus.CANCELLED) === lease.status
     );
 
   console.log("activeLeases : ", activeLeases);
@@ -45,7 +47,7 @@ export const Owner = () => {
         }}
       >
         <CreateLeaseButton />
-        {/*leases && <LeasesDisplay leases={leasesToRender} />*/}
+        {leases && archivedLeases && leasesToRender && <LeasesDisplay leases={leasesToRender}/>}
       </Container>
     </Box>
   );

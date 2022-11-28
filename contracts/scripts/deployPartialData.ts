@@ -117,7 +117,8 @@ task("deploy-partial", "Deploys contracts")
 
     // console.log('Aurelius profil: ', await tenantIdContract.getTenant('2'));
     }
-
+    const RENT_INTERVAL = 1;
+    const RENT_LIMIT_PAYMENT_TIME = 1;
 
     if (normalRent) {
       //Create lease for ETH payment
@@ -125,8 +126,9 @@ task("deploy-partial", "Deploys contracts")
         await tenantIdContract.getUserId(maximus.address),
         ethers.utils.parseEther('0.0000000000005'),
         '12',
-        ethers.constants.AddressZero, 7 * 60,
-        14 * 60,
+        ethers.constants.AddressZero,
+        RENT_INTERVAL,
+        RENT_LIMIT_PAYMENT_TIME,
         'CRYPTO',
         getCurrentTimestamp(),);
       await createLeaseTx.wait();
@@ -148,7 +150,7 @@ task("deploy-partial", "Deploys contracts")
       }
 
       //Croesus marks 4 rents as not paid
-      for (let i = 5; i < 7; i++) {
+      for (let i = 4; i < 7; i++) {
         const markRentNotPaidTx = await leaseContract.connect(deployer).markRentAsNotPaid(1, i);
         await markRentNotPaidTx.wait();
         console.log('Croesus marked rent as not paid: ', i)
@@ -171,8 +173,8 @@ task("deploy-partial", "Deploys contracts")
         ethers.utils.parseEther('0.0000000000005'),
         '12',
         croesusTokenAddress,
-        7 * 60,
-        14 * 60,
+        RENT_INTERVAL,
+        RENT_LIMIT_PAYMENT_TIME,
         'CRYPTO',
         getCurrentTimestamp(),);
       await createLeaseTx.wait();
@@ -195,7 +197,7 @@ task("deploy-partial", "Deploys contracts")
       }
 
       //Croesus marks 4 rents as not paid
-      for (let i = 8; i < 7; i++) {
+      for (let i = 4; i < 7; i++) {
         const markRentNotPaidTx = await leaseContract.connect(deployer).markRentAsNotPaid(2, i);
         await markRentNotPaidTx.wait();
         console.log('Croesus marked rent as not paid: ', i)
@@ -224,8 +226,8 @@ task("deploy-partial", "Deploys contracts")
         "500",
         '12',
         croesusTokenAddress,
-        7 * 60,
-        14 * 60,
+        RENT_INTERVAL,
+        RENT_LIMIT_PAYMENT_TIME,
         'USD-SHI',
         getCurrentTimestamp(),);
       await createLeaseTx.wait();
@@ -259,7 +261,7 @@ task("deploy-partial", "Deploys contracts")
       }
 
       //Croesus marks 4 rents as not paid
-      for (let i = 8; i < 7; i++) {
+      for (let i = 4; i < 7; i++) {
         const markRentNotPaidTx = await leaseContract.connect(deployer).markRentAsNotPaid(3, i);
         await markRentNotPaidTx.wait();
         console.log('Croesus marked rent as not paid: ', i)
@@ -284,8 +286,8 @@ task("deploy-partial", "Deploys contracts")
         "475",
         '12',
         croesusTokenAddress,
-        7 * 60,
-        14 * 60,
+        RENT_INTERVAL,
+        RENT_LIMIT_PAYMENT_TIME,
         'USD-ETH',
         getCurrentTimestamp(),);
       await createLeaseTx.wait();
@@ -316,7 +318,7 @@ task("deploy-partial", "Deploys contracts")
       }
 
       //Croesus marks 4 rents as not paid
-      for (let i = 8; i < 7; i++) {
+      for (let i = 4; i < 7; i++) {
         const markRentNotPaidTx = await leaseContract.connect(deployer).markRentAsNotPaid(4, i);
         await markRentNotPaidTx.wait();
         console.log('Croesus marked rent as not paid: ', i)

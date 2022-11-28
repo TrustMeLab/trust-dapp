@@ -26,6 +26,7 @@ interface SmallTenantCardProps {
   rentPaymentLimitDate: string,
   rentPaymentDate: string,
   leaseStatus: LeaseStatus,
+  isConnectedAsOwner: boolean,
   handleClick: () => void;
 }
 
@@ -48,7 +49,8 @@ export const SmallTenantRentCard = ({
   handleClick,
   rentPaymentLimitDate,
   rentPaymentDate,
-  leaseStatus
+  leaseStatus,
+  isConnectedAsOwner
   }: SmallTenantCardProps) => {
 
   const renderPeriod = (
@@ -139,6 +141,7 @@ export const SmallTenantRentCard = ({
       withoutIssues={withoutIssues}
       status={status}
       paymentToken={paymentToken}
+      isConnectedAsOwner={isConnectedAsOwner}
       leaseStatus={leaseStatus}/>
   </Card>);
 };

@@ -83,13 +83,14 @@ export const LeaseDetail = () => {
             leaseDetail.totalNumberOfRents)}
           rentInfos={returnRentInfos(leaseDetail.rentAmount, leaseDetail.currencyPair, leaseDetail.rentPaymentInterval, leaseDetail.totalNumberOfRents, leaseDetail.paymentToken)}
           lease={leaseDetail}
-          generalInfo={`Owner : ${leaseDetail.tenant.handle}`}
+          generalInfo={`Owner : ${leaseDetail.owner.handle}`}
           remarks={leaseDetail.status === "CANCELLED" ? `Cancellation requested` : undefined}
           // paymentCurrency = {paymentCurrency}
           buttons={<ButtonsLatestLeases
             leaseId={leaseDetail.id}
             leaseStatus={leaseDetail.status}
-            reviewUri={leaseDetail.tenantReviewUri}
+            tenantReviewUri={leaseDetail.tenantReviewUri}
+            ownerReviewUri={leaseDetail.ownerReviewUri}
             cancellationRequestedByOwner={leaseDetail.cancelledByOwner}
             cancellationRequestedByTenant={leaseDetail.cancelledByTenant}
             userType={UserType.TENANT}
@@ -125,6 +126,7 @@ export const LeaseDetail = () => {
                 rentPaymentInterval={leaseDetail.rentPaymentInterval}
                 rentPaymentLimitDate={rentPayment.rentPaymentLimitDate}
               leaseStatus={leaseDetail.status}
+              isConnectedAsOwner={false}
               handleClick={() => {}}
             />))}
         </Box>

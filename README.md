@@ -14,7 +14,9 @@
 
 ## Introduction
 
-Trust protocol uses smart contracts hosted on the Ethereum blockchain to provide a decentralized, trustless, and transparent way to record rent payments between 2 parties.
+A Tenant paying his rent on time has a lot of value for a Landlord, but it is not easy and close to impossible to prove as it is easy to fake documents on this matter. The Trust protocol provides a decentralized, trustless, and transparent way to allow a Tenant to record his rent payments on the Ethereum blockchain, so that he can use this payment history as a Proof Of Trustworthiness during his housing search.
+
+
 
 ---
 
@@ -22,7 +24,7 @@ Trust protocol uses smart contracts hosted on the Ethereum blockchain to provide
 
 Our smart contracts are hosted on the ethereum blockchain - Using Meganode (NodeReal) as our node provider.
 
-We use WalletConnect to allow users to connect their Ethereum wallet to our Dapp using the WalletConnect of their choice, including Ledger which can be connected through LedgerLive to sign transactions, create user and owner accounts, and transfer tokens for rent payment.
+We use WalletConnect to ~~allow~~ users to connect their Ethereum wallet to our Dapp using the WalletConnect of their choice, including Ledger which can be connected through LedgerLive to sign transactions, create user and owner accounts, and transfer tokens for rent payment.
 
 Trust protocol allows owners to ask for rent payments in any ERC20 token with a price indexed on Fiat currency; To offer a live exchange rate, our Dapp uses Iexec Oracles, generated through the Iexec Oracle Factory.
 The protocol allows the addition of any number or oracle for conversion rates, and intends to offer more and more payment choices to users.

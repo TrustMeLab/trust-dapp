@@ -64,54 +64,6 @@ export const getTenantbyHandle = (handle: string): Promise<any> => {
   return processRequest(query);
 };
 
-export const getTenantInfosReview = (id: string): Promise<any> => {
-  const query = `
-  {
-    tenants(where: {id: "${id}"}) {
-      id
-      address
-      handle
-      hasLease
-      uri
-      createdAt
-      leases(where: {status: ENDED}) {
-        id
-        tenantReviewUri
-        uri
-        owner {
-          id
-          handle
-        }
-      }
-    }
-  }`;
-  return processRequest(query);
-};
-
-export const getOwnerInfosReview = (id: string): Promise<any> => {
-  const query = `
-  {
-    owner(where: {id: "${id}"}) {
-      id
-      address
-      handle
-      hasLease
-      uri
-      createdAt
-      leases(where: {status: ENDED}) {
-        id
-        ownerReviewUri
-        uri
-        tenant {
-          handle
-          id
-        }
-      }
-    }
-  }`;
-  return processRequest(query);
-};
-
 export const getFullTrustProfileData = (address: string): Promise<any> => {
   const query = `{
           owners(where: {address: "${address}"}) {
@@ -202,6 +154,9 @@ export const getLeasesByTenantId = (id: string): Promise<any> => {
             id
             handle
           }
+          owner {
+            handle
+            }
           }
   }
   `;
@@ -230,6 +185,53 @@ export const getLeasesIdsByOwnerId = (id: string): Promise<any> => {
   return processRequest(query);
 };
 
+export const getTenantInfosReview = (id: string): Promise<any> => {
+  const query = `
+  {
+    tenants(where: {id: "${id}"}) {
+      id
+      address
+      handle
+      hasLease
+      uri
+      createdAt
+      leases(where: {status: ENDED}) {
+        id
+        tenantReviewUri
+        uri
+        owner {
+          id
+          handle
+        }
+      }
+    }
+  }`;
+  return processRequest(query);
+};
+
+export const getOwnerInfosReview = (id: string): Promise<any> => {
+  const query = `
+  {
+    owner(where: {id: "${id}"}) {
+      id
+      address
+      handle
+      hasLease
+      uri
+      createdAt
+      leases(where: {status: ENDED}) {
+        id
+        ownerReviewUri
+        uri
+        tenant {
+          handle
+          id
+        }
+      }
+    }
+  }`;
+  return processRequest(query);
+};
 
 export const getLeasesByOwnerId = (id: string): Promise<any> => {
   const query = `
@@ -251,6 +253,12 @@ export const getLeasesByOwnerId = (id: string): Promise<any> => {
       createdAt
       cancelledByTenant
       cancelledByOwner
+      owner {
+        handle
+      }
+      tenant {
+        handle
+      }
     }
 }
   `;

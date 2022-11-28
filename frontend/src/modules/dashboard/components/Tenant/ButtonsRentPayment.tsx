@@ -3,11 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button } from "@mui/material";
 import {LeaseStatus, PaymentStatus} from "../../../../repositories/TrustAPI/types";
 import {
-  payCryptoRentInETH,
-  payCryptoRentInToken,
-  payFiatRentInEth,
-  payFiatRentInToken,
-  updateRate,
+  markRentAsNotPaid, payCryptoRentInETH, payCryptoRentInToken, payFiatRentInEth, payFiatRentInToken, updateRate,
 } from "../../../../contracts/utils";
 import { toast } from 'react-toastify';
 import { useUser } from "../../../../contexts/UserContext";
@@ -28,11 +24,13 @@ interface ButtonsProps {
   withoutIssues: boolean;
   paymentToken: string;
   leaseStatus: LeaseStatus;
+  isConnectedAsOwner: boolean;
 }
-export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, status, validationDate, rentPaymentDate, currencyPair, rentPaymentLimitDate, withoutIssues, paymentToken, leaseStatus }: ButtonsProps) => {
+export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, status, validationDate, rentPaymentDate, currencyPair, rentPaymentLimitDate, withoutIssues, paymentToken, leaseStatus, isConnectedAsOwner }: ButtonsProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [happy, setHappy] = useState(true);
   //TODO @BT ajouter ici le statut de wihthoutissues. Un "useState" ou un "useRef" pour que je le passe dans les fonction de paiement
+  console.log("isConnectedAsOwner", isConnectedAsOwner);
 
   const navigate = useNavigate();
   const { signer } = useUser();
@@ -78,10 +76,19 @@ export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, statu
   }
   };
 
+  const handleMarkAsNotPaid = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const contractRentId = rentId.substring(rentId.indexOf('-') + 1, rentId.length);
+    if(signer) {
+      await markRentAsNotPaid(signer, leaseId, contractRentId);
+      navigate(0);
+    }
+  };
+
   switch (status) {
     case PaymentStatus.PENDING.toString():
       const canPay = Date.now() / 1000 >= Number(rentPaymentDate);
-      return (
+      return ( !isConnectedAsOwner ?
         <Box
           sx={{
             display: "flex",
@@ -99,6 +106,24 @@ export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, statu
             Pay
           </Button>
         </Box>
+          :
+      <Box
+        sx={{
+          display: "flex",
+          gap: "12px",
+          width: "100%",
+        }}
+      >
+        <Button
+          fullWidth
+          variant="outlined"
+          color="error"
+          disabled ={!canPay || leaseStatus !== LeaseStatus.ACTIVE}
+          onClick={handleMarkAsNotPaid}
+        >
+          Mark as not paid
+        </Button>
+      </Box>
       );
     case PaymentStatus.PAID.toString():
       return (

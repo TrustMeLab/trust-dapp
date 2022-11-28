@@ -49,7 +49,7 @@ export const Login = () => {
         }}
       >
         <Typography variant="h2">
-          Veuillez connecter votre portefeuille crypto
+          Please connect your crypto wallet
         </Typography>
 
         <Box sx={{ margin: 12 }}>
