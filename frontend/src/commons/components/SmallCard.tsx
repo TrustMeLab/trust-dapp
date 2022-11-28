@@ -18,7 +18,7 @@ export const SmallCard = ({
         display: "flex",
         flexDirection: "column",
         borderRadius: "10px",
-        padding: "8px",
+        padding: "20px",
         cursor: "pointer",
         width: "240px",
         height: "160px",
@@ -33,7 +33,7 @@ export const SmallCard = ({
       <Typography variant="h6" sx={{ fontWeight: "light" }}>
         {period}
       </Typography>
-      <Typography variant="h5">{rentInfos}</Typography>
+      <Typography variant="h6">{rentInfos}</Typography>
     </Card>
   );
 };

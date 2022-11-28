@@ -79,8 +79,9 @@ return (
 									<Box
 									component="img"
 									sx={{
+										mt: '-0.3em',
 										ml: '-2em',
-										height: "100%"
+										height: "120%"
 									}}
 									alt="solidity"
 									src={"/solidity.svg"}
@@ -89,7 +90,7 @@ return (
 							</Box>
 						<Box sx={{width: '15%',display: 'flex', flexDirection: 'column'}}>
 							<Typography variant="h5" color="#F6AE4A">INFORMATIONS</Typography>
-							<Box sx={{ mt: '1em', height: '15%', display: 'flex', justifyContent: 'flex-start'}}>
+							<Box sx={{ mt: '2.2em', height: '15%', display: 'flex', justifyContent: 'flex-start'}}>
 								<GitHubIcon fontSize="large" sx={{ color: 'white'}}/>
 								<a style={{textDecoration: 'none'}}href="https://github.com/orgs/TheOutsidersLab/repositories" target="_blank" rel="noreferrer">
 									<Box sx={{mt: '-0.45em', ml: '0.5em'}}><HoverText>Our GitHub</HoverText></Box>

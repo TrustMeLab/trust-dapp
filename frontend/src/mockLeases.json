@@ -115,7 +115,7 @@
           "paymentToken": "0x0000000000000000000000000000000000000000",
           "rentPaymentDate": "1669467401",
           "rentPaymentLimitDate": "1669467401",
-          "status": "PAID",
+          "status": "PENDING",
           "validationDate": "1669467414",
           "withoutIssues": true
         },
