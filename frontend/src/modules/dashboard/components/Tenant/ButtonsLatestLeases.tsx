@@ -89,7 +89,8 @@ export const ButtonsLatestLeases = ({ leaseId, leaseStatus, tenantReviewUri, own
           <Button
             fullWidth
             variant="outlined"
-            color="info"
+            // color="info"
+            color="error"
             onClick={handleCancel}
             disabled={userType === UserType.TENANT && cancellationRequestedByTenant || userType === UserType.OWNER && cancellationRequestedByOwner}
           >

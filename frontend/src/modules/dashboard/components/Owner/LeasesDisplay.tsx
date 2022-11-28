@@ -2,9 +2,14 @@ import React from "react";
 
 import { Box, Container, Typography } from "@mui/material";
 
-import {Lease, UserType} from "../../../../repositories/TrustAPI/types";
+import { Lease, UserType } from "../../../../repositories/TrustAPI/types";
 import { LargeCard } from "../../../../commons/components/LargeCard";
-import { returnPeriod, returnRentInfos, returnTitle } from "../../pages/Tenant";
+import {
+  returnPaymentInTokenInfos,
+  returnPeriod,
+  returnRentInfos,
+  returnTitle,
+} from "../../pages/Tenant";
 import { ButtonsLatestLeases } from "../Tenant/ButtonsLatestLeases";
 import { useNavigate } from "react-router-dom";
 
@@ -40,6 +45,7 @@ export const LeasesDisplay = ({ leases }: LeasesDisplay) => {
                 lease.rentPaymentInterval,
                 lease.totalNumberOfRents
               )}
+              paymentToken={returnPaymentInTokenInfos(lease.currencyPair)}
               rentInfos={returnRentInfos(
                 lease.rentAmount,
                 lease.currencyPair,

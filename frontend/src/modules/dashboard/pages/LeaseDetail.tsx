@@ -14,10 +14,11 @@ import { tokens } from "../../../const";
 import { ethers } from "ethers";
 import { LeaseDetailCard } from "../../../commons/components/LeaseDetailCard";
 import useLeaseDetails from "../../../hooks/useLeaseDetails";
+import mocksLeases from "../../../mockLeases.json";
 
 import { SmallTenantRentCard } from "../../../commons/components/SmallTenantRentCard";
 import { useBalance } from "wagmi";
-import mocksLeases from "../../../mockLeases.json";
+
 import { returnPaymentInTokenInfos } from "./Tenant";
 
 export const LeaseDetail = () => {
@@ -27,9 +28,15 @@ export const LeaseDetail = () => {
   // const { data } = useBalance();
   // console.log(data);
 
+  // if(!id){
+  //   return;
+  // }
   const leaseDetail = useLeaseDetails(id as string);
-  // console.log("Leasedetails : ", leaseDetail);
   // const leaseDetail = mocksLeases.leases[0];
+  console.log("Leasedetails : ", leaseDetail);
+  // if(!leaseDetail){
+  //   return;
+  // }
 
   const returnTitle = (leaseStatus: LeaseStatus) => {
     if (leaseStatus === (LeaseStatus.ENDED || LeaseStatus.CANCELLED))
