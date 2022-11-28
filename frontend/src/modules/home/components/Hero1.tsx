@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material";
 import Image from "mui-image";
 
 export default function Hero1() {
-	const theme = useTheme();
+  const theme = useTheme();
 
   return (
     <Box
@@ -48,22 +48,6 @@ export default function Hero1() {
           Pay & receive periodic rent payments through the smart contracts
           <br />
           Evaluate both tenant & owner each other at the end of your lease.
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-          }}
-        >
-          <Box sx={{ mr: "6em" }}>
-            <Button variant="outlined" size="large">
-              Owner
-            </Button>
-          </Box>
-          <Box>
-            <Button variant="outlined" size="large">
-              Tenant
-            </Button>
-          </Box>
         </Box>
       </Box>
     </Box>

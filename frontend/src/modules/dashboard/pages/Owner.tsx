@@ -1,18 +1,18 @@
-import React, {useState} from "react";
-import {Box, Container} from "@mui/material";
-import {LeftMenu} from "../components/Owner/LeftMenu";
-import {useUser} from "../../../contexts/UserContext";
-import {CreateLeaseButton} from "../components/Owner/CreateLeaseButton";
-import {Lease, LeaseStatus} from "../../../repositories/TrustAPI/types";
+import React, { useState } from "react";
+import { Box, Container } from "@mui/material";
+import { LeftMenu } from "../components/Owner/LeftMenu";
+import { useUser } from "../../../contexts/UserContext";
+import { CreateLeaseButton } from "../components/Owner/CreateLeaseButton";
+import { Lease, LeaseStatus } from "../../../repositories/TrustAPI/types";
 import useOwnerLeases from "../../../hooks/useOwnerLeases";
-import {LeasesDisplay} from "../components/Owner/LeasesDisplay";
+import { LeasesDisplay } from "../components/Owner/LeasesDisplay";
 
 //TODO je galère encore avec cette page pour afficher la data. Mais pas prio.
 export const Owner = () => {
   const [activeTabMenu, setActiveTabMenu] = useState(0);
   const { profile } = useUser();
   const leases = useOwnerLeases(profile.owner?.id as string);
-  // const leases = leasesMock.leases;
+  // const leases = mocks.leases;
   console.log("Leases : ", leases);
   const activeLeases =
     leases &&
@@ -47,7 +47,9 @@ export const Owner = () => {
         }}
       >
         <CreateLeaseButton />
-        {leases && archivedLeases && leasesToRender && <LeasesDisplay leases={leasesToRender}/>}
+        {leases && archivedLeases && leasesToRender && (
+          <LeasesDisplay leases={leasesToRender} />
+        )}
       </Container>
     </Box>
   );

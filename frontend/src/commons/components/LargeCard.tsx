@@ -53,7 +53,7 @@ export const LargeCard = ({
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
-              marginRight: 9,
+              marginRight: 6,
             }}
           >
             <Typography
