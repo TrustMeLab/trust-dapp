@@ -56,7 +56,8 @@ export const LeasesDisplay = ({ leases }: LeasesDisplay) => {
                 <ButtonsLatestLeases
                   leaseId={lease.id}
                   leaseStatus={lease.status}
-                  reviewUri={lease.uri}
+                  tenantReviewUri={lease.tenantReviewUri}
+                  ownerReviewUri={lease.ownerReviewUri}
                   userType={UserType.OWNER}
                   cancellationRequestedByOwner={lease.cancelledByOwner}
                   cancellationRequestedByTenant={lease.cancelledByTenant}

@@ -1,15 +1,15 @@
 {
   "localhost": {
     "OwnerId": {
-      "address": "0xC12E34942CA76AA83E14380eeeC6A04cE2460910",
+      "address": "0xBe16616Ffb87CC3845dC33bA7a7419768697D511",
       "startBlock": 0
     },
     "TenantId": {
-      "address": "0x734d2F200556d3E5629D809B5e6C8a565d558147",
+      "address": "0x0AB0976ed91F74FA8D8F1D9EA9BEa24b7c1cb65e",
       "startBlock": 0
     },
     "Lease": {
-      "address": "0xfF931A4cac037E473Ef170514278ec9CA3966763",
+      "address": "0x048ca8B5df207A87E8a17Ddb1fc2BFf40029C391",
       "startBlock": 0
     }
   },

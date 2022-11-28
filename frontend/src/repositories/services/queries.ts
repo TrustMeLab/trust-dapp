@@ -142,6 +142,9 @@ export const getLeasesByTenantId = (id: string): Promise<any> => {
             id
             handle
           }
+          owner {
+            handle
+            }
           }
   }
   `;
@@ -191,6 +194,12 @@ export const getLeasesByOwnerId = (id: string): Promise<any> => {
       createdAt
       cancelledByTenant
       cancelledByOwner
+      owner {
+        handle
+      }
+      tenant {
+        handle
+      }
     }
 }
   `;

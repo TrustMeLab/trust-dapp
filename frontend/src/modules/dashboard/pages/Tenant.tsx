@@ -20,7 +20,7 @@ export const returnTitle = (leaseStatus: LeaseStatus) => {
     return "Lease ended";
   if (leaseStatus === (LeaseStatus.PENDING))
     return "Pending lease";
-  return "Your current Lease";
+  return "Active Lease";
 };
 
 export const returnPeriod = (
@@ -49,10 +49,14 @@ export const returnRentInfos = (
 ): string => {
   let displayCurrency = "";
   if (currencyPair === "CRYPTO") {
+    console.log("currencyPair", currencyPair);
+    console.log("rentAmount", rentAmount);
     const token = tokens.find((token) => token.address === paymentToken);
     displayCurrency = token?.name || "";
     rentAmount = ethers.utils.formatEther(rentAmount);
   } else {
+    console.log("CurrencyPair", currencyPair);
+    console.log("rentAmount", rentAmount);
     displayCurrency = currencyPair.substring(0, currencyPair.indexOf("-"));
     //TODO Il faut intégrer la devise de paiement quelque part. On n'affiche que la devise Fiat
     const paymentCurrency = tokens.find(
@@ -88,8 +92,10 @@ export const Tenant = () => {
 
   return(
   <Fragment>
-    {!activeLease && <Typography variant="h4" marginTop={4} marginBottom={4}>
+    {!activeLease ? <Typography variant="h4" marginTop={4} marginBottom={4}>
       You don't have an active lease
+    </Typography> : <Typography variant="h4" marginTop={4} marginBottom={4}>
+      Active lease
     </Typography>}
 
 
@@ -98,13 +104,14 @@ export const Tenant = () => {
       period={returnPeriod(activeLease.startDate, activeLease.rentPaymentInterval, activeLease.totalNumberOfRents)}
       rentInfos={returnRentInfos(activeLease.rentAmount, activeLease.currencyPair, activeLease.rentPaymentInterval, activeLease.totalNumberOfRents, activeLease.paymentToken)}
       lease={activeLease}
-      generalInfo={`Owner : ${activeLease.tenant.handle}`}
+      generalInfo={`Owner : ${activeLease.owner.handle}`}
       remarks={activeLease.status === "CANCELLED" ? `Cancellation requested` : undefined}
       handleClick={() => navigate(`/dashboard/tenant/leases/${activeLease.id}`)}
       buttons={<ButtonsLatestLeases
         leaseId={activeLease.id}
         leaseStatus={activeLease.status}
-        reviewUri={activeLease.tenantReviewUri}
+        tenantReviewUri={activeLease.tenantReviewUri}
+        ownerReviewUri={activeLease.ownerReviewUri}
         cancellationRequestedByOwner={activeLease.cancelledByOwner}
         cancellationRequestedByTenant={activeLease.cancelledByTenant}
         userType={UserType.TENANT}
@@ -120,13 +127,14 @@ export const Tenant = () => {
       period={returnPeriod(lease.startDate, lease.rentPaymentInterval, lease.totalNumberOfRents)}
       rentInfos={returnRentInfos(lease.rentAmount, lease.currencyPair, lease.rentPaymentInterval, lease.totalNumberOfRents, lease.paymentToken)}
       lease={lease}
-      generalInfo={`Owner : ${lease.tenant.handle}`}
+      generalInfo={`Owner : ${lease.owner.handle}`}
       remarks={lease.status === "CANCELLED" ? `Cancellation requested` : undefined}
       handleClick={() => navigate(`/dashboard/tenant/leases/${lease.id}`)}
       buttons={<ButtonsLatestLeases
         leaseId={lease.id}
         leaseStatus={lease.status}
-        reviewUri={lease.tenantReviewUri}
+        tenantReviewUri={lease.tenantReviewUri}
+        ownerReviewUri={lease.ownerReviewUri}
         cancellationRequestedByOwner={lease.cancelledByOwner}
         cancellationRequestedByTenant={lease.cancelledByTenant}
         userType={UserType.TENANT}

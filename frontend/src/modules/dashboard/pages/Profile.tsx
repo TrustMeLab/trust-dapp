@@ -22,6 +22,7 @@ import NumbersIcon from "@mui/icons-material/Numbers";
 import HouseIcon from "@mui/icons-material/House";
 import { Lease, Tenant } from "../../../repositories/TrustAPI/types";
 import { ColoredTypography } from "../../../commons/components/ColoredTypography";
+import useTotalLeaseCount from "../../../hooks/useTotalLeaseCount";
 
 interface ProfileInfos {
   info: string;
@@ -32,6 +33,8 @@ type DetailsInfos = Partial<Tenant>;
 
 export const Profile = () => {
   const { profile } = useUser();
+  const leaseCount = useTotalLeaseCount(profile?.owner?.id as string, profile?.tenant?.id as string);
+
   const navigate = useNavigate();
 
   let tenantInfos: Array<ProfileInfos> | [] = [];
@@ -39,14 +42,16 @@ export const Profile = () => {
 
   const generateInfos = (
     info: DetailsInfos,
-    leases: Lease[]
+    leaseCount: number
   ): ProfileInfos[] => {
     return Object.entries(info).map((el) => {
-      if (el[0] === "hasLease")
+      if (el[1] === "hasLease")
+        console.log("el",el);
+      {
         return {
-          info: "Number of leases",
-          data: leases.length > 0 ? leases.length : 0,
-        };
+          info: "Number of leases", data: leaseCount,
+        }
+      };
 
       return {
         info: el[0] === "handle" ? "name" : el[0],
@@ -56,14 +61,14 @@ export const Profile = () => {
     });
   };
 
-  if (profile.tenant) {
-    const { leases: leasesTenant, ...restTenant } = profile.tenant;
-    tenantInfos = profile.tenant && generateInfos(restTenant, leasesTenant);
+  if (leaseCount?.tenantLeases && profile.tenant) {
+    // const {...restTenant } = profile.tenant;
+    tenantInfos = generateInfos(profile.tenant, leaseCount.tenantLeases);
   }
 
-  if (profile.owner) {
-    const { leases: leasesOwner, ...restOwner } = profile?.owner;
-    ownerInfos = profile.owner && generateInfos(restOwner, leasesOwner);
+  if (leaseCount?.ownerLeases && profile.owner) {
+    // const { leases: leasesOwner, ...restOwner } = profile?.owner;
+    ownerInfos = generateInfos(profile.owner, leaseCount.ownerLeases);
   }
 
   const generateIcon = (info: string) => {

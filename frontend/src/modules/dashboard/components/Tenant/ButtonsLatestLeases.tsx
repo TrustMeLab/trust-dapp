@@ -11,10 +11,11 @@ interface ButtonsProps {
   leaseStatus: LeaseStatus;
   cancellationRequestedByOwner: boolean;
   cancellationRequestedByTenant: boolean;
-  reviewUri: string;
+  tenantReviewUri: string;
+  ownerReviewUri: string;
   userType: UserType;
 }
-export const ButtonsLatestLeases = ({ leaseId, leaseStatus, reviewUri, cancellationRequestedByTenant, cancellationRequestedByOwner, userType  }: ButtonsProps) => {
+export const ButtonsLatestLeases = ({ leaseId, leaseStatus, tenantReviewUri, ownerReviewUri, cancellationRequestedByTenant, cancellationRequestedByOwner, userType  }: ButtonsProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const navigate = useNavigate();
@@ -104,7 +105,7 @@ export const ButtonsLatestLeases = ({ leaseId, leaseStatus, reviewUri, cancellat
             fullWidth
             variant="outlined"
             color="info"
-            disabled={!!reviewUri}
+            disabled={!!tenantReviewUri}
             onClick={handleClickReview}
           >
             Review
