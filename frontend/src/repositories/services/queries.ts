@@ -46,9 +46,69 @@ export const getTenants = (): Promise<any> => {
 export const getTenantbyHandle = (handle: string): Promise<any> => {
   const query = `
     {
-       tenants(where: {handle_contains: "${handle}"})
+       tenants(where: {handle_contains: "${handle}"}){
+        id
+        address
+        handle
+        hasLease
+        uri
+        createdAt
+        leases {
+          id
+          status
+          tenantReviewUri
+        }
+      }
     }
   `;
+  return processRequest(query);
+};
+
+export const getTenantInfosReview = (id: string): Promise<any> => {
+  const query = `
+  {
+    tenants(where: {id: "${id}"}) {
+      id
+      address
+      handle
+      hasLease
+      uri
+      createdAt
+      leases(where: {status: ENDED}) {
+        id
+        tenantReviewUri
+        uri
+        owner {
+          id
+          handle
+        }
+      }
+    }
+  }`;
+  return processRequest(query);
+};
+
+export const getOwnerInfosReview = (id: string): Promise<any> => {
+  const query = `
+  {
+    owner(where: {id: "${id}"}) {
+      id
+      address
+      handle
+      hasLease
+      uri
+      createdAt
+      leases(where: {status: ENDED}) {
+        id
+        ownerReviewUri
+        uri
+        tenant {
+          handle
+          id
+        }
+      }
+    }
+  }`;
   return processRequest(query);
 };
 

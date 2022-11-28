@@ -17,6 +17,8 @@ import Homepage from "./modules/home/components/Homepage";
 import { Profile } from "./modules/dashboard/pages/Profile";
 import { NotFound } from "./modules/dashboard/pages/NotFound";
 import { OwnerCreateLease } from "./modules/dashboard/pages/OwnerCreateLease";
+import { SearchProfile } from "./modules/dashboard/pages/SearchProfile";
+import { SearchProfileDetails } from "./modules/dashboard/pages/SearchProfileDetails";
 
 function App() {
   const { address } = useUser();
@@ -51,6 +53,14 @@ function App() {
               { path: "leases", element: <Owner /> },
               { path: "leases/create", element: <OwnerCreateLease /> },
               { path: "leases/:id", element: <LeaseOwnerDetail /> },
+            ],
+          },
+          {
+            path: "search",
+            element: <WrapperRoute />,
+            children: [
+              { path: "profile", element: <SearchProfile /> },
+              { path: "profile/:id", element: <SearchProfileDetails /> },
             ],
           },
         ],

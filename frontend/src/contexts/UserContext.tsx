@@ -13,6 +13,7 @@ import { useAccount, useContract, useSigner } from "wagmi";
 import { Signer } from "ethers";
 import { UserType } from "../modules/user/components/SignUp/SignUp";
 import { getFullTrustProfileData } from "../repositories/services/queries";
+import mocksProfile from "../mocksProfile.json";
 
 interface IUserContext {
   profile: Profile;
@@ -27,8 +28,10 @@ interface IUserContext {
 const UserContext = createContext<IUserContext>(undefined as any);
 
 export const DEFAULT_PROFILE = (): Profile => ({
-  tenant: undefined,
-  owner: undefined,
+  // tenant: undefined,
+  // owner: undefined,
+  tenant: mocksProfile.profile.tenant,
+  owner: mocksProfile.profile.owner,
 });
 
 export function useUser() {

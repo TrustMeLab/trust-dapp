@@ -37,6 +37,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
   const pages = [
     ...(profile && profile.tenant ? ["tenant"] : []),
     ...(profile && profile.owner ? ["owner"] : []),
+    "search",
   ];
   const settings = ["Profile", "Logout"];
 
@@ -51,6 +52,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
     if (page === "tenant") {
       navigate("/dashboard/tenant/leases");
     } else if (page === "owner") navigate("/dashboard/owner/leases");
+    else if (page === "search") navigate("/dashboard/search/profile");
   };
 
   function logout() {
@@ -145,7 +147,11 @@ export const Layout = ({ children }: PropsWithChildren) => {
                             textAlign="center"
                             sx={{ letterSpacing: ".3rem" }}
                           >
-                            {page === "tenant" ? "Tenant" : "Owner"}
+                            {page === "tenant"
+                              ? "Tenant"
+                              : page === "Owner"
+                              ? "Owner"
+                              : "Search"}
                           </Typography>
                         </Button>
                       </MenuItem>
@@ -174,7 +180,11 @@ export const Layout = ({ children }: PropsWithChildren) => {
                         }}
                       >
                         <Typography textAlign="center">
-                          {page === "tenant" ? "Tenant" : "Owner"}
+                          {page === "tenant"
+                            ? "Tenant"
+                            : page === "owner"
+                            ? "Owner"
+                            : "Search"}
                         </Typography>
                       </Button>
                     );
@@ -255,7 +265,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
       </AppBar>
 
       <Container maxWidth="xl">
-        <Box marginTop="42px">{children}</Box>
+        <Box marginTop="100px">{children}</Box>
       </Container>
     </Fragment>
   );

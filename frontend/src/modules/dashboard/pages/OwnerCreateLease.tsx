@@ -17,8 +17,9 @@ import mocksCryptoCurrencies from "../../../mocksCryptoCurrencies.json";
 import { FirstFormBlock } from "../components/Owner/FirstFormBlock";
 import { SecondFormBlock } from "../components/Owner/SecondFormBlock";
 import { ThirdFormBlock } from "../components/Owner/ThirdFormBlock";
-import {createLease} from "../../../contracts/utils";
-import {useUser} from "../../../contexts/UserContext";
+import { createLease } from "../../../contracts/utils";
+import { useUser } from "../../../contexts/UserContext";
+import { ColoredTypography } from "../../../commons/components/ColoredTypography";
 
 export interface CreateLeaseForm {
   signer: Signer;
@@ -69,21 +70,21 @@ export const OwnerCreateLease = () => {
 
     const parsedCurrencyPair =
       paymentMethod === "crypto" ? "CRYPTO" : currencyPair;
-    console.log("parsedCurrencyPair ",parsedCurrencyPair);
+    console.log("parsedCurrencyPair ", parsedCurrencyPair);
     let paymentToken;
-    if(paymentMethod === "crypto"){
+    if (paymentMethod === "crypto") {
       paymentToken = mocksCryptoCurrencies.data.currencies.crypto.find(
         (el) => el.value === currencyPair
       )?.addressToken;
-      console.log("paymentToken ",paymentToken);
+      console.log("paymentToken ", paymentToken);
     } else {
       paymentToken = mocksCryptoCurrencies.data.currencies.fiat.find(
         (el) => el.value === currencyPair
       )?.addressToken;
     }
-    console.log("paymentToken ",paymentToken);
-    console.log("rentAmount ",rentAmount);
-    console.log("currencyPair ",currencyPair);
+    console.log("paymentToken ", paymentToken);
+    console.log("rentAmount ", rentAmount);
+    console.log("currencyPair ", currencyPair);
 
     const parseDateToSeconds = Math.floor(
       new Date(startDate as string).getTime() / 1000
@@ -117,22 +118,38 @@ export const OwnerCreateLease = () => {
       currencyPair: parsedCurrencyPair,
       startDate: parseDateToSeconds,
       signer,
-
     };
 
     console.log(">>>>FORM VALUES>>", formValues);
-    console.log("parsedCurrencyPair ",parsedCurrencyPair);
+    console.log("parsedCurrencyPair ", parsedCurrencyPair);
     setLoading(true);
     try {
-      if(signer && tenantId && rentAmount && totalNumberOfRents && paymentToken && rentPaymentInterval && rentPaymentLimitTime && parsedCurrencyPair && parseDateToSeconds) {
-        await createLease(signer, tenantId, rentAmount, totalNumberOfRents,
-          paymentToken, transformDurationToSeconds(rentPaymentInterval as string) as number,
+      if (
+        signer &&
+        tenantId &&
+        rentAmount &&
+        totalNumberOfRents &&
+        paymentToken &&
+        rentPaymentInterval &&
+        rentPaymentLimitTime &&
+        parsedCurrencyPair &&
+        parseDateToSeconds
+      ) {
+        await createLease(
+          signer,
+          tenantId,
+          rentAmount,
+          totalNumberOfRents,
+          paymentToken,
+          transformDurationToSeconds(rentPaymentInterval as string) as number,
           transformDurationToSeconds(rentPaymentLimitTime as string) as number,
-          parsedCurrencyPair, parseDateToSeconds);
+          parsedCurrencyPair,
+          parseDateToSeconds
+        );
       }
       setActiveStep(activeStep + 1);
     } catch (error) {
-      console.log("error", error)
+      console.log("error", error);
       setError("Une erreur est survenue");
     } finally {
       setLoading(false);
@@ -141,13 +158,29 @@ export const OwnerCreateLease = () => {
 
   return (
     <Box sx={{ margin: "auto", width: "60%" }}>
-      <Stepper activeStep={activeStep} sx={{ marginBottom: "60px" }}>
+      <Typography variant="h3" align="center" gutterBottom>
+        Create a <ColoredTypography>lease</ColoredTypography>
+      </Typography>
+
+      <Stepper activeStep={activeStep} sx={{ margin: "60px 0px" }}>
         {steps.map((label, index) => {
           const stepProps: { completed?: boolean } = {};
 
           return (
             <Step {...stepProps} key={index}>
-              <StepLabel>{label}</StepLabel>
+              <StepLabel
+                optional={
+                  index === 0 ? (
+                    <Typography>{values.paymentMethod}</Typography>
+                  ) : (
+                    index === 1 && (
+                      <Typography>{values.currencyPair}</Typography>
+                    )
+                  )
+                }
+              >
+                {label}
+              </StepLabel>
             </Step>
           );
         })}
