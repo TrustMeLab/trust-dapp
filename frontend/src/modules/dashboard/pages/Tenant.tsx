@@ -14,12 +14,12 @@ import { tokens } from "../../../const";
 import { ethers } from "ethers";
 import useLeasesByTenantId from "../../../hooks/useTenantLeases";
 import { SmallCard } from "../../../commons/components/SmallCard";
+import mocksLeases from "../../../mockLeases.json";
 
 export const returnTitle = (leaseStatus: LeaseStatus) => {
   if (leaseStatus === (LeaseStatus.ENDED || LeaseStatus.CANCELLED))
     return "Lease ended";
-  if (leaseStatus === (LeaseStatus.PENDING))
-    return "Pending lease";
+  if (leaseStatus === LeaseStatus.PENDING) return "Pending lease";
   return "Active Lease";
 };
 
@@ -32,7 +32,8 @@ export const returnPeriod = (
   const endDate = format(
     new Date(
       (Number(startDate) +
-      Number(rentPaymentInterval) * Number(totalNumberOfRents)) * 1000
+        Number(rentPaymentInterval) * Number(totalNumberOfRents)) *
+        1000
     ),
     "dd/MM/yyyy"
   );
@@ -40,6 +41,14 @@ export const returnPeriod = (
   return `${debutDate} - ${endDate}`;
 };
 
+export const returnPaymentInTokenInfos = (currencyPair: string) => {
+  const displayCurrency = currencyPair.substring(
+    currencyPair.indexOf("-") + 1,
+    currencyPair.length
+  );
+
+  return displayCurrency;
+};
 export const returnRentInfos = (
   rentAmount: string,
   currencyPair: string,
@@ -74,105 +83,156 @@ export const Tenant = () => {
   const navigate = useNavigate();
   const { profile } = useUser();
   const tenantLeases = useLeasesByTenantId(profile?.tenant?.id as string);
-
+  // const tenantLeases = mocksLeases.leases;
+  console.log("Tenant.tsx: tenantLeases", tenantLeases);
+  console.log("Tenant.tsx: profile", profile);
+  const lastLease = tenantLeases[0];
 
   let formerLeases = tenantLeases.filter(
     (lease) =>
       lease.status === LeaseStatus.ENDED ||
       lease.status === LeaseStatus.CANCELLED
   );
-  const pendingLeases = tenantLeases.filter(lease => lease.status === LeaseStatus.PENDING);
-  const activeLease = tenantLeases.filter(lease => lease.status === LeaseStatus.ACTIVE)[0];
+  const pendingLeases = tenantLeases.filter(
+    (lease) => lease.status === LeaseStatus.PENDING
+  );
+  const activeLease = tenantLeases.filter(
+    (lease) => lease.status === LeaseStatus.ACTIVE
+  )[0];
   console.log("Tenant.tsx: activeLease", activeLease);
   console.log("Tenant.tsx: pendingLease", pendingLeases);
   console.log("Tenant.tsx: formerLeases", formerLeases);
 
-  return(
-  <Fragment>
-    {!activeLease ? <Typography variant="h4" marginTop={4} marginBottom={4}>
-      You don't have an active lease
-    </Typography> : <Typography variant="h4" marginTop={4} marginBottom={4}>
-      Active lease
-    </Typography>}
-
-
-    {activeLease && <LargeCard
-      title={returnTitle(activeLease.status)}
-      period={returnPeriod(activeLease.startDate, activeLease.rentPaymentInterval, activeLease.totalNumberOfRents)}
-      rentInfos={returnRentInfos(activeLease.rentAmount, activeLease.currencyPair, activeLease.rentPaymentInterval, activeLease.totalNumberOfRents, activeLease.paymentToken)}
-      lease={activeLease}
-      generalInfo={`Owner : ${activeLease.owner.handle}`}
-      remarks={activeLease.status === "CANCELLED" ? `Cancellation requested` : undefined}
-      handleClick={() => navigate(`/dashboard/tenant/leases/${activeLease.id}`)}
-      buttons={<ButtonsLatestLeases
-        leaseId={activeLease.id}
-        leaseStatus={activeLease.status}
-        tenantReviewUri={activeLease.tenantReviewUri}
-        ownerReviewUri={activeLease.ownerReviewUri}
-        cancellationRequestedByOwner={activeLease.cancelledByOwner}
-        cancellationRequestedByTenant={activeLease.cancelledByTenant}
-        userType={UserType.TENANT}
-      />}
-    />}
-
-    <Typography variant="h4" marginTop={4} marginBottom={4}>
-      Pending Leases
-    </Typography>
-
-    {pendingLeases && pendingLeases.map(lease => <LargeCard
-      title={returnTitle(lease.status)}
-      period={returnPeriod(lease.startDate, lease.rentPaymentInterval, lease.totalNumberOfRents)}
-      rentInfos={returnRentInfos(lease.rentAmount, lease.currencyPair, lease.rentPaymentInterval, lease.totalNumberOfRents, lease.paymentToken)}
-      lease={lease}
-      generalInfo={`Owner : ${lease.owner.handle}`}
-      remarks={lease.status === "CANCELLED" ? `Cancellation requested` : undefined}
-      handleClick={() => navigate(`/dashboard/tenant/leases/${lease.id}`)}
-      buttons={<ButtonsLatestLeases
-        leaseId={lease.id}
-        leaseStatus={lease.status}
-        tenantReviewUri={lease.tenantReviewUri}
-        ownerReviewUri={lease.ownerReviewUri}
-        cancellationRequestedByOwner={lease.cancelledByOwner}
-        cancellationRequestedByTenant={lease.cancelledByTenant}
-        userType={UserType.TENANT}
-      />}
-    />)}
-
+  return (
+    <Fragment>
+      {!activeLease ? (
         <Typography variant="h4" marginTop={4} marginBottom={4}>
-          Former Leases
+          You don't have an active lease
         </Typography>
+      ) : (
+        <Typography variant="h4" marginTop={4} marginBottom={4}>
+          Active lease
+        </Typography>
+      )}
 
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            gap: "16px",
-          }}
-        >
-          {formerLeases.length !== 0
-            ? formerLeases.map((lease: Lease) => (
-                <SmallCard
-                  rentInfos={returnRentInfos(
-                    lease.rentAmount,
-                    lease.currencyPair,
-                    lease.rentPaymentInterval,
-                    lease.totalNumberOfRents,
-                    lease.paymentToken
-                  )}
-                  period={returnPeriod(
-                    lease.startDate,
-                    lease.rentPaymentInterval,
-                    lease.totalNumberOfRents
-                  )}
-                  handleClick={() =>
-                    navigate(`/dashboard/tenant/leases/${lease.id}`)
-                  }
-                />
-              ))
-            : "You don't have any former lease"}
-        </Box>
-      </Fragment>
+      {activeLease && (
+        <LargeCard
+          title={returnTitle(activeLease.status)}
+          period={returnPeriod(
+            activeLease.startDate,
+            activeLease.rentPaymentInterval,
+            activeLease.totalNumberOfRents
+          )}
+          rentInfos={returnRentInfos(
+            activeLease.rentAmount,
+            activeLease.currencyPair,
+            activeLease.rentPaymentInterval,
+            activeLease.totalNumberOfRents,
+            activeLease.paymentToken
+          )}
+          paymentToken={returnPaymentInTokenInfos(activeLease.currencyPair)}
+          lease={activeLease}
+          generalInfo={`Owner : ${activeLease.owner.handle}`}
+          remarks={
+            activeLease.status === "CANCELLED"
+              ? `Cancellation requested`
+              : undefined
+          }
+          handleClick={() =>
+            navigate(`/dashboard/tenant/leases/${activeLease.id}`)
+          }
+          buttons={
+            <ButtonsLatestLeases
+              leaseId={activeLease.id}
+              leaseStatus={activeLease.status}
+              tenantReviewUri={activeLease.tenantReviewUri}
+              ownerReviewUri={activeLease.ownerReviewUri}
+              cancellationRequestedByOwner={activeLease.cancelledByOwner}
+              cancellationRequestedByTenant={activeLease.cancelledByTenant}
+              userType={UserType.TENANT}
+            />
+          }
+        />
+      )}
+
+      <Typography variant="h4" marginTop={4} marginBottom={4}>
+        Pending Leases
+      </Typography>
+
+      {pendingLeases &&
+        pendingLeases.map((lease) => (
+          <LargeCard
+            title={returnTitle(lease.status)}
+            period={returnPeriod(
+              lease.startDate,
+              lease.rentPaymentInterval,
+              lease.totalNumberOfRents
+            )}
+            rentInfos={returnRentInfos(
+              lease.rentAmount,
+              lease.currencyPair,
+              lease.rentPaymentInterval,
+              lease.totalNumberOfRents,
+              lease.paymentToken
+            )}
+            paymentToken={returnPaymentInTokenInfos(lease.currencyPair)}
+            lease={lease}
+            generalInfo={`Owner : ${lease.owner.handle}`}
+            remarks={
+              lease.status === "CANCELLED"
+                ? `Cancellation requested`
+                : undefined
+            }
+            handleClick={() => navigate(`/dashboard/tenant/leases/${lease.id}`)}
+            buttons={
+              <ButtonsLatestLeases
+                leaseId={lease.id}
+                leaseStatus={lease.status}
+                tenantReviewUri={lease.tenantReviewUri}
+                ownerReviewUri={lease.ownerReviewUri}
+                cancellationRequestedByOwner={lease.cancelledByOwner}
+                cancellationRequestedByTenant={lease.cancelledByTenant}
+                userType={UserType.TENANT}
+              />
+            }
+          />
+        ))}
+
+      <Typography variant="h4" marginTop={4} marginBottom={4}>
+        Former Leases
+      </Typography>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "16px",
+        }}
+      >
+        {formerLeases.length !== 0
+          ? formerLeases.map((lease: Lease) => (
+              <SmallCard
+                rentInfos={returnRentInfos(
+                  lease.rentAmount,
+                  lease.currencyPair,
+                  lease.rentPaymentInterval,
+                  lease.totalNumberOfRents,
+                  lease.paymentToken
+                )}
+                period={returnPeriod(
+                  lease.startDate,
+                  lease.rentPaymentInterval,
+                  lease.totalNumberOfRents
+                )}
+                handleClick={() =>
+                  navigate(`/dashboard/tenant/leases/${lease.id}`)
+                }
+              />
+            ))
+          : "You don't have any former lease"}
+      </Box>
+    </Fragment>
   );
 };
 
