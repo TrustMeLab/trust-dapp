@@ -3,8 +3,10 @@ import {ethers} from "hardhat";
 import {getCurrentTimestamp} from "hardhat/internal/hardhat-network/provider/utils/getCurrentTimestamp";
 import {ConfigAddresses} from "../contract-addresses";
 
-// npx hardhat deploy-partial --fiat-rent-payment-eth --fiat-rent-payment-token --normal-rent --normal-token-rent --network localhost
+// npx hardhat deploy-partial --fiat-rent-payment-eth --fiat-rent-payment-token --normal-rent --normal-token-rent --mint-ids --network localhost
+// npx hardhat deploy-partial --mint-ids --network localhost
 task("deploy-partial", "Deploys contracts")
+  .addFlag('mintIds', 'Mints several user and owner ids')
   .addFlag('normalRent', 'Rents paid & not paid in ETH')
   .addFlag('alreadyDeployed', 'If contracts already deployed')
   .addFlag('normalTokenRent', 'Rents paid & not paid in token')
@@ -12,7 +14,7 @@ task("deploy-partial", "Deploys contracts")
   .addFlag('fiatRentPaymentEth', 'Rents in fiat payment in token')
   .addFlag('cancelLease', 'Rents paid & not paid & lease is cancelled')
   .setAction(async (taskArgs, {ethers, run}) => {
-    const {normalRent, normalTokenRent, cancelLease, fiatRentPaymentToken, fiatRentPaymentEth} = taskArgs;
+    const {mintIds, normalRent, normalTokenRent, cancelLease, fiatRentPaymentToken, fiatRentPaymentEth} = taskArgs;
     const [deployer, croesus, brutus, maximus, aurelius] = await ethers.getSigners();
     console.log("Deploying contracts with the account:", deployer.address);
     await run("compile");
@@ -78,6 +80,7 @@ task("deploy-partial", "Deploys contracts")
 
     // ********************* Contract Calls *************************
 
+    if(mintIds){
     // // Mint onwer & tenant ids
     const mintTxDeployerOwner = await ownerIdContract.connect(deployer).mint('TheBoss');
     await mintTxDeployerOwner.wait();
@@ -113,6 +116,7 @@ task("deploy-partial", "Deploys contracts")
 
 
     // console.log('Aurelius profil: ', await tenantIdContract.getTenant('2'));
+    }
 
 
     if (normalRent) {
@@ -121,9 +125,8 @@ task("deploy-partial", "Deploys contracts")
         await tenantIdContract.getUserId(maximus.address),
         ethers.utils.parseEther('0.0000000000005'),
         '12',
-        ethers.constants.AddressZero,
-        1,
-        1,
+        ethers.constants.AddressZero, 7 * 60,
+        14 * 60,
         'CRYPTO',
         getCurrentTimestamp(),);
       await createLeaseTx.wait();
@@ -168,8 +171,8 @@ task("deploy-partial", "Deploys contracts")
         ethers.utils.parseEther('0.0000000000005'),
         '12',
         croesusTokenAddress,
-        2,
-        2,
+        7 * 60,
+        14 * 60,
         'CRYPTO',
         getCurrentTimestamp(),);
       await createLeaseTx.wait();
@@ -218,11 +221,11 @@ task("deploy-partial", "Deploys contracts")
       //Create token lease
       const createLeaseTx = await leaseContract.connect(deployer).createLease(
         await tenantIdContract.getUserId(brutus.address),
-        "5",
+        "500",
         '12',
         croesusTokenAddress,
-        2,
-        3,
+        7 * 60,
+        14 * 60,
         'USD-SHI',
         getCurrentTimestamp(),);
       await createLeaseTx.wait();
@@ -278,11 +281,11 @@ task("deploy-partial", "Deploys contracts")
       //Create ETH lease
       const createLeaseTx = await leaseContract.connect(deployer).createLease(
         await tenantIdContract.getUserId(croesus.address),
-        "5",
+        "475",
         '12',
         croesusTokenAddress,
-        0,
-        0,
+        7 * 60,
+        14 * 60,
         'USD-ETH',
         getCurrentTimestamp(),);
       await createLeaseTx.wait();

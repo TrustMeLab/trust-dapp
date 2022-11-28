@@ -48,7 +48,7 @@
         },
         {
           "value": "CRT",
-          "addressToken": "0x2E2CfeA8A06c29a25B502F8D69498FbfbDE94F6c",
+          "addressToken": "0xA4402FaF408cA14a7aCcA7BD074836162cA84582",
           "label": "Croseus (CRT)"
         },
         {
@@ -76,7 +76,7 @@
         {
           "value": "USD-SHI",
           "label": "USD-SHI",
-          "addressToken": "0x0000000000000000000000000000000000000000"
+          "addressToken": "0xA4402FaF408cA14a7aCcA7BD074836162cA84582"
         }
       ]
     }

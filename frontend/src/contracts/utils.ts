@@ -7,6 +7,7 @@ import ERC20ABI from "./ERC20.json";
 import OracleABI from "./IexecRateOracle.json";
 import { config } from "../config/config";
 import { OracleData } from "../repositories/TrustAPI";
+import sleep from "../tools/sleep";
 
 // ***************************   TenantId   ***************************
 
@@ -19,8 +20,6 @@ export const mintTenantId = async (
     TenantIdABI.abi,
     signer
   );
-  console.log("mint signer", await signer.getChainId());
-  console.log("tenantIdContract", tenantIdContract);
   return await tenantIdContract.mint(handle);
 };
 
@@ -85,15 +84,31 @@ export const createLease = async (
   rentAmount: string,
   totalNumberOfRents: string,
   paymentToken: string,
-  rentPaymentInterval: string,
-  rentPaymentLimitTime: string,
+  rentPaymentInterval: number,
+  rentPaymentLimitTime: number,
   currencyPair: string,
-  startDate: string
+  startDate: number
 ): Promise<void> => {
+  //TODO for now let's assume that all smallest token units are are 10*18
+  let parsedRentAmount;
+  //If crypto payment, we assume tokens have same decimals as ether for now. Else we just parse a BigNumber.
+  currencyPair === 'CRYPTO' ?
+    parsedRentAmount = ethers.utils.parseUnits(rentAmount, 18) :
+    parsedRentAmount = BigNumber.from(rentAmount);
+  sleep(2000)
+
+  console.log("tenaltId", tenantId);
+  console.log("parsedRentAmount", parsedRentAmount);
+  console.log("totalNumberOfRents", totalNumberOfRents);
+  console.log("paymentToken", paymentToken);
+  console.log("rentPaymentInterval", rentPaymentInterval);
+  console.log("rentPaymentLimitTime", rentPaymentLimitTime);
+  console.log("currencyPair", currencyPair);
+  console.log("startDate", startDate);
   const leaseContract = new Contract(config.leaseAddress, LeaseABI.abi, signer);
   return await leaseContract.createLease(
     tenantId,
-    rentAmount,
+    parsedRentAmount,
     totalNumberOfRents,
     paymentToken,
     rentPaymentInterval,
@@ -184,7 +199,7 @@ export const payFiatRentInEth = async (
   // Call Oracle to get the rate
   const oracleRateData = await getRate(signer, currencyPair);
 
-  const amountInToken = BigNumber.from(amount).mul(oracleRateData._rate);
+  const amountInToken = BigNumber.from(amount);
   console.log("oracleRateData : ", oracleRateData._rate);
   const rentAmountInToken = amountInToken.mul(oracleRateData._rate);
   //The "amount" MUST already be in wei

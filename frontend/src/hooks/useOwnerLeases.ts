@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { Lease, Owner } from "../repositories/TrustAPI";
-import { getLeases, getOwnerLeases } from "../repositories/services/querries";
+import {getLeasesByOwnerId} from "../repositories/services/queries";
 
-const useOwnerLeases = (address: string): Lease[] | null => {
+const useOwnerLeases = (id: string): Lease[] | null => {
   const [leases, setLeases] = useState<Lease[] | null>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getOwnerLeases(address);
-        if (response?.data) {
-          setLeases(response.data);
+        const response = await getLeasesByOwnerId(id);
+        if (response?.data?.data?.leases) {
+          setLeases(response?.data?.data?.leases);
         }
       } catch (err: any) {
         // eslint-disable-next-line no-console

@@ -24,6 +24,8 @@ interface SmallTenantCardProps {
   startDate: string,
   rentPaymentInterval: string,
   rentPaymentLimitDate: string,
+  rentPaymentDate: string,
+  leaseStatus: LeaseStatus,
   handleClick: () => void;
 }
 
@@ -44,7 +46,9 @@ export const SmallTenantRentCard = ({
   startDate,
   rentPaymentInterval,
   handleClick,
-  rentPaymentLimitDate
+  rentPaymentLimitDate,
+  rentPaymentDate,
+  leaseStatus
   }: SmallTenantCardProps) => {
 
   const renderPeriod = (
@@ -52,9 +56,9 @@ export const SmallTenantRentCard = ({
     rentPaymentInterval: string,
     totalNumberOfRents: string
   ) => {
-    const debutDate = format(new Date(Number(startDate)), "dd/MM/yyyy");
+    const debutDate = format(new Date((Number(startDate) + index * Number(rentPaymentInterval)) * 1000), "dd/MM/yyyy");
     const endDate = format(
-      new Date(Number(startDate) + Number(rentPaymentInterval) * Number(totalNumberOfRents)),
+      new Date((Number(startDate) + index * Number(rentPaymentInterval) + Number(rentPaymentInterval))  * 1000),
       "dd/MM/yyyy"
     );
     // console.log("endDate : ",endDate);
@@ -77,10 +81,11 @@ export const SmallTenantRentCard = ({
     } else {
       displayCurrency = currencyPair.substring(0, currencyPair.indexOf('-'));
       displayCurrency = FixedNumber.from(currencyPair.substring(0, currencyPair.indexOf('-'))).round(2).toString();
+      //TODO @BT On devrait display ça quelque part sur la card, c'est le token de paiement. Genre "Payment token: ..."
       const paymentCurrency = tokens.find((token) => token.address === paymentToken);
+      console.log("paymentCurrency : ",paymentCurrency);
     }
     const parsedRentAmount = ethers.utils.formatUnits(rentAmount, 18);
-    // const convertInterval = 11
     console.log("rentPaymentInterval",rentPaymentInterval);
     let convertInterval = '0';
     if(rentPaymentInterval){
@@ -126,13 +131,14 @@ export const SmallTenantRentCard = ({
       rentId={rentId}
       leaseId={leaseId}
       amount={amount}
-      rentPaymentDate={paymentDate}
+      rentPaymentDate={rentPaymentDate}
       paymentDate={paymentDate}
       rentPaymentLimitDate={rentPaymentLimitDate}
       validationDate={validationDate}
       currencyPair={currencyPair}
       withoutIssues={withoutIssues}
       status={status}
-      paymentToken={paymentToken}/>
+      paymentToken={paymentToken}
+      leaseStatus={leaseStatus}/>
   </Card>);
 };

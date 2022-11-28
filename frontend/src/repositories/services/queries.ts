@@ -147,3 +147,52 @@ export const getLeasesByTenantId = (id: string): Promise<any> => {
   `;
   return processRequest(query);
 };
+
+export const getLeasesIdsByTenantId = (id: string): Promise<any> => {
+  const query = `
+  {
+  leases(where: {tenant_: {id: "${id}"}}) {
+    id
+  }
+}
+  `;
+  return processRequest(query);
+};
+
+export const getLeasesIdsByOwnerId = (id: string): Promise<any> => {
+  const query = `
+  {
+  leases(where: {owner_: {id: "${id}"}}) {
+    id
+  }
+}
+  `;
+  return processRequest(query);
+};
+
+
+export const getLeasesByOwnerId = (id: string): Promise<any> => {
+  const query = `
+  {
+    leases(where: {owner_: {id: "${id}"}}) {
+      id
+      currencyPair
+      ownerReviewUri
+      status
+      paymentToken
+      rentAmount
+      rentPaymentInterval
+      rentPaymentLimitTime
+      startDate
+      tenantReviewUri
+      totalNumberOfRents
+      updatedAt
+      uri
+      createdAt
+      cancelledByTenant
+      cancelledByOwner
+    }
+}
+  `;
+  return processRequest(query);
+};

@@ -2,7 +2,7 @@ import React from "react";
 
 import { Box, Container, Typography } from "@mui/material";
 
-import { Lease } from "../../../../repositories/TrustAPI/types";
+import {Lease, UserType} from "../../../../repositories/TrustAPI/types";
 import { LargeCard } from "../../../../commons/components/LargeCard";
 import { returnPeriod, returnRentInfos, returnTitle } from "../../pages/Tenant";
 import { ButtonsLatestLeases } from "../Tenant/ButtonsLatestLeases";
@@ -14,6 +14,7 @@ interface LeasesDisplay {
 
 export const LeasesDisplay = ({ leases }: LeasesDisplay) => {
   const navigate = useNavigate();
+  console.log("LeasesDisplay : ", leases);
 
   return (
     <Container>
@@ -48,7 +49,7 @@ export const LeasesDisplay = ({ leases }: LeasesDisplay) => {
               generalInfo={`Tenant : ${lease.tenant.handle}`}
               remarks={
                 lease.status === "CANCELLED"
-                  ? `Cnacellation requested`
+                  ? `Cancellation requested`
                   : undefined
               }
               buttons={
@@ -56,6 +57,9 @@ export const LeasesDisplay = ({ leases }: LeasesDisplay) => {
                   leaseId={lease.id}
                   leaseStatus={lease.status}
                   reviewUri={lease.uri}
+                  userType={UserType.OWNER}
+                  cancellationRequestedByOwner={lease.cancelledByOwner}
+                  cancellationRequestedByTenant={lease.cancelledByTenant}
                 />
               }
               handleClick={() => navigate(`${lease.id}`)}

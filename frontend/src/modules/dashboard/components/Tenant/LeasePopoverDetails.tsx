@@ -49,10 +49,10 @@ export const LeasePopoverDetails = ({ lease, period }: PopoverProps) => {
           <b>Owner:</b> {lease.tenant.handle}
         </Typography>
         <Typography sx={{ p: 2 }}>
-          <b>Montant :</b> {lease.rentAmount} {lease.currencyPair}
+          <b>Rent Amount :</b> {lease.rentAmount} {lease.currencyPair}
         </Typography>
         <Typography sx={{ p: 2 }}>
-          <b>Périodicité : </b>
+          <b>Rent Period : </b>
           {formatDuration(
             intervalToDuration({
               start: 0,
@@ -61,16 +61,12 @@ export const LeasePopoverDetails = ({ lease, period }: PopoverProps) => {
           )}
         </Typography>
         <Typography sx={{ p: 2 }}>
-          <b>Nombre d'échéances : </b>
+          <b>Number of rents : </b>
           {lease.totalNumberOfRents}
         </Typography>
         <Typography sx={{ p: 2 }}>
-          <b>Dates : </b>
+          <b>Date range : </b>
           {period}
-        </Typography>
-        <Typography sx={{ p: 2 }}>
-          <b>Uri : </b>
-          {lease.uri}
         </Typography>
         <Typography sx={{ p: 2 }}>
           <b>Status : </b>

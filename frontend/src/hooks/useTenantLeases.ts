@@ -10,7 +10,6 @@ const useLeasesByTenantId = (id: string): Lease[] => {
       try {
         console.log('id', id);
         const response = await getLeasesByTenantId(id);
-        // console.log('response', response);
         if (response?.data?.data?.leases) {
           setLeases(response.data.data.leases);
         }

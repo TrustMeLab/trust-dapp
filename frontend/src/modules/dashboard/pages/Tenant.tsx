@@ -18,6 +18,8 @@ import { SmallCard } from "../../../commons/components/SmallCard";
 export const returnTitle = (leaseStatus: LeaseStatus) => {
   if (leaseStatus === (LeaseStatus.ENDED || LeaseStatus.CANCELLED))
     return "Lease ended";
+  if (leaseStatus === (LeaseStatus.PENDING))
+    return "Pending lease";
   return "Your current Lease";
 };
 
@@ -26,11 +28,11 @@ export const returnPeriod = (
   rentPaymentInterval: string,
   totalNumberOfRents: string
 ) => {
-  const debutDate = format(new Date(Number(startDate)), "dd/MM/yyyy");
+  const debutDate = format(new Date(Number(startDate) * 1000), "dd/MM/yyyy");
   const endDate = format(
     new Date(
-      Number(startDate) +
-        Number(rentPaymentInterval) * Number(totalNumberOfRents)
+      (Number(startDate) +
+      Number(rentPaymentInterval) * Number(totalNumberOfRents)) * 1000
     ),
     "dd/MM/yyyy"
   );
@@ -49,7 +51,7 @@ export const returnRentInfos = (
   if (currencyPair === "CRYPTO") {
     const token = tokens.find((token) => token.address === paymentToken);
     displayCurrency = token?.name || "";
-    rentAmount = ethers.utils.formatUnits(rentAmount, 18);
+    rentAmount = ethers.utils.formatEther(rentAmount);
   } else {
     displayCurrency = currencyPair.substring(0, currencyPair.indexOf("-"));
     //TODO Il faut intégrer la devise de paiement quelque part. On n'affiche que la devise Fiat
@@ -71,58 +73,65 @@ export const Tenant = () => {
   const navigate = useNavigate();
   const { profile } = useUser();
   const tenantLeases = useLeasesByTenantId(profile?.tenant?.id as string);
-  console.log("Tenant.tsx: tenantLeases", tenantLeases);
-  console.log("Tenant.tsx: profile", profile);
-  const lastLease = tenantLeases[0];
+
 
   let formerLeases = tenantLeases.filter(
     (lease) =>
       lease.status === LeaseStatus.ENDED ||
       lease.status === LeaseStatus.CANCELLED
   );
-  // const lastLease = tenantLeases;
+  const pendingLeases = tenantLeases.filter(lease => lease.status === LeaseStatus.PENDING);
+  const activeLease = tenantLeases.filter(lease => lease.status === LeaseStatus.ACTIVE)[0];
+  console.log("Tenant.tsx: activeLease", activeLease);
+  console.log("Tenant.tsx: pendingLease", pendingLeases);
+  console.log("Tenant.tsx: formerLeases", formerLeases);
 
-  console.log("Tenant.tsx: lastLease", lastLease);
-  return !tenantLeases ? (
-    <p>You don't have a lease</p>
-  ) : (
-    lastLease && (
-      <Fragment>
-        <LargeCard
-          title={returnTitle(lastLease.status)}
-          period={returnPeriod(
-            lastLease.startDate,
-            lastLease.rentPaymentInterval,
-            lastLease.totalNumberOfRents
-          )}
-          rentInfos={returnRentInfos(
-            lastLease.rentAmount,
-            lastLease.currencyPair,
-            lastLease.rentPaymentInterval,
-            lastLease.totalNumberOfRents,
-            lastLease.paymentToken
-          )}
-          lease={lastLease}
-          generalInfo={`Owner : ${lastLease.tenant.handle}`}
-          remarks={
-            lastLease.status === "CANCELLED"
-              ? `Cancellation requested`
-              : undefined
-          }
-          handleClick={() =>
-            navigate(`/dashboard/tenant/leases/${lastLease.id}`)
-          }
-          buttons={
-            <ButtonsLatestLeases
-              leaseId={lastLease.id}
-              leaseStatus={lastLease.status}
-              reviewUri={lastLease.tenantReviewUri}
-              cancellationRequestedByOwner={lastLease.cancelledByOwner}
-              cancellationRequestedByTenant={lastLease.cancelledByTenant}
-              userType={UserType.TENANT}
-            />
-          }
-        />
+  return(
+  <Fragment>
+    {!activeLease && <Typography variant="h4" marginTop={4} marginBottom={4}>
+      You don't have an active lease
+    </Typography>}
+
+
+    {activeLease && <LargeCard
+      title={returnTitle(activeLease.status)}
+      period={returnPeriod(activeLease.startDate, activeLease.rentPaymentInterval, activeLease.totalNumberOfRents)}
+      rentInfos={returnRentInfos(activeLease.rentAmount, activeLease.currencyPair, activeLease.rentPaymentInterval, activeLease.totalNumberOfRents, activeLease.paymentToken)}
+      lease={activeLease}
+      generalInfo={`Owner : ${activeLease.tenant.handle}`}
+      remarks={activeLease.status === "CANCELLED" ? `Cancellation requested` : undefined}
+      handleClick={() => navigate(`/dashboard/tenant/leases/${activeLease.id}`)}
+      buttons={<ButtonsLatestLeases
+        leaseId={activeLease.id}
+        leaseStatus={activeLease.status}
+        reviewUri={activeLease.tenantReviewUri}
+        cancellationRequestedByOwner={activeLease.cancelledByOwner}
+        cancellationRequestedByTenant={activeLease.cancelledByTenant}
+        userType={UserType.TENANT}
+      />}
+    />}
+
+    <Typography variant="h4" marginTop={4} marginBottom={4}>
+      Pending Leases
+    </Typography>
+
+    {pendingLeases && pendingLeases.map(lease => <LargeCard
+      title={returnTitle(lease.status)}
+      period={returnPeriod(lease.startDate, lease.rentPaymentInterval, lease.totalNumberOfRents)}
+      rentInfos={returnRentInfos(lease.rentAmount, lease.currencyPair, lease.rentPaymentInterval, lease.totalNumberOfRents, lease.paymentToken)}
+      lease={lease}
+      generalInfo={`Owner : ${lease.tenant.handle}`}
+      remarks={lease.status === "CANCELLED" ? `Cancellation requested` : undefined}
+      handleClick={() => navigate(`/dashboard/tenant/leases/${lease.id}`)}
+      buttons={<ButtonsLatestLeases
+        leaseId={lease.id}
+        leaseStatus={lease.status}
+        reviewUri={lease.tenantReviewUri}
+        cancellationRequestedByOwner={lease.cancelledByOwner}
+        cancellationRequestedByTenant={lease.cancelledByTenant}
+        userType={UserType.TENANT}
+      />}
+    />)}
 
         <Typography variant="h4" marginTop={4} marginBottom={4}>
           Former Leases
@@ -159,7 +168,6 @@ export const Tenant = () => {
             : "You don't have any former lease"}
         </Box>
       </Fragment>
-    )
   );
 };
 

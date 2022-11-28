@@ -2,18 +2,28 @@
   "tenants": [
     {
       "id": "1",
-      "address": "0x9f89836c22f250595dea30327af026ba1c029f28",
+      "address": "0x9F89836C22f250595DEA30327af026bA1c029f28",
       "handle": "TheBoss"
     },
     {
       "id": "2",
+      "address": "0x858EE79B08Ae13eFD752838D25d1155D3CcD1894",
+      "handle": "Maximus"
+    },
+    {
+      "id": "3",
       "address": "0x858ee79b08ae13efd752838d25d1155d3ccd1894",
       "handle": "Aurelius"
     },
     {
-      "id": "3",
-      "address": "0x85fge79b08ae13ettd752838d25d1155d3ccd1895",
-      "handle": "BT"
+      "id": "4",
+      "address": "0x4B3380d3A8C1AF85e47dBC1Fc6C3f4e0c8F78fEa",
+      "handle": "Croesus"
+    },
+    {
+      "id": "5",
+      "address": "0xC02b6135F68Be2909Ef0850580451A83373A0D3c",
+      "handle": "Brutus"
     }
   ]
 }

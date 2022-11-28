@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { Container } from "@mui/system";
-import { LeaseStatus, RentPayment } from "../../../repositories/TrustAPI";
+import {LeaseStatus, RentPayment, UserType} from "../../../repositories/TrustAPI";
 import { useUser } from "../../../contexts/UserContext";
 import { formatDuration, intervalToDuration, format } from "date-fns";
 import { ButtonsLatestLeases } from "../components/Tenant/ButtonsLatestLeases";
@@ -21,8 +21,8 @@ export const LeaseOwnerDetail = () => {
   // if(!id){
   //   return;
   // }
-  // const leaseDetail = useLeaseDetails(id as string); // TODO: DECOMMENT
-  const leaseDetail = leasesMock.leases[0];
+  const leaseDetail = useLeaseDetails(id as string); // TODO: DECOMMENT
+  // const leaseDetail = leasesMock.leases[0];
   console.log("Leasedetails : ", leaseDetail);
   // if(!leaseDetail){
   //   return;
@@ -114,7 +114,7 @@ export const LeaseOwnerDetail = () => {
               reviewUri={leaseDetail.tenantReviewUri}
               cancellationRequestedByOwner={leaseDetail.cancelledByOwner}
               cancellationRequestedByTenant={leaseDetail.cancelledByTenant}
-              userType={UserType.TENANT}
+              userType={UserType.OWNER}
             />
           }
         />
@@ -151,6 +151,8 @@ export const LeaseOwnerDetail = () => {
                 startDate={leaseDetail.startDate}
                 rentPaymentInterval={leaseDetail.rentPaymentInterval}
                 rentPaymentLimitDate={rentPayment.rentPaymentLimitDate}
+                leaseStatus={leaseDetail.status}
+                rentPaymentDate={rentPayment.paymentDate}
                 handleClick={() => {}}
               />
             )

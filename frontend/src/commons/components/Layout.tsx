@@ -108,7 +108,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
               }}
               alt="trust_logo"
               src={Logo}
-              onClick={() => navigate("/dashboard/profile")}
+              onClick={() => navigate("/")}
             />
 
             {hasProfile && (

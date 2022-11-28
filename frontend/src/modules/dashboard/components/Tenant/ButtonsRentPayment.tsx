@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button } from "@mui/material";
-import {PaymentStatus } from "../../../../repositories/TrustAPI/types";
+import {LeaseStatus, PaymentStatus} from "../../../../repositories/TrustAPI/types";
 import {
   payCryptoRentInETH,
   payCryptoRentInToken,
@@ -27,9 +27,11 @@ interface ButtonsProps {
   rentPaymentLimitDate: string;
   withoutIssues: boolean;
   paymentToken: string;
+  leaseStatus: LeaseStatus;
 }
-export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, status, validationDate, rentPaymentDate, currencyPair, rentPaymentLimitDate, withoutIssues,paymentToken }: ButtonsProps) => {
+export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, status, validationDate, rentPaymentDate, currencyPair, rentPaymentLimitDate, withoutIssues, paymentToken, leaseStatus }: ButtonsProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [happy, setHappy] = useState(true);
   //TODO @BT ajouter ici le statut de wihthoutissues. Un "useState" ou un "useRef" pour que je le passe dans les fonction de paiement
 
   const navigate = useNavigate();
@@ -56,24 +58,29 @@ export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, statu
         if (paymentToken == CONST.ETH_ADDRESS) {
           const tx = await payCryptoRentInETH(signer, leaseId, contractRentId, withoutIssues, amount);
           // renderToast(tx);
+          //TODO navigate(0) ==> Dans le "promise.success" ===> Pour quand on sera sur testnet
+          navigate(0);
         } else {
           await payCryptoRentInToken(signer, leaseId, contractRentId, paymentToken, withoutIssues, amount);
         }
       } else if(paymentToken == CONST.ETH_ADDRESS) {
         //Update oracle rate value before calling the pay function
         await updateRate(signer, currencyPair);
+        console.log("amount", amount);
         await payFiatRentInEth(signer, leaseId, contractRentId, withoutIssues, amount, currencyPair);
+        navigate(0);
       } else {
         //Update oracle rate value before calling the pay function
         await updateRate(signer, currencyPair);
         const tx = await payFiatRentInToken(signer, leaseId, contractRentId, paymentToken, withoutIssues, amount, currencyPair);
+        navigate(0);
     }
   }
   };
 
   switch (status) {
     case PaymentStatus.PENDING.toString():
-      const canPay = Date.now() >= Number(rentPaymentLimitDate);
+      const canPay = Date.now() / 1000 >= Number(rentPaymentDate);
       return (
         <Box
           sx={{
@@ -86,7 +93,7 @@ export const ButtonsRentPayment = ({ rentId, leaseId, amount, paymentDate, statu
             fullWidth
             variant="outlined"
             color="error"
-            disabled ={!canPay}
+            disabled ={!canPay || leaseStatus !== LeaseStatus.ACTIVE}
             onClick={handlePay}
           >
             Pay

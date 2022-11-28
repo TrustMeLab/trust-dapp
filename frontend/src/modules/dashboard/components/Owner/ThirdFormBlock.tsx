@@ -39,7 +39,7 @@ export const ThirdFormBlock = ({ setValues, values }: ThirdFormBlockProps) => {
         onChange={(event, newValue: any) => {
           setValues((prev) => ({
             ...prev,
-            tenantId: newValue?.address as string,
+            tenantId: newValue?.id as string,
           }));
         }}
         renderInput={(params: any) => {
@@ -86,7 +86,7 @@ export const ThirdFormBlock = ({ setValues, values }: ThirdFormBlockProps) => {
       <TextField
         id="totalNumberOfRent"
         required
-        label="Total Number Of Rent"
+        label="Total Number Of Rents"
         variant="outlined"
         type="number"
         value={values.totalNumberOfRents}

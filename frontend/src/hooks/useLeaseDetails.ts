@@ -8,9 +8,7 @@ const useLeseDetails = (id: string): Lease | null => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('id', id);
         const response = await getLeaseDetailsById(id);
-        console.log('response', response);
         if (response?.data?.data?.leases) {
           setLeases(response.data.data.leases[0]);
         }

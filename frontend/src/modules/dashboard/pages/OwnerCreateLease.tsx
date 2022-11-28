@@ -17,6 +17,8 @@ import mocksCryptoCurrencies from "../../../mocksCryptoCurrencies.json";
 import { FirstFormBlock } from "../components/Owner/FirstFormBlock";
 import { SecondFormBlock } from "../components/Owner/SecondFormBlock";
 import { ThirdFormBlock } from "../components/Owner/ThirdFormBlock";
+import {createLease} from "../../../contracts/utils";
+import {useUser} from "../../../contexts/UserContext";
 
 export interface CreateLeaseForm {
   signer: Signer;
@@ -39,6 +41,7 @@ const steps = [
 ];
 
 export const OwnerCreateLease = () => {
+  const { signer } = useUser();
   const [activeStep, setActiveStep] = React.useState(0);
 
   const [error, setError] = useState("");
@@ -65,11 +68,22 @@ export const OwnerCreateLease = () => {
     } = values;
 
     const parsedCurrencyPair =
-      paymentMethod === "crypto?" ? "CRYPTO" : currencyPair;
-
-    const paymentToken = mocksCryptoCurrencies.data.currencies.crypto.find(
-      (el) => el.value === currencyPair
-    )?.addressToken;
+      paymentMethod === "crypto" ? "CRYPTO" : currencyPair;
+    console.log("parsedCurrencyPair ",parsedCurrencyPair);
+    let paymentToken;
+    if(paymentMethod === "crypto"){
+      paymentToken = mocksCryptoCurrencies.data.currencies.crypto.find(
+        (el) => el.value === currencyPair
+      )?.addressToken;
+      console.log("paymentToken ",paymentToken);
+    } else {
+      paymentToken = mocksCryptoCurrencies.data.currencies.fiat.find(
+        (el) => el.value === currencyPair
+      )?.addressToken;
+    }
+    console.log("paymentToken ",paymentToken);
+    console.log("rentAmount ",rentAmount);
+    console.log("currencyPair ",currencyPair);
 
     const parseDateToSeconds = Math.floor(
       new Date(startDate as string).getTime() / 1000
@@ -102,14 +116,23 @@ export const OwnerCreateLease = () => {
       ),
       currencyPair: parsedCurrencyPair,
       startDate: parseDateToSeconds,
+      signer,
+
     };
 
     console.log(">>>>FORM VALUES>>", formValues);
+    console.log("parsedCurrencyPair ",parsedCurrencyPair);
     setLoading(true);
     try {
-      //await createLease(formValues) //TODO : DECOMMENT
+      if(signer && tenantId && rentAmount && totalNumberOfRents && paymentToken && rentPaymentInterval && rentPaymentLimitTime && parsedCurrencyPair && parseDateToSeconds) {
+        await createLease(signer, tenantId, rentAmount, totalNumberOfRents,
+          paymentToken, transformDurationToSeconds(rentPaymentInterval as string) as number,
+          transformDurationToSeconds(rentPaymentLimitTime as string) as number,
+          parsedCurrencyPair, parseDateToSeconds);
+      }
       setActiveStep(activeStep + 1);
     } catch (error) {
+      console.log("error", error)
       setError("Une erreur est survenue");
     } finally {
       setLoading(false);

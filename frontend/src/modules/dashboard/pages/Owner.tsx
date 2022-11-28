@@ -1,25 +1,24 @@
-import React, { useState } from "react";
-import { Box, Container } from "@mui/material";
-import { LeftMenu } from "../components/Owner/LeftMenu";
-import { LeasesDisplay } from "../components/Owner/LeasesDisplay";
-// import useOwnerLeases from "../../../hooks/useOwnerLeases";
-import { useUser } from "../../../contexts/UserContext";
-import { CreateLeaseButton } from "../components/Owner/CreateLeaseButton";
-import { Lease, LeaseStatus } from "../../../repositories/TrustAPI/types";
-import leasesMock from "../../../mockLeases.json";
+import React, {useState} from "react";
+import {Box, Container} from "@mui/material";
+import {LeftMenu} from "../components/Owner/LeftMenu";
+import {useUser} from "../../../contexts/UserContext";
+import {CreateLeaseButton} from "../components/Owner/CreateLeaseButton";
+import {Lease, LeaseStatus} from "../../../repositories/TrustAPI/types";
+import useOwnerLeases from "../../../hooks/useOwnerLeases";
 
+//TODO je galère encore avec cette page pour afficher la data. Mais pas prio.
 export const Owner = () => {
   const [activeTabMenu, setActiveTabMenu] = useState(0);
-  const { address } = useUser();
-  // const leases = address && useOwnerLeases(address);
-  const leases = leasesMock.leases;
-
+  const { profile } = useUser();
+  const leases = useOwnerLeases(profile.owner?.id as string);
+  // const leases = leasesMock.leases;
+  console.log("Leases : ", leases);
   const activeLeases =
     leases &&
     leases.length > 0 &&
     leases.filter(
       (lease: Lease) =>
-        lease.status === (LeaseStatus.ACTIVE || LeaseStatus.PENDING)
+        (LeaseStatus.ACTIVE || LeaseStatus.PENDING) === lease.status
     );
 
   const archivedLeases =
@@ -27,10 +26,13 @@ export const Owner = () => {
     leases.length > 0 &&
     leases.filter(
       (lease: Lease) =>
-        lease.status === (LeaseStatus.ENDED || LeaseStatus.CANCELLED)
+        (LeaseStatus.CANCELLED || LeaseStatus.ENDED) === lease.status
     );
 
-  const leasestoRender = activeTabMenu === 0 ? activeLeases : archivedLeases;
+  console.log("activeLeases : ", activeLeases);
+  console.log("archivedLeases : ", archivedLeases);
+  const leasesToRender = activeTabMenu === 0 ? activeLeases : archivedLeases;
+  console.log("Leases to render: ", leasesToRender);
 
   return (
     <Box sx={{ display: "flex", gap: "18px" }}>
@@ -43,7 +45,7 @@ export const Owner = () => {
         }}
       >
         <CreateLeaseButton />
-        <LeasesDisplay leases={leasestoRender} />
+        {/*leases && <LeasesDisplay leases={leasesToRender} />*/}
       </Container>
     </Box>
   );

@@ -90,3 +90,9 @@ export type OracleData = {
   _rate: string;
   _date: string;
 };
+
+
+export type LeaseCount = {
+  ownerLeases: number;
+  tenantLeases: number;
+}

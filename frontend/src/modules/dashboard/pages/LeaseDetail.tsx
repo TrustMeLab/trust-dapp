@@ -12,19 +12,17 @@ import {LeaseDetailCard} from "../../../commons/components/LeaseDetailCard";
 import useLeaseDetails from "../../../hooks/useLeaseDetails";
 
 import {SmallTenantRentCard} from "../../../commons/components/SmallTenantRentCard";
+import {useBalance} from "wagmi";
 
 export const LeaseDetail = () => {
   const { profile } = useUser();
   let {id} = useParams();
+  //TODO Only works on Testnets :(
+  // const { data } = useBalance();
+  // console.log(data);
 
-  // if(!id){
-  //   return;
-  // }
   const leaseDetail = useLeaseDetails(id as string);
   console.log("Leasedetails : ",leaseDetail);
-  // if(!leaseDetail){
-  //   return;
-  // }
 
   const returnTitle = (leaseStatus: LeaseStatus) => {
     if (leaseStatus === (LeaseStatus.ENDED || LeaseStatus.CANCELLED))
@@ -37,9 +35,9 @@ export const LeaseDetail = () => {
     rentPaymentInterval: string,
     totalNumberOfRents: string
   ) => {
-    const debutDate = format(new Date(Number(startDate)), "dd/MM/yyyy");
+    const debutDate = format(new Date(Number(startDate)  * 1000), "dd/MM/yyyy");
     const endDate = format(
-      new Date(Number(startDate) + Number(rentPaymentInterval) * Number(totalNumberOfRents)),
+      new Date((Number(startDate) + Number(rentPaymentInterval) * Number(totalNumberOfRents)) * 1000),
       "dd/MM/yyyy"
     );
 
@@ -54,14 +52,15 @@ export const LeaseDetail = () => {
     paymentToken: string
   ): string => {
     let displayCurrency = "";
+    let paymentCurrency;
     if(currencyPair === "CRYPTO") {
       const token = tokens.find((token) => token.address === paymentToken);
       displayCurrency = token?.name || "";
-      rentAmount = ethers.utils.formatUnits(rentAmount, 18);
+      rentAmount = ethers.utils.formatEther(rentAmount);
     } else {
       displayCurrency = currencyPair.substring(0, currencyPair.indexOf('-'));
       // displayCurrency = FixedNumber.from().round(2).toString();
-      const paymentCurrency = tokens.find((token) => token.address === paymentToken);
+      paymentCurrency = tokens.find((token) => token.address === paymentToken);
     }
     let convertInterval = '0';
     if(rentPaymentInterval){
@@ -86,6 +85,7 @@ export const LeaseDetail = () => {
           lease={leaseDetail}
           generalInfo={`Owner : ${leaseDetail.tenant.handle}`}
           remarks={leaseDetail.status === "CANCELLED" ? `Cancellation requested` : undefined}
+          // paymentCurrency = {paymentCurrency}
           buttons={<ButtonsLatestLeases
             leaseId={leaseDetail.id}
             leaseStatus={leaseDetail.status}
@@ -115,6 +115,7 @@ export const LeaseDetail = () => {
                 amount={leaseDetail.rentAmount}
                 currencyPair={leaseDetail.currencyPair}
                 paymentDate={rentPayment.paymentDate}
+                rentPaymentDate={rentPayment.rentPaymentDate}
                 validationDate={rentPayment.validationDate}
                 totalNumberOfRents={leaseDetail.totalNumberOfRents}
                 paymentToken={leaseDetail.paymentToken}
@@ -123,6 +124,7 @@ export const LeaseDetail = () => {
                 startDate={leaseDetail.startDate}
                 rentPaymentInterval={leaseDetail.rentPaymentInterval}
                 rentPaymentLimitDate={rentPayment.rentPaymentLimitDate}
+              leaseStatus={leaseDetail.status}
               handleClick={() => {}}
             />))}
         </Box>
