@@ -18,7 +18,7 @@ import mocksLeases from "../../../mockLeases.json";
 
 import { SmallTenantRentCard } from "../../../commons/components/SmallTenantRentCard";
 import { useBalance } from "wagmi";
-import mocksLeases from "../../../mockLeases.json";
+
 import { returnPaymentInTokenInfos } from "./Tenant";
 
 export const LeaseDetail = () => {
@@ -31,8 +31,8 @@ export const LeaseDetail = () => {
   // if(!id){
   //   return;
   // }
-  //   const leaseDetail = useLeaseDetails(id as string);
-  const leaseDetail = mocksLeases.leases[0];
+  const leaseDetail = useLeaseDetails(id as string);
+  // const leaseDetail = mocksLeases.leases[0];
   console.log("Leasedetails : ", leaseDetail);
   // if(!leaseDetail){
   //   return;

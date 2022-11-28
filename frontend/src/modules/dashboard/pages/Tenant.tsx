@@ -82,8 +82,8 @@ export const returnRentInfos = (
 export const Tenant = () => {
   const navigate = useNavigate();
   const { profile } = useUser();
-  //   const tenantLeases = useLeasesByTenantId(profile?.tenant?.id as string);
-  const tenantLeases = mocksLeases.leases;
+  const tenantLeases = useLeasesByTenantId(profile?.tenant?.id as string);
+  // const tenantLeases = mocksLeases.leases;
   console.log("Tenant.tsx: tenantLeases", tenantLeases);
   console.log("Tenant.tsx: profile", profile);
   const lastLease = tenantLeases[0];

@@ -205,7 +205,14 @@ export const ButtonsRentPayment = ({
       );
     case PaymentStatus.PAID.toString():
       return (
-        <Box sx={{bgcolor: '#11C6AE', display: "flex", gap: "12px", width: "100%" }}>
+        <Box
+          sx={{
+            bgcolor: "#11C6AE",
+            display: "flex",
+            gap: "12px",
+            width: "100%",
+          }}
+        >
           <Button
             fullWidth
             variant="outlined"
@@ -216,16 +223,24 @@ export const ButtonsRentPayment = ({
           </Button>
         </Box>
       );
-    // case PaymentStatus.PENDING:
-    //   return (
-    //     <Box sx={{ display: "flex", gap: "12px", width: "100%" }}>
-    //       Pending...
-    //     </Box>
-    //   );
+    case PaymentStatus.PENDING:
+      return (
+        <Box sx={{ display: "flex", gap: "12px", width: "100%" }}>
+          Pending...
+        </Box>
+      );
     case PaymentStatus.NOT_PAID:
       return (
-        <Box sx={{ display: "flex", mr: '2em', justifyContent: 'flex-end', gap: "12px", width: "100%" }}>
-         ❗ Not paid...
+        <Box
+          sx={{
+            display: "flex",
+            mr: "2em",
+            justifyContent: "flex-end",
+            gap: "12px",
+            width: "100%",
+          }}
+        >
+          ❗ Not paid...
         </Box>
       );
     default:

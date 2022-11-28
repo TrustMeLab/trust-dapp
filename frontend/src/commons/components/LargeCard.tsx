@@ -56,16 +56,12 @@ export const LargeCard = ({
               marginRight: 9,
             }}
           >
-<<<<<<< HEAD
             <Typography
               variant="h5"
               sx={{ fontWeight: "bold", marginBottom: "10px" }}
             >
               {title}
             </Typography>
-=======
-            <Typography variant="h5" sx={{ fontWeight: "bold", marginBottom: "10px" }}>{title}</Typography>
->>>>>>> changed colors
             <Typography variant="h5">{rentInfos}</Typography>
             {paymentToken !== "CRYPTO" && (
               <Typography
