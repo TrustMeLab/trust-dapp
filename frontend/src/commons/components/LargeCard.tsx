@@ -8,6 +8,7 @@ interface LargeCardProps {
   title: string;
   period: string;
   rentInfos: string | number;
+  paymentToken: string;
   generalInfo: string;
   remarks?: string;
   buttons?: React.ReactNode;
@@ -25,6 +26,7 @@ export const LargeCard = ({
   buttons,
   buttonTitle,
   lease,
+  paymentToken,
   handleClick,
   handleClickButton,
 }: LargeCardProps) => {
@@ -54,10 +56,21 @@ export const LargeCard = ({
               marginRight: 6,
             }}
           >
-            <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+            <Typography
+              variant="h5"
+              sx={{ fontWeight: "bold", marginBottom: "10px" }}
+            >
               {title}
             </Typography>
             <Typography variant="h5">{rentInfos}</Typography>
+            {paymentToken !== "CRYPTO" && (
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: "light", marginTop: "6px" }}
+              >
+                Payment in token : {paymentToken}
+              </Typography>
+            )}
           </Box>
           <Typography variant="h6" sx={{ fontWeight: "light" }}>
             {period}

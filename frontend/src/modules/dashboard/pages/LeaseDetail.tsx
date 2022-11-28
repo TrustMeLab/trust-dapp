@@ -1,28 +1,35 @@
 import React from "react";
-import {Box, Typography} from "@mui/material";
-import {useParams} from "react-router-dom";
-import {Container} from "@mui/system";
-import {LeaseStatus, RentPayment, UserType} from "../../../repositories/TrustAPI";
-import {useUser} from "../../../contexts/UserContext";
-import {format, formatDuration, intervalToDuration} from "date-fns";
-import {ButtonsLatestLeases} from "../components/Tenant/ButtonsLatestLeases";
-import {tokens} from "../../../const";
-import {ethers} from "ethers";
-import {LeaseDetailCard} from "../../../commons/components/LeaseDetailCard";
+import { Box, Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { Container } from "@mui/system";
+import {
+  LeaseStatus,
+  RentPayment,
+  UserType,
+} from "../../../repositories/TrustAPI";
+import { useUser } from "../../../contexts/UserContext";
+import { format, formatDuration, intervalToDuration } from "date-fns";
+import { ButtonsLatestLeases } from "../components/Tenant/ButtonsLatestLeases";
+import { tokens } from "../../../const";
+import { ethers } from "ethers";
+import { LeaseDetailCard } from "../../../commons/components/LeaseDetailCard";
 import useLeaseDetails from "../../../hooks/useLeaseDetails";
 
-import {SmallTenantRentCard} from "../../../commons/components/SmallTenantRentCard";
-import {useBalance} from "wagmi";
+import { SmallTenantRentCard } from "../../../commons/components/SmallTenantRentCard";
+import { useBalance } from "wagmi";
+import mocksLeases from "../../../mockLeases.json";
+import { returnPaymentInTokenInfos } from "./Tenant";
 
 export const LeaseDetail = () => {
   const { profile } = useUser();
-  let {id} = useParams();
+  let { id } = useParams();
   //TODO Only works on Testnets :(
   // const { data } = useBalance();
   // console.log(data);
 
   const leaseDetail = useLeaseDetails(id as string);
-  console.log("Leasedetails : ",leaseDetail);
+  // console.log("Leasedetails : ", leaseDetail);
+  // const leaseDetail = mocksLeases.leases[0];
 
   const returnTitle = (leaseStatus: LeaseStatus) => {
     if (leaseStatus === (LeaseStatus.ENDED || LeaseStatus.CANCELLED))
@@ -35,9 +42,13 @@ export const LeaseDetail = () => {
     rentPaymentInterval: string,
     totalNumberOfRents: string
   ) => {
-    const debutDate = format(new Date(Number(startDate)  * 1000), "dd/MM/yyyy");
+    const debutDate = format(new Date(Number(startDate) * 1000), "dd/MM/yyyy");
     const endDate = format(
-      new Date((Number(startDate) + Number(rentPaymentInterval) * Number(totalNumberOfRents)) * 1000),
+      new Date(
+        (Number(startDate) +
+          Number(rentPaymentInterval) * Number(totalNumberOfRents)) *
+          1000
+      ),
       "dd/MM/yyyy"
     );
 
@@ -53,65 +64,95 @@ export const LeaseDetail = () => {
   ): string => {
     let displayCurrency = "";
     let paymentCurrency;
-    if(currencyPair === "CRYPTO") {
+    if (currencyPair === "CRYPTO") {
       const token = tokens.find((token) => token.address === paymentToken);
       displayCurrency = token?.name || "";
       rentAmount = ethers.utils.formatEther(rentAmount);
     } else {
-      displayCurrency = currencyPair.substring(0, currencyPair.indexOf('-'));
+      displayCurrency = currencyPair.substring(0, currencyPair.indexOf("-"));
       // displayCurrency = FixedNumber.from().round(2).toString();
       paymentCurrency = tokens.find((token) => token.address === paymentToken);
     }
-    let convertInterval = '0';
-    if(rentPaymentInterval){
-      convertInterval = formatDuration(intervalToDuration({ start: 0, end: Number(rentPaymentInterval) * 1000 })); // 30days
+    let convertInterval = "0";
+    if (rentPaymentInterval) {
+      convertInterval = formatDuration(
+        intervalToDuration({
+          start: 0,
+          end: Number(rentPaymentInterval) * 1000,
+        })
+      ); // 30days
     }
-    console.log("convertInterval : ",convertInterval);
+    console.log("convertInterval : ", convertInterval);
     return `${rentAmount} ${displayCurrency} / ${convertInterval}`;
   };
 
   return (
-      <Container
-        sx={{
-          margin: "32px", display: "flex", flexDirection: "column", justifyContent: "center",
-        }}
-      >
-        {leaseDetail && <LeaseDetailCard
+    <Container
+      maxWidth="xl"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      {leaseDetail && (
+        <LeaseDetailCard
           title={returnTitle(leaseDetail.status)}
-          period={returnPeriod(leaseDetail.startDate,
+          period={returnPeriod(
+            leaseDetail.startDate,
             leaseDetail.rentPaymentInterval,
-            leaseDetail.totalNumberOfRents)}
-          rentInfos={returnRentInfos(leaseDetail.rentAmount, leaseDetail.currencyPair, leaseDetail.rentPaymentInterval, leaseDetail.totalNumberOfRents, leaseDetail.paymentToken)}
+            leaseDetail.totalNumberOfRents
+          )}
+          rentInfos={returnRentInfos(
+            leaseDetail.rentAmount,
+            leaseDetail.currencyPair,
+            leaseDetail.rentPaymentInterval,
+            leaseDetail.totalNumberOfRents,
+            leaseDetail.paymentToken
+          )}
+          paymentToken={returnPaymentInTokenInfos(leaseDetail.currencyPair)}
           lease={leaseDetail}
           generalInfo={`Owner : ${leaseDetail.owner.handle}`}
-          remarks={leaseDetail.status === "CANCELLED" ? `Cancellation requested` : undefined}
+          remarks={
+            leaseDetail.status === "CANCELLED"
+              ? `Cancellation requested`
+              : undefined
+          }
           // paymentCurrency = {paymentCurrency}
-          buttons={<ButtonsLatestLeases
-            leaseId={leaseDetail.id}
-            leaseStatus={leaseDetail.status}
-            tenantReviewUri={leaseDetail.tenantReviewUri}
-            ownerReviewUri={leaseDetail.ownerReviewUri}
-            cancellationRequestedByOwner={leaseDetail.cancelledByOwner}
-            cancellationRequestedByTenant={leaseDetail.cancelledByTenant}
-            userType={UserType.TENANT}
-          />}
-        />}
+          buttons={
+            <ButtonsLatestLeases
+              leaseId={leaseDetail.id}
+              leaseStatus={leaseDetail.status}
+              tenantReviewUri={leaseDetail.tenantReviewUri}
+              ownerReviewUri={leaseDetail.ownerReviewUri}
+              cancellationRequestedByOwner={leaseDetail.cancelledByOwner}
+              cancellationRequestedByTenant={leaseDetail.cancelledByTenant}
+              userType={UserType.TENANT}
+            />
+          }
+        />
+      )}
 
-        <Typography variant="h4" marginTop={4} marginBottom={4}>
-          Paiements:
-        </Typography>
+      <Typography variant="h4" marginTop={4} marginBottom={4}>
+        Paiements:
+      </Typography>
 
-        <Box
-          sx={{
-            display: "flex", flexDirection: "row", flexWrap: "wrap", gap: "16px",
-          }}
-        >
-
-          {leaseDetail && leaseDetail.rentPayments && leaseDetail.rentPayments.map((rentPayment: RentPayment, index: number) => (
-            <SmallTenantRentCard
-              key={rentPayment.id}
-                index = {index + 1}
-                rentId = {rentPayment.id}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "30px",
+        }}
+      >
+        {leaseDetail &&
+          leaseDetail.rentPayments &&
+          leaseDetail.rentPayments.map(
+            (rentPayment: RentPayment, index: number) => (
+              <SmallTenantRentCard
+                key={rentPayment.id}
+                index={index + 1}
+                rentId={rentPayment.id}
                 leaseId={leaseDetail.id}
                 amount={leaseDetail.rentAmount}
                 currencyPair={leaseDetail.currencyPair}
@@ -125,13 +166,13 @@ export const LeaseDetail = () => {
                 startDate={leaseDetail.startDate}
                 rentPaymentInterval={leaseDetail.rentPaymentInterval}
                 rentPaymentLimitDate={rentPayment.rentPaymentLimitDate}
-              leaseStatus={leaseDetail.status}
-              isConnectedAsOwner={false}
-              handleClick={() => {}}
-            />))}
-        </Box>
-      </Container>);
-
-
+                leaseStatus={leaseDetail.status}
+                isConnectedAsOwner={false}
+                handleClick={() => {}}
+              />
+            )
+          )}
+      </Box>
+    </Container>
+  );
 };
-

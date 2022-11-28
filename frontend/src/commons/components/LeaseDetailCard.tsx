@@ -2,9 +2,9 @@ import { Box, Button, Card, Typography } from "@mui/material";
 import React from "react";
 import { useTheme } from "@mui/material/styles";
 import { Lease } from "../../repositories/TrustAPI/types";
-import {formatDuration, intervalToDuration, format} from "date-fns";
-import {tokens} from "../../const";
-import {ethers, FixedNumber} from "ethers";
+import { formatDuration, intervalToDuration, format } from "date-fns";
+import { tokens } from "../../const";
+import { ethers, FixedNumber } from "ethers";
 
 interface LargeCardProps {
   title: string;
@@ -15,6 +15,8 @@ interface LargeCardProps {
   buttons?: React.ReactNode;
   buttonTitle?: string;
   lease: Lease;
+  paymentToken?: string;
+
   handleClickButton?: (e: React.MouseEvent) => void;
 }
 export const LeaseDetailCard = ({
@@ -26,6 +28,7 @@ export const LeaseDetailCard = ({
   buttons,
   buttonTitle,
   lease,
+  paymentToken,
   handleClickButton,
 }: LargeCardProps) => {
   const theme = useTheme();
@@ -36,6 +39,8 @@ export const LeaseDetailCard = ({
         sx={{
           display: "flex",
           borderRadius: "10px",
+          alignItems: "center",
+          minHeight: "200px",
           padding: "32px",
           boxShadow:
             "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
@@ -53,10 +58,21 @@ export const LeaseDetailCard = ({
               marginRight: 6,
             }}
           >
-            <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+            <Typography
+              variant="h5"
+              sx={{ fontWeight: "bold", marginBottom: "10px" }}
+            >
               {title}
             </Typography>
             <Typography variant="h5">{rentInfos}</Typography>
+            {paymentToken !== "CRYPTO" && (
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: "light", marginTop: "6px" }}
+              >
+                Payment in token : {paymentToken}
+              </Typography>
+            )}
           </Box>
           <Typography variant="h6" sx={{ fontWeight: "light" }}>
             {period}
