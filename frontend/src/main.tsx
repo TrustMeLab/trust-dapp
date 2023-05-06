@@ -1,8 +1,6 @@
 import { Fragment } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import TrustContextProvider from "./contexts/TrustContext";
-import UserContextProvider, {useUser} from "./contexts/UserContext";
 import { Web3Modal } from "@web3modal/react";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import {
@@ -30,11 +28,7 @@ const ethereumClient = new EthereumClient(wagmiClient, chains);
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Fragment>
     <WagmiConfig client={wagmiClient}>
-      <TrustContextProvider>
-        <UserContextProvider>
           <App />
-        </UserContextProvider>
-      </TrustContextProvider>
     </WagmiConfig>
     <Web3Modal
       projectId={PROJECT_ID}

@@ -1,12 +1,9 @@
 import { AppBar, Box, Button, Container, Toolbar } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useUser } from "../../../contexts/UserContext";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LoginIcon from "@mui/icons-material/Login";
-import { Web3Button } from "@web3modal/react";
 
 export default function HomepageHeader() {
-  const { isConnected } = useUser();
   return (
     <AppBar position="static" sx={{ position: "sticky", top: 0, zIndex: 99 }}>
       <Container maxWidth="xl">
@@ -35,27 +32,14 @@ export default function HomepageHeader() {
 				/>
 				<Box sx={{ml: '1em'}}>Trust.Me</Box>
 			</Box>
-          {isConnected ? (
-            <Link to="/dashboard" style={{ textDecoration: "none" }}>
-              <Button
-                variant="contained"
-                color="secondary"
-                startIcon={<DashboardIcon />}
-              >
-                Dashboard
-              </Button>
-            </Link>
-          ) : (
-            <Link to="/sign-up" style={{ textDecoration: "none" }}>
               <Button
                 variant="outlined"
                 color="secondary"
-                startIcon={<LoginIcon />}
+                disabled={true}
+                startIcon={<DashboardIcon />}
               >
-                Sign-Up
+                Demo Dapp coming soon...
               </Button>
-            </Link>
-          )}
         </Toolbar>
       </Container>
     </AppBar>

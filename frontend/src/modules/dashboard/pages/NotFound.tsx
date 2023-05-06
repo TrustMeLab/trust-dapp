@@ -22,7 +22,7 @@ export const NotFound = () => {
           </Typography>
           <Button variant="contained">
             <Link
-              to="/dashboard"
+              to="/"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               Back Home
