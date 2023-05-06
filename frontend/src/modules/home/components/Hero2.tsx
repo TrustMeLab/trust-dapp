@@ -20,7 +20,7 @@ export default function Hero2 () {
 				width: '50%'
 			}}>
 			<Box sx={{ mb: '1em', textAlign: 'center', fontSize: '3em'}}>Certify your reputation through blockchain</Box>
-			<Image src="/blockchain_user.png" 
+			<Image src="/blockchain_user.png"
             height="40%"
             width="40%"
             fit="contain"/>
@@ -30,7 +30,7 @@ export default function Hero2 () {
 					mb: '1em',
 					fontSize: '1.2em',
 					textAlign: 'center'
-			}}>A Daap providing a fair track record of all the tenants payment </Box>
+			}}>A Dapp providing a fair track record of all the tenants payment </Box>
 			<Box sx={{mb: '0.4em', fontSize: '1em'}}>Helping both tenant and owner to trust each other</Box>
 		</Box>
 	</Box>
